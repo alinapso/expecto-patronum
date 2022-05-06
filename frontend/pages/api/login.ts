@@ -1,12 +1,9 @@
-import type { User } from "./user";
-
 import { Octokit } from "octokit";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 import { RemoteApiCall } from "lib/remoteAPI";
-
-const octokit = new Octokit();
+import { User } from "expecto-patronum-common";
 
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
@@ -22,9 +19,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     );
     console.log(loginAttampt);
     const user = {
-      isLoggedIn: true,
-      login: "",
-      userInfo: loginAttampt,
+      ...loginAttampt.data,
     } as User;
     req.session.user = user;
     await req.session.save();

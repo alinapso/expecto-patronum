@@ -17,14 +17,14 @@ export default function Header() {
               <a>Home</a>
             </Link>
           </li>
-          {user?.isLoggedIn === false && (
+          {!user && (
             <li>
               <Link href="/login">
                 <a>Login</a>
               </Link>
             </li>
           )}
-          {user?.isLoggedIn === true && (
+          {user && (
             <>
               <li>
                 <Link href="/profile-sg">

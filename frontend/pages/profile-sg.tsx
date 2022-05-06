@@ -21,14 +21,6 @@ export default function SgProfile() {
       </h2>
       {user && (
         <>
-          <p style={{ fontStyle: "italic" }}>
-            Public data, from{" "}
-            <a href={`https://github.com/${user.login}`}>
-              https://github.com/{user.login}
-            </a>
-            , reduced to `login` and `avatar_url`.
-          </p>
-
           <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}
