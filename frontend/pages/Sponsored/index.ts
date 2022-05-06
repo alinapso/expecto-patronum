@@ -20,12 +20,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 async function handlePOST(req: NextApiRequest, res: NextApiResponse) {}
-async function  handleGET(req: NextApiRequest, res: NextApiResponse) {
-    try
-    const api_res = await RemoteApiCall(
-        "GET",
-        "/auth/signin",
-        undefined,
-        
-      );
-}
+async function handleGET(req: NextApiRequest, res: NextApiResponse) {}

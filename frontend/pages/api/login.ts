@@ -4,6 +4,7 @@ import { sessionOptions } from "lib/session";
 import { NextApiRequest, NextApiResponse } from "next";
 import { RemoteApiCall } from "lib/remoteAPI";
 import { User } from "expecto-patronum-common";
+import { UserWeb } from "types/user";
 
 export default withIronSessionApiRoute(loginRoute, sessionOptions);
 
@@ -20,7 +21,7 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
     console.log(loginAttampt);
     const user = {
       ...loginAttampt.data,
-    } as User;
+    } as UserWeb;
     req.session.user = user;
     await req.session.save();
     res.json(user);

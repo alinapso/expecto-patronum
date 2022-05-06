@@ -18,12 +18,15 @@ export class AdminGuard implements CanActivate {
     const request = context
       .switchToHttp()
       .getRequest();
+    console.log('AdminGuard');
     const user = request.user;
-    if (user.role != Role.ADMIN)
+    console.log(user);
+    if (user && user.role != 'ADMIN') {
       throw new HttpException(
         'You dont have permissions to make this api call',
         HttpStatus.FORBIDDEN,
       );
+    }
     return true;
   }
 }

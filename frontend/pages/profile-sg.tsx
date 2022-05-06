@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "components/Layout";
 import useUser from "lib/useUser";
+import useSWR from "swr";
+import { RemoteApiCall } from "lib/remoteAPI";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function SgProfile() {
   const { user } = useUser({
     redirectTo: "/login",
   });
+
+  const [sponsoredList, setSponsoredList] = useState([]);
+  useEffect(() => {
+    if (user) {
+      console.log("heeeeeeeeerrrrrrrrrrrrr");
+      console.log(user.access_token);
+      (async () => {
+        RemoteApiCall("GET", "/sponsored", user.access_token).then(
+          (resualts) => {
+            console.log(resualts);
+            setSponsoredList(resualts.data);
+          }
+        );
+      })();
+    }
+  }, [user]);
 
   return (
     <Layout>
