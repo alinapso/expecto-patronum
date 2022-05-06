@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator gen {
+  provider = "prisma-client-js"
+}
+
+generator nestjsDto {
+  provider                        = "prisma-generator-nestjs-dto"
+  output                          = "../src/generatedDtos/"
+  outputToNestJsResourceStructure = "true"
+  exportRelationModifierClasses   = "false"
+  reExport                        = "false"
+  createDtoPrefix                 = "Create"
+  updateDtoPrefix                 = "Update"
+  dtoSuffix                       = "Dto"
+  entityPrefix                    = ""
+  entitySuffix                    = ""
+  fileNamingStyle                 = "camel"
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  email        String         @unique
+  hash         String
+  firstName    String?
+  lastName     String?
+  Address      String?
+  role         Role?
+  Sponsored    Sponsored[]
+  Transactions Transactions[]
+
+  @@map("users")
+}
+
+enum Role {
+  PATRON
+  ADMIN
+}
+
+model Sponsored {
+  id                 Int               @id @default(autoincrement())
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  first_name         String
+  middle_name        String
+  FatherName         String
+  last_name          String
+  is_active          Boolean
+  patron             User?             @relation(fields: [patronId], references: [id])
+  patronId           Int?
+  monthly_sum        Float?
+  start_date         DateTime?
+  end_date           DateTime?
+  day_of_transaction Int?
+  SponsoredEvents    SponsoredEvents[]
+}
+
+model UploadedFile {
+  id                Int              @id @default(autoincrement())
+  name              String
+  type              String
+  SponsoredEvents   SponsoredEvents? @relation(fields: [sponsoredEventsId], references: [id])
+  sponsoredEventsId Int?
+}
+
+model SponsoredEvents {
+  id          Int            @id @default(autoincrement())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  event_date  DateTime
+  title       String
+  description String
+  files       UploadedFile[]
+  sponsored   Sponsored      @relation(fields: [sponsoredId], references: [id])
+  sponsoredId Int
+}
+
+model Transactions {
+  id        Int      @id @default(autoincrement())
+  sum       Float
+  patron    User     @relation(fields: [patronId], references: [id])
+  patronId  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
