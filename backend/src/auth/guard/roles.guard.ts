@@ -6,7 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from '@prisma/client';
+import { Role } from 'expecto-patronum-common';
 
 @Injectable()
 export class AdminGuard implements CanActivate {

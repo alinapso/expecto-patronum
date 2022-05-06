@@ -20,7 +20,7 @@ import {
   JwtGuard,
 } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
-import { User } from '@prisma/client';
+import { User } from 'expecto-patronum-common';
 
 @UseGuards(JwtGuard)
 @Controller('sponsored')

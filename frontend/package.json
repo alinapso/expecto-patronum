@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "expecto-patronum-common": "file:../common",
     "iron-session": "latest",
     "next": "latest",
     "octokit": "^1.7.0",

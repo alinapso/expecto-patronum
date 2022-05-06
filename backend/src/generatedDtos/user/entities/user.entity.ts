@@ -1,4 +1,4 @@
-import { Role } from '@prisma/client';
+import { Role } from 'expecto-patronum-common';
 import { Sponsored } from '../../sponsored/entities/sponsored.entity';
 import { Transactions } from '../../transactions/entities/transactions.entity';
 

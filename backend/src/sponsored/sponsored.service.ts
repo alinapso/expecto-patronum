@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
 import { UpdateSponsoredDto } from './dto/update-sponsored.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from '@prisma/client';
+import { User } from 'expecto-patronum-common';
 
 @Injectable()
 export class SponsoredService {

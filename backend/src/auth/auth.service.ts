@@ -9,7 +9,10 @@ import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { Role, User } from '@prisma/client';
+import {
+  User,
+  Role,
+} from 'expecto-patronum-common';
 @Injectable()
 export class AuthService {
   constructor(
