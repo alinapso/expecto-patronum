@@ -7,9 +7,9 @@ export default function useUser({ redirectTo = "" } = {}) {
     call: "Get",
     url: "/users/me",
   });
-  const loading = !data && !error;
-  const loggedOut = error && error.status === 403;
+
   useEffect(() => {
+    console.log(data);
     if (!return_data) {
       return;
     }
@@ -18,6 +18,8 @@ export default function useUser({ redirectTo = "" } = {}) {
       Router.push(redirectTo);
     }
   }, [data, redirectTo]);
+  const loading = !data && !error;
+  const loggedOut = !data || (data.status >= 400 && data.status < 500);
   const return_data = data && data.status == 200 ? data.data : undefined;
   return {
     loading,

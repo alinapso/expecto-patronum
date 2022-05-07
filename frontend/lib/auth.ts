@@ -1,3 +1,4 @@
+import Router from "next/router";
 import { RemoteApiCall } from "./remoteAPI";
 
 // mock login and logout
@@ -23,4 +24,7 @@ export function get_api_access_token() {
     return localStorage.getItem("api_access_token") as string;
   }
   return "";
+}
+export function checkIfLoggedIn() {
+  if (get_api_access_token() === "") Router.push("/");
 }

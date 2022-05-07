@@ -3,13 +3,15 @@ import Layout from "components/Layout";
 import useUser from "lib/useUser";
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
-import { get_api_access_token } from "lib/auth";
+import { checkIfLoggedIn, get_api_access_token } from "lib/auth";
+import Router from "next/router";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function SgProfile() {
-  const { user } = useUser();
+  const { loading, loggedOut, user, mutate } = useUser();
   const [sponsoredParams, setSponsoredParams] = useState({});
   useEffect(() => {
+    checkIfLoggedIn();
     if (user)
       setSponsoredParams({
         method: "GET",
@@ -21,7 +23,16 @@ export default function SgProfile() {
 
     RemoteApiCall
   );
-
+  if (loading)
+    return (
+      <Layout>
+        <h1>Your profile</h1>
+        Loading.....
+      </Layout>
+    );
+  else if (loggedOut) {
+    Router.push("/");
+  }
   return (
     <Layout>
       <h1>Your profile</h1>
