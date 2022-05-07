@@ -2,7 +2,6 @@ import { RemoteApiCall } from "./remoteAPI";
 
 // mock login and logout
 export async function login(email: string, password: string) {
-  console.log("logging IN");
   const res = await RemoteApiCall({
     method: "POST",
     url: "/auth/signin",
@@ -16,7 +15,6 @@ export async function login(email: string, password: string) {
   }
 }
 export function logout() {
-  console.log("loggingout");
   localStorage.removeItem("api_access_token");
 }
 

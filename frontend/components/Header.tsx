@@ -1,14 +1,11 @@
 import Link from "next/link";
 import useUser from "lib/useUser";
-import { useRouter } from "next/router";
 import Image from "next/image";
-import { useEffect } from "react";
-import { RemoteApiCall } from "lib/remoteAPI";
+
 import { logout } from "lib/auth";
 
 export default function Header() {
   const { user, mutate } = useUser();
-  console.log(user);
   return (
     <header>
       <nav>
@@ -27,7 +24,6 @@ export default function Header() {
           )}
           {user && (
             <>
-              {console.log(`user is ${JSON.stringify(user, null, 2)}`)}
               <li>
                 <Link href="/profile-sg">
                   <a>

@@ -10,11 +10,9 @@ export default function SgProfile() {
   const { user } = useUser();
   const [sponsoredParams, setSponsoredParams] = useState({});
   useEffect(() => {
-    console.log("from sg useEffict");
-    console.log(user);
     if (user)
       setSponsoredParams({
-        call: "Get",
+        method: "GET",
         url: "/sponsored",
       });
   }, [user]);
