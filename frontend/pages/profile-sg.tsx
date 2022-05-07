@@ -40,6 +40,7 @@ export default function SgProfile() {
       {user && (
         <>
           <pre>{JSON.stringify(user, null, 2)}</pre>
+          <pre>{JSON.stringify(sponsoredList, null, 2)}</pre>
         </>
       )}
     </Layout>

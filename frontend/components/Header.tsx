@@ -26,6 +26,7 @@ export default function Header() {
           )}
           {user && (
             <>
+              {console.log(`user is ${JSON.stringify(user, null, 2)}`)}
               <li>
                 <Link href="/profile-sg">
                   <a>
