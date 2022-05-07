@@ -3,6 +3,7 @@ import useUser from "lib/useUser";
 import Layout from "components/Layout";
 import Form from "components/Form";
 import fetchJson, { FetchError } from "lib/fetchJson";
+import router from "next/router";
 
 export default function Login() {
   // here we just check if user is already logged in and redirect to profile
@@ -34,6 +35,7 @@ export default function Login() {
                   body: JSON.stringify(body),
                 })
               );
+              router.push("/profile-sg");
             } catch (error) {
               if (error instanceof FetchError) {
                 setErrorMsg(error.data.message);

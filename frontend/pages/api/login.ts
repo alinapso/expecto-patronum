@@ -18,7 +18,6 @@ async function loginRoute(req: NextApiRequest, res: NextApiResponse) {
       undefined,
       body
     );
-    console.log(loginAttampt);
     const user = {
       ...loginAttampt.data,
     } as UserWeb;

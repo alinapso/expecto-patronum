@@ -17,9 +17,9 @@ export default function useUser({
 
     if (
       // If redirectTo is set, redirect if the user was not found.
-      (redirectTo && !redirectIfFound && !user) ||
+      (redirectTo && !redirectIfFound && !user.is_logged_in) ||
       // If redirectIfFound is also set, redirect if the user was found
-      (redirectIfFound && user)
+      (redirectIfFound && user.is_logged_in)
     ) {
       Router.push(redirectTo);
     }

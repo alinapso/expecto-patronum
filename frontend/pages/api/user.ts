@@ -5,12 +5,13 @@ import { User, Role } from "expecto-patronum-common";
 import { UserWeb } from "types/user";
 export default withIronSessionApiRoute(userRoute, sessionOptions);
 
-async function userRoute(req: NextApiRequest, res: NextApiResponse<UserWeb>) {
+async function userRoute(req: NextApiRequest, res: NextApiResponse) {
   if (req.session.user) {
     res.json({
       ...req.session.user,
+      is_logged_in: true,
     });
   } else {
-    res.status(401);
+    res.status(401).json({ is_logged_in: false });
   }
 }

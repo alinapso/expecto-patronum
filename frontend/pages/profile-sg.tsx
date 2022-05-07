@@ -9,12 +9,10 @@ export default function SgProfile() {
   const { user } = useUser({
     redirectTo: "/login",
   });
-
+  console.log(user);
   const [sponsoredList, setSponsoredList] = useState([]);
   useEffect(() => {
     if (user) {
-      console.log("heeeeeeeeerrrrrrrrrrrrr");
-      console.log(user.access_token);
       (async () => {
         RemoteApiCall("GET", "/sponsored", user.access_token).then(
           (resualts) => {

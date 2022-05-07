@@ -17,14 +17,14 @@ export default function Header() {
               <a>Home</a>
             </Link>
           </li>
-          {!user && (
+          {!user?.is_logged_in && (
             <li>
               <Link href="/login">
                 <a>Login</a>
               </Link>
             </li>
           )}
-          {user && (
+          {user?.is_logged_in && (
             <>
               {console.log(`user is ${JSON.stringify(user, null, 2)}`)}
               <li>
