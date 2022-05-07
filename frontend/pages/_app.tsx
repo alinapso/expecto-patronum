@@ -1,20 +1,20 @@
-import { AppProps } from 'next/app'
-import { SWRConfig } from 'swr'
-import fetchJson from 'lib/fetchJson'
+import { RemoteApiCall } from "lib/remoteAPI";
+import { AppProps } from "next/app";
+import { SWRConfig } from "swr";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
       value={{
-        fetcher: fetchJson,
+        fetcher: RemoteApiCall,
         onError: (err) => {
-          console.error(err)
+          console.error(err);
         },
       }}
     >
       <Component {...pageProps} />
     </SWRConfig>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

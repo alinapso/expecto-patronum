@@ -2,12 +2,13 @@ import Link from "next/link";
 import useUser from "lib/useUser";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import fetchJson from "lib/fetchJson";
+import { useEffect } from "react";
+import { RemoteApiCall } from "lib/remoteAPI";
+import { logout } from "lib/auth";
 
 export default function Header() {
-  const { user, mutateUser } = useUser();
-  const router = useRouter();
-
+  const { user, mutate } = useUser();
+  console.log(user);
   return (
     <header>
       <nav>
@@ -17,14 +18,14 @@ export default function Header() {
               <a>Home</a>
             </Link>
           </li>
-          {!user?.is_logged_in && (
+          {!user && (
             <li>
               <Link href="/login">
                 <a>Login</a>
               </Link>
             </li>
           )}
-          {user?.is_logged_in && (
+          {user && (
             <>
               {console.log(`user is ${JSON.stringify(user, null, 2)}`)}
               <li>
@@ -42,21 +43,14 @@ export default function Header() {
                   </a>
                 </Link>
               </li>
-              <li>
-                <Link href="/profile-ssr">
-                  <a>Profile (Server-side Rendering)</a>
-                </Link>
-              </li>
+
               <li>
                 <a
                   href="/api/logout"
                   onClick={async (e) => {
                     e.preventDefault();
-                    mutateUser(
-                      await fetchJson("/api/logout", { method: "POST" }),
-                      false
-                    );
-                    router.push("/login");
+                    logout();
+                    mutate();
                   }}
                 >
                   Logout
