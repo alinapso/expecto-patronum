@@ -4,6 +4,6 @@ import { UploadedFileController } from './uploaded-file.controller';
 
 @Module({
   controllers: [UploadedFileController],
-  providers: [UploadedFileService]
+  providers: [UploadedFileService],
 })
 export class UploadedFileModule {}

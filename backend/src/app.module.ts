@@ -8,11 +8,15 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { UploadedFileModule } from './uploaded-file/uploaded-file.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SponsoredEventsModule } from './sponsored-events/sponsored-events.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    MulterModule.register({
+      dest: './files',
     }),
     AuthModule,
     UserModule,

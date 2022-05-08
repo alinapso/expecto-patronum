@@ -4,7 +4,9 @@ import { UpdateUploadedFileDto } from './dto/update-uploaded-file.dto';
 
 @Injectable()
 export class UploadedFileService {
-  create(createUploadedFileDto: CreateUploadedFileDto) {
+  create(
+    createUploadedFileDto: CreateUploadedFileDto,
+  ) {
     return 'This action adds a new uploadedFile';
   }
 
@@ -16,7 +18,10 @@ export class UploadedFileService {
     return `This action returns a #${id} uploadedFile`;
   }
 
-  update(id: number, updateUploadedFileDto: UpdateUploadedFileDto) {
+  update(
+    id: number,
+    updateUploadedFileDto: UpdateUploadedFileDto,
+  ) {
     return `This action updates a #${id} uploadedFile`;
   }
 
