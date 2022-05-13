@@ -18,6 +18,7 @@ export async function RemoteApiCall(props: ApiProps) {
     const access_token = get_api_access_token();
     if (access_token != "")
       headers = { Authorization: `Bearer ${access_token}`, ...headers };
+
     const request: RequestInit = {
       method: props.method,
       headers,

@@ -36,8 +36,6 @@ function exampleReducer(
 }
 
 function TableExampleSortable({ tableData }: any) {
-  console.log("reload!");
-
   const [state, dispatch] = React.useReducer(
     exampleReducer,
     {
@@ -54,9 +52,6 @@ function TableExampleSortable({ tableData }: any) {
       value: tableData,
     });
   }, [tableData]);
-  console.log("Tablse");
-  console.log(tableData);
-  console.log(data);
 
   const tableRows = data?.map((row: any) => {
     let patron_section = <Table.Cell colSpan="5">No patron</Table.Cell>;

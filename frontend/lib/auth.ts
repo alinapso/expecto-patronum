@@ -13,7 +13,7 @@ export async function login(email: string, password: string) {
   });
   if (res.status == 200) {
     localStorage.setItem("api_access_token", res.data.access_token);
-  }
+  } else throw new Error("Login faild");
 }
 export function logout() {
   localStorage.removeItem("api_access_token");

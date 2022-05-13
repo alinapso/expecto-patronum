@@ -28,8 +28,6 @@ export default function Login() {
               ).then(() => {
                 mutate();
               });
-
-              router.push("/profile-sg");
             } catch (error) {
               console.error("An unexpected error happened:", error);
             }
