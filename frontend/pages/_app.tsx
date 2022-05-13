@@ -1,6 +1,7 @@
 import { RemoteApiCall } from "lib/remoteAPI";
 import { AppProps } from "next/app";
 import { SWRConfig } from "swr";
+import "semantic-ui-css/semantic.min.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
