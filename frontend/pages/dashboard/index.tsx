@@ -6,6 +6,7 @@ import useSWR from "swr";
 import Router from "next/router";
 import Form from "components/Form";
 import Sidebar from "components/sidebar";
+import { AdminNav } from "pages/admin/consts";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 
 const items = [
@@ -16,30 +17,10 @@ const items = [
 export default function SgProfile() {
   const { loading, loggedOut, user, mutate } = useUser();
   const [sponsoredParams, setSponsoredParams] = useState({});
-  const items = [
-    { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-    { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-    { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-  ];
-  useEffect(() => {
-    if (user)
-      setSponsoredParams({
-        method: "GET",
-        url: "/sponsored",
-      });
-  }, [user]);
-  const { data: sponsoredList } = useSWR(
-    [sponsoredParams],
-
-    RemoteApiCall
-  );
   if (loading) return <h1>loading</h1>;
   else if (loggedOut) {
     Router.push("/");
   }
-  return (
-    <>
-      <Layout items={items}>Hello</Layout>
-    </>
-  );
+
+  return <Layout items={AdminNav}>lol</Layout>;
 }
