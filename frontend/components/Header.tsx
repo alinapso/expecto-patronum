@@ -1,105 +1,50 @@
 import Link from "next/link";
 import useUser from "lib/useUser";
-import Image from "next/image";
+import Button from "@restart/ui/Button";
 
 import { logout } from "lib/auth";
+import { Navbar, Dropdown, Nav, Form, Card, Image } from "react-bootstrap";
+import logo from "../assets/images/logo.png";
 
+import user1 from "../assets/images/user/1.jpg";
+import user2 from "../assets/images/user/02.jpg";
+import user3 from "../assets/images/user/03.jpg";
+import user4 from "../assets/images/user/04.jpg";
+import user5 from "../assets/images/user/05.jpg";
+function HeaderItem() {}
 export default function Header() {
   const { user, mutate } = useUser();
+  const minisidebar = () => {
+    document.body.classList.toggle("sidebar-main");
+  };
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
+    <div className="iq-top-navbar">
+      <div className="iq-navbar-custom">
+        <Navbar expand="lg" variant="light" className="p-0">
+          <div className="iq-navbar-logo d-flex justify-content-between">
             <Link href="/">
-              <a>Home</a>
+              <>
+                <span>SocialV</span>
+              </>
             </Link>
-          </li>
-          {!user && (
-            <li>
-              <Link href="/login">
-                <a>Login</a>
-              </Link>
-            </li>
-          )}
-          {user && (
-            <>
-              <li>
-                <Link href="/profile-sg">
-                  <a>
-                    <span
-                      style={{
-                        marginRight: ".3em",
-                        verticalAlign: "middle",
-                        borderRadius: "100%",
-                        overflow: "hidden",
-                      }}
-                    ></span>
-                    Profile (Static Generation, recommended)
-                  </a>
-                </Link>
-              </li>
-
-              <li>
-                <a
-                  href="/api/logout"
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    logout();
-                    mutate();
-                  }}
-                >
-                  Logout
-                </a>
-              </li>
-            </>
-          )}
-          <li>
-            <a href="https://github.com/vvo/iron-session">
-              <Image
-                src="/GitHub-Mark-Light-32px.png"
-                width="32"
-                height="32"
-                alt=""
-              />
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <style jsx>{`
-        ul {
-          display: flex;
-          list-style: none;
-          margin-left: 0;
-          padding-left: 0;
-        }
-
-        li {
-          margin-right: 1rem;
-          display: flex;
-        }
-
-        li:first-child {
-          margin-left: auto;
-        }
-
-        a {
-          color: #fff;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-        }
-
-        a img {
-          margin-right: 1em;
-        }
-
-        header {
-          padding: 0.2rem;
-          color: #fff;
-          background-color: #333;
-        }
-      `}</style>
-    </header>
+            <div className="iq-menu-bt align-self-center">
+              <div className="wrapper-menu" onClick={minisidebar}>
+                <div className="main-circle">
+                  <i className="ri-menu-line"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <Navbar.Toggle as="button">
+            <i className="ri-menu-3-line"></i>
+          </Navbar.Toggle>
+          <Navbar.Collapse>
+            <Nav as="ul" className="ms-auto navbar-list">
+              <i className="ri-home-line"></i>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+    </div>
   );
 }
