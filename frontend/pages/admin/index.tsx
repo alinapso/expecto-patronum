@@ -5,22 +5,10 @@ import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
 import Form from "components/Form";
-import Sidebar from "components/sidebar";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
-
-const items = [
-  { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-  { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-  { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-];
 export default function SgProfile() {
   const { loading, loggedOut, user, mutate } = useUser();
   const [sponsoredParams, setSponsoredParams] = useState({});
-  const items = [
-    { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-    { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-    { href: "/", icon: "las la-newspaper", title: "Newsfeed" },
-  ];
   useEffect(() => {
     if (user)
       setSponsoredParams({
@@ -37,9 +25,5 @@ export default function SgProfile() {
   else if (loggedOut) {
     Router.push("/");
   }
-  return (
-    <>
-      <Layout items={items}>Hello</Layout>
-    </>
-  );
+  return <Layout>lol</Layout>;
 }
