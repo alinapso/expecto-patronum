@@ -22,11 +22,6 @@ export default function Header() {
       <div className="iq-navbar-custom">
         <Navbar expand="lg" variant="light" className="p-0">
           <div className="iq-navbar-logo d-flex justify-content-between">
-            <Link href="/">
-              <>
-                <span>SocialV</span>
-              </>
-            </Link>
             <div className="iq-menu-bt align-self-center">
               <div className="wrapper-menu" onClick={minisidebar}>
                 <div className="main-circle">
@@ -34,13 +29,68 @@ export default function Header() {
                 </div>
               </div>
             </div>
+            <Link href="/">
+              <>
+                <span>Expecto Patronum</span>
+              </>
+            </Link>
           </div>
           <Navbar.Toggle as="button">
             <i className="ri-menu-3-line"></i>
           </Navbar.Toggle>
           <Navbar.Collapse>
             <Nav as="ul" className="ms-auto navbar-list">
-              <i className="ri-home-line"></i>
+              <li>
+                <Link href="/">
+                  <a>Home</a>
+                </Link>
+              </li>
+              {!user && (
+                <>
+                  <li>
+                    <Link href="/signin">
+                      <a>Login</a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/signup">
+                      <a>Sign Up</a>
+                    </Link>
+                  </li>
+                </>
+              )}
+              {user && (
+                <>
+                  <li>
+                    <Link href="/profile-sg">
+                      <a>
+                        <span
+                          style={{
+                            marginRight: ".3em",
+                            verticalAlign: "middle",
+                            borderRadius: "100%",
+                            overflow: "hidden",
+                          }}
+                        ></span>
+                        Profile (Static Generation, recommended)
+                      </a>
+                    </Link>
+                  </li>
+
+                  <li>
+                    <a
+                      href="/api/logout"
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        logout();
+                        mutate();
+                      }}
+                    >
+                      Logout
+                    </a>
+                  </li>
+                </>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
