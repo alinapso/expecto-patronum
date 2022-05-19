@@ -7,6 +7,7 @@ import Router from "next/router";
 import Form from "components/Form";
 import { AdminNav } from "../consts";
 import SponseredView from "components/SponseredView";
+import user09 from "../../../assets/images/user/09.jpg";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
@@ -16,10 +17,18 @@ export default function Sponsored() {
   else if (loggedOut) {
     Router.push("/");
   }
-
+  const sponsered = [
+    {
+      id: 1,
+      name: "Yolo",
+      age: "15",
+      img: user09.src,
+      description: "Let see if this works, it's seems it is",
+    },
+  ];
   return (
     <Layout items={AdminNav}>
-      <SponseredView />
+      <SponseredView sponsered={sponsered} />
     </Layout>
   );
 }

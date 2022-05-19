@@ -10,7 +10,7 @@ export declare type SideBarItem = {
 
 export const SideBarLink = ({ title, icon, href }: SideBarItem) => {
   return (
-    <li>
+    <li key={title}>
       <Link href={href}>
         <a>
           <i className={icon}></i>
