@@ -14,7 +14,16 @@ export const FormTextBox = ({
   );
 };
 
-export const FormUploadDialog = ({ text }: any) => {
+export const FormUploadDialog = ({ name, text }: any) => {
+  return (
+    <Form.Group className="form-group">
+      <Form.Label>{text}</Form.Label>
+      <Form.Control type="file" name={name} accept="image/*" />
+    </Form.Group>
+  );
+};
+
+export const FormDatatimePicker = ({ text }: any) => {
   return (
     <Form.Group className="form-group">
       <Form.Label>{text}</Form.Label>
