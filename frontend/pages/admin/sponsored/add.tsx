@@ -21,26 +21,28 @@ import {
 import image1 from "../../../assets/images/pages/img-success.png";
 
 export const FormNavButton = ({
-  Tabid,
+  id,
   buttonIcon,
   text,
-  href = "#",
   Active = false,
+  onClick,
 }: any) => {
   return (
-    <Link id={Tabid} data-toggle="tab" href={href}>
-      <a className={` ${Active ? "active done" : ""} btn nav-link`}>
-        <i className={buttonIcon}></i>
-        <span>{text}</span>
-      </a>
-    </Link>
+    <Button
+      className={` ${Active ? "active done" : ""} btn nav-link`}
+      onClick={() => onClick(id)}
+      role="tab"
+    >
+      <i className={buttonIcon}></i>
+      <span>{text}</span>
+    </Button>
   );
 };
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
   const { loading, loggedOut, user, mutate } = useUser();
-  const [show, AccountShow] = useState("A");
+  const [show, AccountShow] = useState("user-detail");
   if (loading) return <h1>loading</h1>;
   else if (loggedOut) {
     Router.push("/");
@@ -66,57 +68,39 @@ export default function Sponsored() {
                     id="nav-tab"
                     role="tablist"
                   >
-                    <Link
-                      className={` ${show === "A" ? "active" : ""}  btn`}
-                      id="user-tab"
-                      data-toggle="tab"
-                      href="#user-detail"
-                    >
-                      <a className="btn nav-link">
-                        <i className="ri-lock-unlock-line bg-soft-primary text-primary"></i>
-                        <span>User Detail</span>
-                      </a>
-                    </Link>
-
-                    <Link
-                      className={` ${
-                        show === "Personal" ? "active done" : ""
-                      }  btn`}
-                      id="bank-tab"
-                      data-toggle="tab"
-                      href="#bank-detail"
-                    >
-                      <a className="btn nav-link">
-                        <i className="ri-camera-fill bg-soft-success text-success"></i>
-                        <span>Bank Detail</span>
-                      </a>
-                    </Link>
-                    <Link
-                      className={` ${
-                        show === "Image" ? "active done" : ""
-                      } btn`}
-                      id="cpnfirm-tab"
-                      data-toggle="tab"
-                      href="#cpnfirm-data"
-                    >
-                      <a className="btn nav-link">
-                        <i className="ri-check-fill bg-soft-warning text-warning"></i>
-                        <span>Confirm</span>
-                      </a>
-                    </Link>
                     <FormNavButton
-                      id="user-tab"
+                      id="user-detail"
                       buttonIcon="ri-lock-unlock-line bg-soft-primary text-primary"
                       text="User Detail"
-                      Active={show === "A"}
-                      Tabid="user-tab"
-                      href="#user-detail"
+                      Active={show === "user-detail"}
+                      onClick={AccountShow}
+                    ></FormNavButton>
+                    <FormNavButton
+                      id="document-detail"
+                      buttonIcon="ri-lock-unlock-line bg-soft-primary text-primary"
+                      text="Document Detail"
+                      Active={show === "document-detail"}
+                      onClick={AccountShow}
+                    ></FormNavButton>
+                    <FormNavButton
+                      id="bank-detail"
+                      buttonIcon="ri-camera-fill bg-soft-success text-success"
+                      text="Bank Detail"
+                      Active={show === "bank-detail"}
+                      onClick={AccountShow}
+                    ></FormNavButton>
+                    <FormNavButton
+                      id="cpnfirm-data"
+                      buttonIcon="ri-check-fill bg-soft-warning text-warning"
+                      text="Confirm"
+                      Active={show === "cpnfirm-data"}
+                      onClick={AccountShow}
                     ></FormNavButton>
                   </Nav>
                   <TabContent className="pt-4 pb-2" id="nav-tabContent">
                     <TabPane
                       className={` ${
-                        show === "A" ? "d-block" : "d-none"
+                        show === "user-detail" ? "d-block" : "d-none"
                       } fade row show`}
                       id="user-detail"
                     >
@@ -216,7 +200,7 @@ export default function Sponsored() {
                           <Button
                             className="btn-primary float-end"
                             data-enchanter="next"
-                            onClick={() => AccountShow("Account")}
+                            onClick={() => AccountShow("document-detail")}
                           >
                             Next
                           </Button>
@@ -225,13 +209,14 @@ export default function Sponsored() {
                     </TabPane>
                     <TabPane
                       className={` ${
-                        show === "Account" ? "d-block" : "d-none"
+                        show === "document-detail" ? "d-block" : "d-none"
                       } row show fade`}
                       id="document-detail"
                     >
                       <Col sm="12">
                         <Col md="12" className="p-0">
                           <h3 className="mb-4">Document Details:</h3>
+
                           <Row>
                             <Form.Group className="form-group col-md-6">
                               <Form.Label>Company Name: *</Form.Label>
@@ -288,7 +273,7 @@ export default function Sponsored() {
                             variant="secondary"
                             className="float-start"
                             data-enchanter="previous"
-                            onClick={() => AccountShow("A")}
+                            onClick={() => AccountShow("user-detail")}
                           >
                             Previous
                           </Button>
@@ -296,7 +281,7 @@ export default function Sponsored() {
                             variant="primary"
                             className="float-end"
                             data-enchanter="next"
-                            onClick={() => AccountShow("Personal")}
+                            onClick={() => AccountShow("bank-detail")}
                           >
                             Next
                           </Button>
@@ -305,7 +290,7 @@ export default function Sponsored() {
                     </TabPane>
                     <TabPane
                       className={` ${
-                        show === "Personal" ? "d-block" : "d-none"
+                        show === "bank-detail" ? "d-block" : "d-none"
                       } row show fade`}
                       id="bank-detail"
                     >
@@ -384,7 +369,7 @@ export default function Sponsored() {
                             variant="secondary"
                             className="float-start"
                             data-enchanter="previous"
-                            onClick={() => AccountShow("Account")}
+                            onClick={() => AccountShow("document-detail")}
                           >
                             Previous
                           </Button>
@@ -392,7 +377,7 @@ export default function Sponsored() {
                             variant="primary"
                             className="float-end"
                             data-enchanter="next"
-                            onClick={() => AccountShow("Image")}
+                            onClick={() => AccountShow("cpnfirm-data")}
                           >
                             Next
                           </Button>
@@ -401,7 +386,7 @@ export default function Sponsored() {
                     </TabPane>
                     <TabPane
                       className={` ${
-                        show === "Image" ? "d-block" : "d-none"
+                        show === "cpnfirm-data" ? "d-block" : "d-none"
                       } row show fade`}
                       id="cpnfirm-data"
                     >

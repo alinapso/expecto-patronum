@@ -1,7 +1,7 @@
 .stepwizard-row {
     margin: 0 -1.25rem;
     
-    a {
+    button {
         &.btn {
             background: $white;
             color: $body-color;
@@ -66,7 +66,7 @@
 }
 @include media-breakpoint-down(lg) {
     .stepwizard-row {
-        a {
+        button {
             &.btn {
                 width: 44%;
             }
@@ -75,7 +75,7 @@
 }
 @include media-breakpoint-down(md) {
     .stepwizard-row {
-        a {
+        button {
             &.btn {
                 width: 100%;
             }
