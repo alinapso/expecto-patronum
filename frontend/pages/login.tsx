@@ -8,7 +8,7 @@ import { login } from "lib/auth";
 export default function Login() {
   // here we just check if user is already logged in and redirect to profile
   const { mutate } = useUser({
-    redirectTo: "/profile-sg",
+    redirectTo: "/admin",
   });
 
   const [errorMsg, setErrorMsg] = useState("");
