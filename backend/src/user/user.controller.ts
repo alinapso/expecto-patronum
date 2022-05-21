@@ -8,7 +8,10 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { User } from 'expecto-patronum-common';
 import { GetUser } from '../auth/decorator';
-import { JwtGuard } from '../auth/guard';
+import {
+  AdminGuard,
+  JwtGuard,
+} from '../auth/guard';
 import { UpdateUserDto } from '../generatedDtos/user/dto/update-user.dto';
 import { UserService } from './user.service';
 
@@ -28,5 +31,12 @@ export class UserController {
     @Body() dto: UpdateUserDto,
   ) {
     return this.userService.editUser(userId, dto);
+  }
+  @UseGuards(AdminGuard)
+  @Get('patrons')
+  getPatrons() {
+    return this.userService.getUsersByType(
+      `PATRON`,
+    );
   }
 }

@@ -1,11 +1,12 @@
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR, { useSWRConfig } from "swr";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 
 import { AdminNav } from "../consts";
 import Layout from "components/Layout";
 import TableEditable from "components/TableEditable";
+import Link from "next/link";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
@@ -115,6 +116,17 @@ export default function Sponsored() {
       sortable: true,
     },
     {
+      name: "End Date",
+      mapKey: "end_date",
+      customDecorators: dateDecorator,
+      sortable: true,
+    },
+    {
+      name: "Monthly sum",
+      mapKey: "monthly_sum",
+      sortable: true,
+    },
+    {
       name: "_remove",
       mapKey: "is_active",
       customDecorators: removeDecorator,
@@ -137,14 +149,33 @@ export default function Sponsored() {
         {sponsoredList.status ? "Somthing went wrong" : ""}
       </Layout>
     );
+  console.log(sponsoredList);
   return (
     <Layout items={AdminNav}>
-      <TableEditable
-        TableTitle="Sponsored"
-        headers={headers}
-        data={sponsoredList.data}
-        keyValue="id"
-      />
+      <Container>
+        <Row>
+          <Col sm="12">
+            <Card>
+              <Card.Body className="d-flex justify-content-between">
+                <h4>Sponsered</h4>
+                <div>
+                  <Link href="/admin/sponsored/add">
+                    <Button className="btn btn-primary btn-rounded btn-sm ms-1">
+                      Add
+                    </Button>
+                  </Link>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <TableEditable
+          headers={headers}
+          data={sponsoredList.data}
+          keyValue="id"
+        />
+      </Container>
     </Layout>
   );
 }

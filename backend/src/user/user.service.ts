@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Role } from 'expecto-patronum-common';
 import { UpdateUserDto } from 'src/generatedDtos/user/dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -21,5 +22,17 @@ export class UserService {
 
     delete user.hash;
     return user;
+  }
+  async getUsersByType(role: Role) {
+    return await this.prisma.user.findMany({
+      where: { role: role },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        Address: true,
+      },
+    });
   }
 }

@@ -7,12 +7,10 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 // you can add custom decorator and sort - see TableHeader class
 
 const TableEditable = ({
-  TableTitle,
   headers,
   data,
   keyValue,
 }: {
-  TableTitle?: string;
   headers: TableHeader[];
   data?: any;
   keyValue: any;
@@ -58,78 +56,63 @@ const TableEditable = ({
     }
     return value ? value : "";
   };
-  console.log(tableData);
   return (
-    <>
-      <Container>
-        <Row>
-          <Col sm="12">
-            <Card>
-              {!TableTitle ? (
-                <></>
-              ) : (
-                <div>
-                  <h3 className="card-header text-center font-weight-bold text-uppercase py-4">
-                    {TableTitle}
-                  </h3>
-                </div>
-              )}
-
-              <Card.Body>
-                <div id="table" className="table-editable">
-                  <table className="table table-bordered table-responsive-md table-striped text-center">
-                    <thead>
-                      <tr>
-                        {headers?.map((header: TableHeader) => (
-                          <th
-                            key={header.name}
-                            onClick={() =>
-                              header.sortable
-                                ? sortByColumn(
-                                    header.mapKey,
-                                    header.customSort
-                                      ? header.customSort
-                                      : undefined
-                                  )
-                                : {}
-                            }
-                          >
-                            {tableData.col === header.mapKey
-                              ? tableData.direction === 1
-                                ? arrowUp
-                                : arrowDown
-                              : ""}{" "}
-                            {header.name.charAt(0) === "_" ? "" : header.name}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData.data?.map((row: any) => (
-                        <tr key={row.id}>
-                          {headers?.map((header: TableHeader) => (
-                            <td
-                              key={header.name}
-                              suppressContentEditableWarning={true}
-                            >
-                              {generateCellText(
-                                row,
+    <Row>
+      <Col sm="12">
+        <Card>
+          <Card.Body>
+            <div id="table" className="table-editable">
+              <table className="table table-bordered table-responsive-md table-striped text-center">
+                <thead>
+                  <tr>
+                    {headers?.map((header: TableHeader) => (
+                      <th
+                        key={header.name}
+                        onClick={() =>
+                          header.sortable
+                            ? sortByColumn(
                                 header.mapKey,
-                                header.customDecorators
-                              )}
-                            </td>
-                          ))}
-                        </tr>
+                                header.customSort
+                                  ? header.customSort
+                                  : undefined
+                              )
+                            : {}
+                        }
+                      >
+                        {tableData.col === header.mapKey
+                          ? tableData.direction === 1
+                            ? arrowUp
+                            : arrowDown
+                          : ""}{" "}
+                        {header.name.charAt(0) === "_" ? "" : header.name}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData.data?.map((row: any) => (
+                    <tr key={row.id}>
+                      {headers?.map((header: TableHeader) => (
+                        <td
+                          key={header.name}
+                          suppressContentEditableWarning={true}
+                        >
+                          {generateCellText(
+                            row,
+                            header.mapKey,
+                            header.customDecorators
+                          )}
+                        </td>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

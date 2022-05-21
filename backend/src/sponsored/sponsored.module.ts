@@ -4,6 +4,6 @@ import { SponsoredController } from './sponsored.controller';
 
 @Module({
   controllers: [SponsoredController],
-  providers: [SponsoredService]
+  providers: [SponsoredService],
 })
 export class SponsoredModule {}
