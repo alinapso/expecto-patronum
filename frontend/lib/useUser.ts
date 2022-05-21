@@ -2,7 +2,7 @@ import Router from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
 
-export default function useUser({ redirectTo = "" } = {}) {
+export default function useUser({ redirectTo = "", isAdmin = false } = {}) {
   const { data, mutate, error } = useSWR({
     call: "Get",
     url: "/users/me",
@@ -16,6 +16,8 @@ export default function useUser({ redirectTo = "" } = {}) {
 
     if (return_data.status == 200) {
       Router.push(redirectTo);
+    } else if (return_data.status == 401) {
+      Router.push("/login");
     }
   }, [data, redirectTo]);
   const loading = !data && !error;
