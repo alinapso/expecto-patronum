@@ -22,8 +22,6 @@ export const SideBarLink = ({ title, icon, href }: SideBarItem) => {
 };
 
 const Sidebar = ({ items }: any) => {
-  const [activeMenu, setActiveMenu] = useState(false);
-  console.log(items);
   const createNavItems = items?.map((l: SideBarItem) => {
     return SideBarLink(l);
   });

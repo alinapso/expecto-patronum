@@ -144,7 +144,21 @@ export class SponsoredService {
   ) {
     return `This action updates a #${id} sponsored`;
   }
-
+  async changeStatus(
+    id: number,
+    status: boolean,
+  ) {
+    const sponsored =
+      await this.prisma.sponsored.update({
+        where: {
+          id: id,
+        },
+        data: {
+          is_active: status,
+        },
+      });
+    return sponsored;
+  }
   remove(id: number) {
     return `This action removes a #${id} sponsored`;
   }

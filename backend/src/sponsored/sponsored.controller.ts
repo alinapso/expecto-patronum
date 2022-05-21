@@ -94,6 +94,22 @@ export class SponsoredController {
     );
   }
   @UseGuards(AdminGuard)
+  @Patch('deactivate/:id')
+  deactivate(@Param('id') id: string) {
+    return this.sponsoredService.changeStatus(
+      +id,
+      false,
+    );
+  }
+  @UseGuards(AdminGuard)
+  @Patch('activate/:id')
+  activate(@Param('id') id: string) {
+    return this.sponsoredService.changeStatus(
+      +id,
+      true,
+    );
+  }
+  @UseGuards(AdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.sponsoredService.remove(+id);

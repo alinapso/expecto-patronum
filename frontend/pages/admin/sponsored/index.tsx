@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Layout from "components/Layout";
-import useUser from "lib/useUser";
 import { RemoteApiCall } from "lib/remoteAPI";
-import useSWR from "swr";
-import Router from "next/router";
-import Form from "components/Form";
-import { AdminNav } from "../consts";
-import user09 from "../../../assets/images/user/09.jpg";
-import TableEditable from "components/TableEditable";
+import useSWR, { useSWRConfig } from "swr";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
+
+import { AdminNav } from "../consts";
+import Layout from "components/Layout";
+import TableEditable from "components/TableEditable";
+
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
   const { data: sponsoredList, error } = useSWR(
@@ -20,7 +17,85 @@ export default function Sponsored() {
 
     RemoteApiCall
   );
+  const { mutate } = useSWRConfig();
+  const patrnDecorator = (value: any, id: any) => {
+    return `${value.firstName} ${value.lastName}`;
+  };
 
+  const patrnSort = (key: string, data: any, newDirection: number): any => {
+    return data.sort((a: any, b: any) => {
+      if (a[key] && b[key]) {
+        if (a[key].lastName < b[key].lastName) return newDirection * -1;
+        else if (a[key].lastName > b[key].lastName) return newDirection;
+
+        return a[key].firstName < b[key].firstName
+          ? newDirection * -1
+          : newDirection;
+      }
+      if (a[key]) return newDirection * -1;
+      return 1;
+    });
+  };
+  const dateDecorator = (value: any, id: any) => {
+    const date = new Date(value);
+
+    return new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+    }).format(date);
+  };
+  const deactivateSponsered = async (id: any) => {
+    await RemoteApiCall({
+      method: "PATCH",
+      url: `/Sponsored/deactivate/${id}`,
+    });
+    mutate(
+      {
+        method: "GET",
+        url: "/sponsored",
+      },
+
+      RemoteApiCall
+    );
+  };
+  const activateSponsered = async (id: any) => {
+    await RemoteApiCall({
+      method: "PATCH",
+      url: `/Sponsored/activate/${id}`,
+    });
+    mutate(
+      {
+        method: "GET",
+        url: "/sponsored",
+      },
+
+      RemoteApiCall
+    );
+
+    console.log(sponsoredList);
+  };
+  const removeDecorator = (value: any, id: any) => {
+    return (
+      <span className="table-remove">
+        {value ? (
+          <Button
+            onClick={async () => await deactivateSponsered(id)}
+            className="btn btn-danger btn-rounded btn-sm my-0"
+          >
+            Deactivate
+          </Button>
+        ) : (
+          <Button
+            onClick={async () => await activateSponsered(id)}
+            className="btn btn-success btn-rounded btn-sm my-0"
+          >
+            Activate
+          </Button>
+        )}
+      </span>
+    );
+  };
   const headers = [
     { name: "First Name", mapKey: "first_name", sortable: true },
     { name: "Middle Name", mapKey: "middle_name", sortable: true },
@@ -41,16 +116,13 @@ export default function Sponsored() {
     },
     {
       name: "_remove",
-      mapKey: "id",
+      mapKey: "is_active",
       customDecorators: removeDecorator,
       sortable: false,
     },
   ];
-
-  if (sponsoredList && sponsoredList?.status != 200)
-    return <h1>Something went wrong</h1>;
-  return (
-    <Layout items={AdminNav}>
+  if (!sponsoredList)
+    return (
       <Container>
         <Row className="justify-content-center">
           <Col md="auto">
@@ -58,60 +130,21 @@ export default function Sponsored() {
           </Col>
         </Row>
       </Container>
-
-      {!sponsoredList ? (
-        <></>
-      ) : (
-        <TableEditable
-          TableTitle="Sponsored"
-          headers={headers}
-          data={sponsoredList.data}
-        />
-      )}
+    );
+  if (sponsoredList && sponsoredList.status != 200)
+    return (
+      <Layout items={AdminNav}>
+        {sponsoredList.status ? "Somthing went wrong" : ""}
+      </Layout>
+    );
+  return (
+    <Layout items={AdminNav}>
+      <TableEditable
+        TableTitle="Sponsored"
+        headers={headers}
+        data={sponsoredList.data}
+        keyValue="id"
+      />
     </Layout>
   );
 }
-const patrnDecorator = (data: any) => {
-  return `${data.firstName} ${data.lastName}`;
-};
-
-const patrnSort = (key: string, data: any, newDirection: number): any => {
-  console.log(key, data, newDirection);
-  return data.sort((a: any, b: any) => {
-    if (a[key] && b[key]) {
-      if (a[key].lastName < b[key].lastName) return newDirection * -1;
-      else if (a[key].lastName > b[key].lastName) return newDirection;
-
-      return a[key].firstName < b[key].firstName
-        ? newDirection * -1
-        : newDirection;
-    }
-    if (a[key]) return newDirection * -1;
-    return 1;
-  });
-};
-const dateDecorator = (data: any) => {
-  console.log(data);
-  const date = new Date(data);
-
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "2-digit",
-  }).format(date);
-};
-const deactivateSponsered = (id: any) => {
-  console.log(id);
-};
-const removeDecorator = (id: any) => {
-  return (
-    <span className="table-remove">
-      <Button
-        onClick={() => deactivateSponsered(id)}
-        className="btn btn-danger btn-rounded btn-sm my-0"
-      >
-        Deactivate
-      </Button>
-    </span>
-  );
-};

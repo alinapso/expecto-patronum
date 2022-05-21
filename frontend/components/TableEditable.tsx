@@ -10,10 +10,12 @@ const TableEditable = ({
   TableTitle,
   headers,
   data,
+  keyValue,
 }: {
   TableTitle?: string;
   headers: TableHeader[];
   data?: any;
+  keyValue: any;
 }) => {
   const [tableData, setTableData] = useState({
     data,
@@ -48,15 +50,15 @@ const TableEditable = ({
   const generateCellText = (
     row: any,
     mapKey: any,
-    decorator: ((arg: any) => any) | undefined
+    decorator: ((value: any, id: any) => any) | undefined
   ) => {
     const value = row[mapKey];
-    if (decorator && value) {
-      return decorator(value);
+    if (decorator && value != undefined) {
+      return decorator(value, row[keyValue]);
     }
     return value ? value : "";
   };
-
+  console.log(tableData);
   return (
     <>
       <Container>
@@ -139,13 +141,13 @@ export class TableHeader {
   name: string;
   mapKey: string;
   sortable: boolean;
-  customDecorators?: (arg: any) => any;
+  customDecorators?: (id: any, arg: any) => any;
   customSort?: (key: string, data: any, newDirection: number) => any;
   constructor(
     name: string,
     mapKey: string,
     sortable = false,
-    customDecorators?: (arg: any) => any,
+    customDecorators?: (id: any, arg: any) => any,
     customSort?: (key: string, data: any, newDirection: number) => any
   ) {
     this.name = name;
