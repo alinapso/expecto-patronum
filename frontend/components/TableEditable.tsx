@@ -1,10 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Pagination } from "react-bootstrap";
 
 //this is a generic sortable table
 // you just need to give it a header and mapKey (json paramater name) and the data
 // you can hide the table header by starting the name in _
 // you can add custom decorator and sort - see TableHeader class
+
+const TablePagination = ({ pageCount }: { pageCount: number }) => {
+  let active = 2;
+  let items = [];
+  for (let number = 1; number <= pageCount; number++) {
+    items.push(
+      <Pagination.Item key={number} active={number === active}>
+        {number}
+      </Pagination.Item>
+    );
+  }
+
+  return (
+    <div className="d-flex justify-content-end">
+      <Pagination>{items}</Pagination>
+    </div>
+  );
+};
 
 const TableEditable = ({
   headers,
@@ -45,6 +63,7 @@ const TableEditable = ({
     });
   };
   // main decoretor. if there is a decortor for that column it will use it
+
   const generateCellText = (
     row: any,
     mapKey: any,
@@ -108,6 +127,7 @@ const TableEditable = ({
                   ))}
                 </tbody>
               </table>
+              <TablePagination pageCount={5} />
             </div>
           </Card.Body>
         </Card>

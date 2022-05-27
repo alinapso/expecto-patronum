@@ -21,6 +21,7 @@ import {
 } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
 import { User } from 'expecto-patronum-common';
+import { ApiCallDto } from 'src/Dto/apiCall';
 
 @UseGuards(JwtGuard)
 @Controller('sponsored')
@@ -42,20 +43,23 @@ export class SponsoredController {
   @ApiOperation({
     summary: 'Returns all Sponsered, admin only',
   })
-  findAll() {
+  getSponsered(@Body() apiCall: ApiCallDto<any>) {
     console.log('request came in');
-    return this.sponsoredService.findAll();
+    return this.sponsoredService.getSponsered(
+      apiCall,
+    );
   }
-  @Get('have')
+  @Get('me')
   @ApiOperation({
-    summary:
-      'Returns all Sponsered that have patron, admin get all, patron only get there on',
+    summary: 'Returns all Sponsered by user',
   })
-  getSponsered(@GetUser() user: User) {
-    if (user.role == 'ADMIN')
-      return this.sponsoredService.getSponsered();
+  getSponseredByPatron(
+    @GetUser() user: User,
+    @Body() apiCall: ApiCallDto<any>,
+  ) {
     return this.sponsoredService.getSponseredByPatron(
       user,
+      apiCall,
     );
   }
   @ApiOperation({

@@ -7,6 +7,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from 'expecto-patronum-common';
+import { ApiCallDto } from 'src/Dto/apiCall';
+import { PaginationDto } from 'src/Dto/pagination';
 import { GetUser } from '../auth/decorator';
 import {
   AdminGuard,
@@ -33,10 +35,11 @@ export class UserController {
     return this.userService.editUser(userId, dto);
   }
   @UseGuards(AdminGuard)
-  @Get('patrons')
-  getPatrons() {
+  @Get()
+  getPatrons(@Body() apiCall: ApiCallDto<any>) {
+    console.log(apiCall);
     return this.userService.getUsersByType(
-      `PATRON`,
+      apiCall,
     );
   }
 }

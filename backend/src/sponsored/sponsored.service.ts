@@ -1,8 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
 import { UpdateSponsoredDto } from './dto/update-sponsored.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { User } from 'expecto-patronum-common';
+import {
+  ApiCallDto,
+  getFilter,
+  getOrderBy,
+  getPagination,
+  getParams,
+} from 'src/Dto/apiCall';
+import { PrismaClientValidationError } from '@prisma/client/runtime';
 
 @Injectable()
 export class SponsoredService {
@@ -23,7 +35,8 @@ export class SponsoredService {
     return res;
   }
 
-  async findAll() {
+  async getSponsered(apiCall: ApiCallDto<any>) {
+    const params = getParams(apiCall);
     return await this.prisma.sponsored.findMany({
       include: {
         patron: {
@@ -33,6 +46,7 @@ export class SponsoredService {
           },
         },
       },
+      ...params,
     });
   }
   async getNotSponsered() {
@@ -52,39 +66,37 @@ export class SponsoredService {
       });
     return sponsored;
   }
-  async getSponseredByPatron(user: User) {
-    const sponsored =
-      await this.prisma.sponsored.findMany({
-        where: {
-          patronId: user.id,
-        },
-        include: {
-          SponsoredEvents: true,
-        },
-      });
-    return sponsored;
-  }
-  async getSponsered() {
-    const sponsored =
-      await this.prisma.sponsored.findMany({
-        where: {
-          NOT: {
-            patronId: null,
+  async getSponseredByPatron(
+    user: User,
+    apiCall: ApiCallDto<any>,
+  ) {
+    try {
+      const pagination = getPagination(apiCall);
+      const orderBy = getOrderBy(apiCall);
+      const sponsored =
+        await this.prisma.sponsored.findMany({
+          where: {
+            patronId: user.id,
+            ...apiCall.filter,
           },
-        },
-        include: {
-          SponsoredEvents: true,
-          patron: {
-            select: {
-              id: true,
-              firstName: true,
-              lastName: true,
-            },
+          include: {
+            SponsoredEvents: true,
           },
-        },
-      });
-    return sponsored;
+          ...pagination,
+          ...orderBy,
+        });
+      return sponsored;
+    } catch (e) {
+      if (
+        e instanceof PrismaClientValidationError
+      ) {
+        throw new BadRequestException();
+      }
+      console.log(e);
+      throw new InternalServerErrorException();
+    }
   }
+
   async findOne(id: number) {
     const sponsored =
       await this.prisma.sponsored.findMany({
