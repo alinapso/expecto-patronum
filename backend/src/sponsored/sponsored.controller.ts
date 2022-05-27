@@ -31,7 +31,7 @@ export class SponsoredController {
     private readonly sponsoredService: SponsoredService,
   ) {}
   @UseGuards(AdminGuard)
-  @Post()
+  @Post('add')
   async create(@Body() dto: CreateSponsoredDto) {
     const sponsered =
       await this.sponsoredService.create(dto);
@@ -39,7 +39,7 @@ export class SponsoredController {
   }
 
   @UseGuards(AdminGuard)
-  @Get()
+  @Post()
   @ApiOperation({
     summary: 'Returns all Sponsered, admin only',
   })
@@ -49,7 +49,7 @@ export class SponsoredController {
       apiCall,
     );
   }
-  @Get('me')
+  @Post('me')
   @ApiOperation({
     summary: 'Returns all Sponsered by user',
   })
@@ -66,11 +66,11 @@ export class SponsoredController {
     summary:
       'Returns all Sponsered without patron',
   })
-  @Get('not')
+  @Post('not')
   getNonSponsered() {
     return this.sponsoredService.getNotSponsered();
   }
-  @Get(':id')
+  @Post(':id')
   @ApiOperation({
     summary: 'Returns Sponsered By ID',
   })

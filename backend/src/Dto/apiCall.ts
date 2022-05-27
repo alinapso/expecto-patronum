@@ -1,6 +1,6 @@
 import { IsOptional } from 'class-validator';
 import { PaginationDto } from './pagination';
-const defualtPerPageCount = 1;
+const defualtPerPageCount = 20;
 export class ApiCallDto<T> {
   @IsOptional()
   body: T;
@@ -15,6 +15,7 @@ export class ApiCallDto<T> {
 export function getParams(
   apiCall: ApiCallDto<any>,
 ) {
+  console.log(apiCall);
   const pagination = getPagination(apiCall);
   const orderBy = getOrderBy(apiCall);
   const filter = getFilter(apiCall);
@@ -25,18 +26,15 @@ export function getPagination(
   apiCall: ApiCallDto<any>,
 ) {
   if (apiCall.pagination) {
-    console.log(apiCall.pagination);
     const pageCount = apiCall.pagination
       .perPageCount
       ? apiCall.pagination.perPageCount
       : defualtPerPageCount;
     const skip =
       (apiCall.pagination.page - 1) * pageCount;
-
-    console.log('skip : ', skip);
     return {
       skip: skip,
-      take: apiCall.pagination.perPageCount,
+      take: pageCount,
     };
   } else
     return { skip: 0, take: defualtPerPageCount };
@@ -54,4 +52,14 @@ export function getFilter(
   return apiCall.filter
     ? { where: apiCall.filter }
     : undefined;
+}
+
+export function calcPageCount(
+  recoredCount: number,
+) {
+  let pageCount =
+    recoredCount / defualtPerPageCount;
+  if (pageCount % defualtPerPageCount > 0)
+    pageCount++;
+  return Math.floor(pageCount);
 }

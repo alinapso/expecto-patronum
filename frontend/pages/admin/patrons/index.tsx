@@ -10,20 +10,14 @@ import Link from "next/link";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Patrons() {
-  const { data: patronsList, error } = useSWR(
-    {
-      method: "GET",
-      url: "/users/patrons",
-    },
-
-    RemoteApiCall
-  );
-  console.log(patronsList);
+  
   const { mutate } = useSWRConfig();
   const patrnDecorator = (value: any, id: any) => {
     return `${value.firstName} ${value.lastName}`;
   };
-
+  const onPageChange = (id: number) => {
+    console.log(id);
+  };
   const patrnSort = (key: string, data: any, newDirection: number): any => {
     return data.sort((a: any, b: any) => {
       if (a[key] && b[key]) {
@@ -143,8 +137,9 @@ export default function Patrons() {
 
         <TableEditable
           headers={headers}
-          data={patronsList.data}
+          dataSourceUrl="/users/patrons
           keyValue="id"
+          onPageChange={onPageChange}
         />
       </Container>
     </Layout>

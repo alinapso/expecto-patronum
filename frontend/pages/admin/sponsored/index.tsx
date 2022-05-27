@@ -5,20 +5,14 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 import { AdminNav } from "../consts";
 import Layout from "components/Layout";
-import TableEditable from "components/TableEditable";
+import TableDatasource from "components/TableEditable";
 import Link from "next/link";
+import { useState } from "react";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
-  const { data: sponsoredList, error } = useSWR(
-    {
-      method: "GET",
-      url: "/sponsored",
-    },
+  const [refresh, setRefresh] = useState(false);
 
-    RemoteApiCall
-  );
-  const { mutate } = useSWRConfig();
   const patrnDecorator = (value: any, id: any) => {
     return `${value.firstName} ${value.lastName}`;
   };
@@ -51,30 +45,14 @@ export default function Sponsored() {
       method: "PATCH",
       url: `/Sponsored/deactivate/${id}`,
     });
-    mutate(
-      {
-        method: "GET",
-        url: "/sponsored",
-      },
-
-      RemoteApiCall
-    );
+    setRefresh(!refresh);
   };
   const activateSponsered = async (id: any) => {
     await RemoteApiCall({
       method: "PATCH",
       url: `/Sponsored/activate/${id}`,
     });
-    mutate(
-      {
-        method: "GET",
-        url: "/sponsored",
-      },
-
-      RemoteApiCall
-    );
-
-    console.log(sponsoredList);
+    setRefresh(!refresh);
   };
   const removeDecorator = (value: any, id: any) => {
     return (
@@ -133,23 +111,7 @@ export default function Sponsored() {
       sortable: false,
     },
   ];
-  if (!sponsoredList)
-    return (
-      <Container>
-        <Row className="justify-content-center">
-          <Col md="auto">
-            <ClipLoader color={"#000000"} loading={!sponsoredList} size={150} />
-          </Col>
-        </Row>
-      </Container>
-    );
-  if (sponsoredList && sponsoredList.status != 200)
-    return (
-      <Layout items={AdminNav}>
-        {sponsoredList.status ? "Somthing went wrong" : ""}
-      </Layout>
-    );
-  console.log(sponsoredList);
+
   return (
     <Layout items={AdminNav}>
       <Container>
@@ -170,10 +132,11 @@ export default function Sponsored() {
           </Col>
         </Row>
 
-        <TableEditable
+        <TableDatasource
           headers={headers}
-          data={sponsoredList.data}
           keyValue="id"
+          dataSourceUrl="/sponsored/"
+          refresh={refresh}
         />
       </Container>
     </Layout>

@@ -9,7 +9,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { User } from 'expecto-patronum-common';
 import {
   ApiCallDto,
-  getFilter,
+  calcPageCount,
   getOrderBy,
   getPagination,
   getParams,
@@ -37,17 +37,33 @@ export class SponsoredService {
 
   async getSponsered(apiCall: ApiCallDto<any>) {
     const params = getParams(apiCall);
-    return await this.prisma.sponsored.findMany({
-      include: {
-        patron: {
-          select: {
-            firstName: true,
-            lastName: true,
+    console.log(params);
+    const result = await this.prisma.$transaction(
+      [
+        this.prisma.sponsored.aggregate({
+          _count: true,
+          ...params,
+        }),
+        this.prisma.sponsored.findMany({
+          include: {
+            patron: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
           },
-        },
-      },
-      ...params,
-    });
+          ...params,
+        }),
+      ],
+    );
+    return {
+      currentPage: apiCall.pagination
+        ? apiCall.pagination.page
+        : 1,
+      pageTotal: calcPageCount(result[0]._count),
+      data: result[1],
+    };
   }
   async getNotSponsered() {
     const sponsored =
