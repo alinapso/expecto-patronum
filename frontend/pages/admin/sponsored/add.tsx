@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "components/Layout";
 import { AdminNav } from "../consts";
 import useUser from "lib/useUser";
@@ -13,11 +13,6 @@ import { FormElementTypes } from "components/Form/types/FormElementDto";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
 	const { loading, loggedOut, user, mutate } = useUser();
-	const [show, AccountShow] = useState("user-detail");
-	if (loading) return <h1>loading</h1>;
-	else if (loggedOut) {
-		Router.push("/");
-	}
 
 	const formTabs = [
 		{
@@ -28,8 +23,8 @@ export default function Sponsored() {
 			active: true,
 			elements: [
 				{
-					id: "1-text",
-					name: "string",
+					id: "test1",
+					name: "test1",
 					labelText: "string",
 					elemetType: FormElementTypes.Text,
 					required: false,
@@ -37,66 +32,33 @@ export default function Sponsored() {
 				},
 			],
 		},
+
 		{
 			id: 2,
-			name: "2-test2",
-			title: "Test2",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: false,
-			elements: [
-				{
-					id: "2-text2",
-					name: "string",
-					labelText: "string",
-					elemetType: FormElementTypes.Text,
-					required: false,
-					placeholder: "string",
-				},
-			],
-		},
-		{
-			id: 3,
-			name: "astest3",
-			title: "Test3",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: false,
-			elements: [
-				{
-					id: "asdasdtext2",
-					name: "sadasdstring",
-					labelText: "string",
-					elemetType: FormElementTypes.Text,
-					required: false,
-					placeholder: "string",
-				},
-			],
-		},
-		{
-			id: 4,
 			name: "asdasdtest4",
 			title: "asdasdTest4",
 			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
 			active: false,
 			elements: [
 				{
-					id: "asdasdtext1",
-					name: "asdasasdasstring",
+					id: "test2",
+					name: "test2",
 					labelText: "string",
 					elemetType: FormElementTypes.Text,
 					required: false,
 					placeholder: "string",
 				},
 				{
-					id: "text2",
-					name: "asdasdasxcstring",
+					id: "text3",
+					name: "test3",
 					labelText: "string",
 					elemetType: FormElementTypes.Text,
 					required: false,
 					placeholder: "string",
 				},
 				{
-					id: "asdasdtext3",
-					name: "zxwasdstring",
+					id: "test4",
+					name: "test4",
 					labelText: "string",
 					elemetType: FormElementTypes.Text,
 					required: false,
@@ -105,6 +67,15 @@ export default function Sponsored() {
 			],
 		},
 	];
+
+	if (loading) return <h1>loading</h1>;
+	else if (loggedOut) {
+		Router.push("/");
+	}
+	const handleSubmit = (event: any) => {
+		event.preventDefault();
+		console.log(formTabs[0].elements[0]);
+	};
 	return (
 		<Layout items={AdminNav}>
 			<Container>
@@ -117,7 +88,7 @@ export default function Sponsored() {
 								</div>
 							</Card.Header>
 							<Card.Body>
-								<DynamicForm tabs={formTabs} />
+								<DynamicForm tabs={formTabs} handleSubmit={handleSubmit} />
 							</Card.Body>
 						</Card>
 					</Col>

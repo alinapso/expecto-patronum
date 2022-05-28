@@ -1,3 +1,5 @@
+import { MutableRefObject, RefObject } from "react";
+
 export default class FormElemenetDto {
 	id: string;
 	name: string;
@@ -5,13 +7,15 @@ export default class FormElemenetDto {
 	elemetType: FormElementTypes;
 	required: boolean = false;
 	placeholder: string;
+	ref?: MutableRefObject<any>;
 	constructor(
 		id: string,
 		name: string,
 		elemetType: FormElementTypes,
 		labelText: string,
 		required?: boolean,
-		placeholder?: string
+		placeholder?: string,
+		ref?: MutableRefObject<any>
 	) {
 		this.id = id;
 		this.name = name;
@@ -19,6 +23,7 @@ export default class FormElemenetDto {
 		this.labelText = labelText;
 		this.required = required ? required : false;
 		this.placeholder = placeholder ? placeholder : "";
+		this.ref = ref;
 	}
 }
 export enum FormElementTypes {

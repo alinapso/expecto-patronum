@@ -1,64 +1,36 @@
-import { useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import FormElementDto, { FormElementTypes } from "../types/FormElementDto";
 
 const FormElement = ({ elementDef }: { elementDef: FormElementDto }) => {
-	const [value, setValue] = useState("");
-	const onChange = (event: any) => {
-		setValue(event.target.value);
-	};
-	return elemenetFactorey(elementDef, value, onChange);
+	return elemenetFactorey(elementDef);
 };
-function elemenetFactorey(elem: FormElementDto, value: any, onChange: (event: any) => void) {
+function elemenetFactorey(elem: FormElementDto) {
+	let params = {};
+	if (!elem.ref) elem.ref = useRef<HTMLInputElement>(null);
 	switch (elem.elemetType) {
 		case FormElementTypes.Text:
-			return (
-				<Form.Group className="col-md-6 form-group">
-					<Form.Label>{elem.labelText}</Form.Label>
-					<Form.Control
-						type="text"
-						className="form-control"
-						required={elem.required}
-						id={elem.id}
-						name={elem.name}
-						placeholder={elem.placeholder}
-						value={value}
-						onChange={onChange}
-					/>
-				</Form.Group>
-			);
+			params = { type: "text" };
 		case FormElementTypes.Email:
-			return (
-				<Form.Group className="col-md-6 form-group">
-					<Form.Label>{elem.labelText}</Form.Label>
-					<Form.Control
-						type="email"
-						className="form-control"
-						required={elem.required}
-						id={elem.id}
-						name={elem.name}
-						placeholder={elem.placeholder}
-						value={value}
-						onChange={onChange}
-					/>
-				</Form.Group>
-			);
+			params = { type: "email" };
 		case FormElementTypes.Textarea:
-			return (
-				<Form.Group className="col-md-12 form-group mb-3 ">
-					<Form.Label>{elem.labelText}</Form.Label>
-					<Form.Control
-						as="textarea"
-						id={elem.id}
-						name={elem.name}
-						rows={5}
-						required={elem.required}
-						value={value}
-						onChange={onChange}></Form.Control>
-				</Form.Group>
-			);
+			params = { as: "textarea", rows: 5 };
 		default:
-			return <>hi</>;
+			params = {};
 	}
+	return (
+		<Form.Group className="col-md-6 form-group">
+			<Form.Label>{elem.labelText}</Form.Label>
+			<Form.Control
+				{...params}
+				className="form-control"
+				required={elem.required}
+				id={elem.id}
+				name={elem.name}
+				placeholder={elem.placeholder}
+				ref={elem.ref}
+			/>
+		</Form.Group>
+	);
 }
 export default FormElement;

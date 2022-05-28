@@ -10,6 +10,7 @@ export default class FormSectionDto {
 	onNextClick?: (id: number) => void;
 	onNavClick?: (id: number) => void;
 	isLast?: boolean = false;
+	ref?: any;
 	constructor(
 		id: number,
 		name: string,
@@ -19,7 +20,8 @@ export default class FormSectionDto {
 		onNextClick?: (id: number) => void,
 		onNavClick?: (id: number) => void,
 		active?: boolean,
-		isLast?: boolean
+		isLast?: boolean,
+		ref?: any
 	) {
 		this.id = id;
 		this.name = name;
@@ -30,5 +32,6 @@ export default class FormSectionDto {
 		this.onNextClick = onNextClick;
 		this.onNavClick = onNavClick;
 		this.isLast = isLast;
+		this.ref = ref;
 	}
 }
