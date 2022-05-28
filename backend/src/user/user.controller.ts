@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -27,7 +28,7 @@ export class UserController {
     return user;
   }
 
-  @Patch()
+  @Patch(':id')
   editUser(
     @GetUser('id') userId: number,
     @Body() dto: UpdateUserDto,
@@ -35,11 +36,9 @@ export class UserController {
     return this.userService.editUser(userId, dto);
   }
   @UseGuards(AdminGuard)
-  @Get()
+  @Post()
   getPatrons(@Body() apiCall: ApiCallDto<any>) {
     console.log(apiCall);
-    return this.userService.getUsersByType(
-      apiCall,
-    );
+    return this.userService.getUsers(apiCall);
   }
 }

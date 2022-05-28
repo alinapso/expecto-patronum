@@ -29,6 +29,7 @@ export async function RemoteApiCall(props: ApiProps) {
     const result = await fetch(`${ENDPOINT}${props.url}`, request);
 
     const json = await result.json();
+    console.log(json);
     return { status: result.status, data: json };
   } catch (e) {
     return { error: e };
