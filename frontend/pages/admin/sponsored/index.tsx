@@ -62,10 +62,11 @@ export default function Sponsored() {
 		);
 	};
 	const headers = [
-		{ name: "First Name", mapKey: "first_name", sortable: true },
-		{ name: "Middle Name", mapKey: "middle_name", sortable: true },
-		{ name: "Last Name", mapKey: "last_name", sortable: true },
-		{ name: "Father Name", mapKey: "FatherName", sortable: true },
+		{ name: "First Name", mapKey: "first_name" },
+		{ name: "Middle Name", mapKey: "middle_name" },
+		{ name: "Last Name", mapKey: "last_name" },
+		{ name: "Father Name", mapKey: "father_name" },
+		{ name: "Birth Date", mapKey: "birth_date", customDecorators: dateDecorator },
 		{
 			name: "Patron",
 			mapKey: "patron",

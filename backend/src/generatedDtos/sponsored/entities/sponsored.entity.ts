@@ -7,11 +7,14 @@ export class Sponsored {
   updatedAt: Date;
   first_name: string;
   middle_name: string;
-  FatherName: string;
+  father_name: string;
   last_name: string;
+  birth_date: Date;
+  place_of_birth: string;
+  profile_pic: string | null;
   is_active: boolean;
   patron?: User | null;
-  patronId: number | null;
+  patron_id: number | null;
   monthly_sum: number | null;
   start_date: Date | null;
   end_date: Date | null;

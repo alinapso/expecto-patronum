@@ -31,7 +31,6 @@ export function getParams(
   const pagination = getPagination(apiCall);
   const orderBy = getOrderBy(apiCall);
   const filter = getFilter(apiCall);
-  //console.log(apiCall);
   return { ...pagination, ...orderBy, ...filter };
 }
 export function getPagination(

@@ -1,8 +1,10 @@
 import {
+  IsDate,
   IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Timestamp } from 'rxjs';
 export class CreateSponsoredDto {
   @IsString()
   @IsNotEmpty()
@@ -12,8 +14,14 @@ export class CreateSponsoredDto {
   middle_name: string;
   @IsString()
   @IsOptional()
-  FatherName: string;
+  father_name: string;
   @IsString()
   @IsNotEmpty()
   last_name: string;
+  @IsDate()
+  @IsNotEmpty()
+  birth_date: Date;
+  @IsString()
+  @IsNotEmpty()
+  place_of_birth: string;
 }

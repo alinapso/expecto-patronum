@@ -4,7 +4,7 @@ export class Transactions {
   id: number;
   sum: number;
   patron?: User;
-  patronId: number;
+  patron_id: number;
   createdAt: Date;
   updatedAt: Date;
 }

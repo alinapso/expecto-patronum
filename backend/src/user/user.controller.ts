@@ -2,11 +2,9 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   Patch,
   Post,
   Query,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -15,7 +13,6 @@ import {
   ApiCallDto,
   CreateFromQuery,
 } from 'src/Dto/apiCall';
-import { PaginationDto } from 'src/Dto/pagination';
 import { GetUser } from '../auth/decorator';
 import {
   AdminGuard,
@@ -23,7 +20,6 @@ import {
 } from '../auth/guard';
 import { UpdateUserDto } from '../generatedDtos/user/dto/update-user.dto';
 import { UserService } from './user.service';
-import { Request } from 'express';
 
 @UseGuards(JwtGuard)
 @Controller('users')

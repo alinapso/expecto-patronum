@@ -1,4 +1,4 @@
-import { Role } from 'expecto-patronum-common';
+import { Role } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {

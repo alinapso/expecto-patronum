@@ -27,10 +27,12 @@ export class SponsoredService {
         data: {
           first_name: dto.first_name,
           middle_name: dto.middle_name,
-          FatherName: dto.FatherName,
+          father_name: dto.father_name,
           last_name: dto.last_name,
+          birth_date: dto.birth_date,
           is_active: true,
-          patron: undefined,
+          patron_id: undefined,
+          place_of_birth: dto.place_of_birth,
         },
       });
     return res;
@@ -40,7 +42,6 @@ export class SponsoredService {
     apiCall: ApiCallDto<any>,
     user: User,
   ) {
-    const params = getParams(apiCall);
     let filter: { where: any } = {
       where: undefined,
     };
@@ -48,8 +49,8 @@ export class SponsoredService {
       filter = {
         where: {
           OR: [
-            { patronId: user.id },
-            { patronId: null },
+            { patron_id: user.id },
+            { patron_id: null },
           ],
           ...apiCall.filter,
         },
@@ -92,14 +93,14 @@ export class SponsoredService {
     const sponsored =
       await this.prisma.sponsored.findMany({
         where: {
-          patronId: null,
+          patron_id: null,
           is_active: true,
         },
         select: {
           id: true,
           first_name: true,
           middle_name: true,
-          FatherName: true,
+          father_name: true,
           last_name: true,
         },
       });
@@ -115,7 +116,7 @@ export class SponsoredService {
       const sponsored =
         await this.prisma.sponsored.findMany({
           where: {
-            patronId: user.id,
+            patron_id: user.id,
             ...apiCall.filter,
           },
           include: {
@@ -167,10 +168,10 @@ export class SponsoredService {
           AND: [{ id: id }],
           OR: [
             {
-              patronId: user.id,
+              patron_id: user.id,
             },
             {
-              patronId: null,
+              patron_id: null,
             },
           ],
         },

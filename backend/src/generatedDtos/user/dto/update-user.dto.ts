@@ -1,5 +1,6 @@
+import { Role } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from 'expecto-patronum-common';
+
 export class UpdateUserDto {
   email?: string;
   hash?: string;

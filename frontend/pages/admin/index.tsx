@@ -8,23 +8,24 @@ import Form from "components/Form";
 import { AdminNav } from "./consts";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function SgProfile() {
-  const { loading, loggedOut, user, mutate } = useUser();
-  const [sponsoredParams, setSponsoredParams] = useState({});
-  useEffect(() => {
-    if (user)
-      setSponsoredParams({
-        method: "GET",
-        url: "/sponsored",
-      });
-  }, [user]);
-  const { data: sponsoredList } = useSWR(
-    [sponsoredParams],
+	const { loading, loggedOut, user, mutate } = useUser();
+	const [sponsoredParams, setSponsoredParams] = useState({});
+	useEffect(() => {
+		if (user)
+			setSponsoredParams({
+				method: "GET",
+				url: "/sponsored",
+			});
+	}, [user]);
+	console.log(loading, loggedOut, user);
+	const { data: sponsoredList } = useSWR(
+		[sponsoredParams],
 
-    RemoteApiCall
-  );
-  if (loading) return <h1>loading</h1>;
-  else if (loggedOut) {
-    Router.push("/");
-  }
-  return <Layout items={AdminNav}>lol</Layout>;
+		RemoteApiCall
+	);
+	if (loading) return <h1>loading</h1>;
+	else if (loggedOut) {
+		Router.push("/");
+	}
+	return <Layout items={AdminNav}>lol</Layout>;
 }
