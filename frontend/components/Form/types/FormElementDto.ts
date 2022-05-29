@@ -8,6 +8,7 @@ export default class FormElemenetDto {
 	required: boolean = false;
 	placeholder: string;
 	ref?: MutableRefObject<any>;
+	style?: string;
 	constructor(
 		id: string,
 		name: string,
@@ -15,7 +16,8 @@ export default class FormElemenetDto {
 		labelText: string,
 		required?: boolean,
 		placeholder?: string,
-		ref?: MutableRefObject<any>
+		ref?: MutableRefObject<any>,
+		style?: string
 	) {
 		this.id = id;
 		this.name = name;
@@ -24,6 +26,7 @@ export default class FormElemenetDto {
 		this.required = required ? required : false;
 		this.placeholder = placeholder ? placeholder : "";
 		this.ref = ref;
+		this.style = style;
 	}
 }
 export enum FormElementTypes {

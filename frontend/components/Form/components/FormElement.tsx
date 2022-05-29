@@ -11,15 +11,24 @@ function elemenetFactorey(elem: FormElementDto) {
 	switch (elem.elemetType) {
 		case FormElementTypes.Text:
 			params = { type: "text" };
+			break;
 		case FormElementTypes.Email:
 			params = { type: "email" };
+			break;
 		case FormElementTypes.Textarea:
 			params = { as: "textarea", rows: 5 };
+			break;
+		case FormElementTypes.File:
+			params = { type: "file" };
+			break;
+		case FormElementTypes.Datepicker:
+			params = { type: "date" };
+			break;
 		default:
 			params = {};
 	}
 	return (
-		<Form.Group className="col-md-6 form-group">
+		<Form.Group className={`${elem.style} form-group`} key={elem.name}>
 			<Form.Label>{elem.labelText}</Form.Label>
 			<Form.Control
 				{...params}

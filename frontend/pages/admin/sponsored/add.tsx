@@ -27,7 +27,23 @@ export default function Sponsored() {
 					name: "test1",
 					labelText: "string",
 					elemetType: FormElementTypes.Text,
-					required: false,
+					required: true,
+					placeholder: "string",
+				},
+				{
+					id: "test-file",
+					name: "test-file",
+					labelText: "string",
+					elemetType: FormElementTypes.File,
+					required: true,
+					placeholder: "string",
+				},
+				{
+					id: "test-date",
+					name: "test-date",
+					labelText: "date",
+					elemetType: FormElementTypes.Datepicker,
+					required: true,
 					placeholder: "string",
 				},
 			],
@@ -47,6 +63,7 @@ export default function Sponsored() {
 					elemetType: FormElementTypes.Text,
 					required: false,
 					placeholder: "string",
+					style: "col-md-6",
 				},
 				{
 					id: "text3",
@@ -55,12 +72,13 @@ export default function Sponsored() {
 					elemetType: FormElementTypes.Text,
 					required: false,
 					placeholder: "string",
+					style: "col-md-6",
 				},
 				{
 					id: "test4",
 					name: "test4",
 					labelText: "string",
-					elemetType: FormElementTypes.Text,
+					elemetType: FormElementTypes.Textarea,
 					required: false,
 					placeholder: "string",
 				},
@@ -72,9 +90,8 @@ export default function Sponsored() {
 	else if (loggedOut) {
 		Router.push("/");
 	}
-	const handleSubmit = (event: any) => {
-		event.preventDefault();
-		console.log(formTabs[0].elements[0]);
+	const handleSubmit = (values: any) => {
+		console.log(values);
 	};
 	return (
 		<Layout items={AdminNav}>
