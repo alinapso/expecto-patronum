@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { Alert, Button, Form, Nav, TabContent } from "react-bootstrap";
-import FormElement from "./components/FormElement2";
 import { FormSectionTab, FormSectionNav } from "./components/FormSection";
 import FormElemenetDto from "./types/FormElementDto";
 import FormSectionDto from "./types/FormSectionDto";
