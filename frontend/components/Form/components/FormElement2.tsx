@@ -24,7 +24,7 @@ export default class FormElement extends React.Component<
 		this.handleChange = this.handleChange.bind(this);
 	}
 	handleChange(event: any) {
-		console.log(this);
+		//console.log(this);
 		this.setState({ value: event.target.value });
 	}
 	getValue() {
@@ -32,7 +32,7 @@ export default class FormElement extends React.Component<
 	}
 
 	render() {
-		console.log(this.state);
+		//console.log(this.state);
 		switch (this.props.elem.elemetType) {
 			case FormElementTypes.Text:
 				return (

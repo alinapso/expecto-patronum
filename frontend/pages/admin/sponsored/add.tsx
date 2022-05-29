@@ -7,7 +7,6 @@ import Router from "next/router";
 import Link from "next/link";
 import { Container, Col, Row, Card, Form, Nav, TabContent, TabPane, Button, Image } from "react-bootstrap";
 import DynamicForm from "components/Form";
-import FormSectionDto from "components/Form/types/FormSectionDto";
 import { FormElementTypes } from "components/Form/types/FormElementDto";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
@@ -63,13 +62,13 @@ export default function Sponsored() {
 		Router.push("/");
 	}
 	const handleSubmit = async (values: any) => {
-		console.log(values);
+		//console.log(values);
 		const res = await RemoteApiCall({
 			method: "POST",
 			url: `/Sponsored/add`,
 			body: { ...values },
 		});
-		console.log(res);
+		//console.log(res);
 		Router.push("/admin/sponsored");
 	};
 

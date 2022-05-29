@@ -39,7 +39,7 @@ export class UserService {
         await this.prisma.$transaction([
           this.prisma.user.aggregate({
             _count: true,
-            ...params,
+            where: params.where,
           }),
           this.prisma.user.findMany({
             select: {
@@ -53,7 +53,9 @@ export class UserService {
             ...params,
           }),
         ]);
+      console.log(result[0]);
       return {
+        count: result[0]._count,
         currentPage: apiCall.pagination
           ? apiCall.pagination.page
           : 1,
@@ -68,7 +70,7 @@ export class UserService {
       ) {
         throw new BadRequestException();
       }
-      console.log(e);
+      //console.log(e);
       throw new InternalServerErrorException();
     }
   }

@@ -31,7 +31,7 @@ const TableData = ({
 				return <></>;
 		}
 	};
-	console.log(data);
+	//console.log(data);
 	return (
 		<div id="table" className="table-responsive">
 			<table className="table table-bordered table-responsive-md table-striped text-center">

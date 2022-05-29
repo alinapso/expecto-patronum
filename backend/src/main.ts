@@ -7,6 +7,7 @@ import {
   DocumentBuilder,
   SwaggerDocumentOptions,
 } from '@nestjs/swagger';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -15,6 +16,7 @@ async function bootstrap() {
     }),
   );
   app.use(helmet());
+
   app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Expecto Patronum')

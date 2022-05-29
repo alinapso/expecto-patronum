@@ -1,3 +1,4 @@
+import axios from "axios";
 import { get_api_access_token } from "./auth";
 export interface ApiProps {
 	method: string;
@@ -17,16 +18,19 @@ export async function RemoteApiCall(props: ApiProps) {
 		};
 		const access_token = get_api_access_token();
 		if (access_token != "") headers = { Authorization: `Bearer ${access_token}`, ...headers };
-
-		const request: RequestInit = {
+		// axios.interceptors.request.use((request) => {
+		// 	console.log("Starting Request", JSON.stringify(request, null, 2));
+		// 	return request;
+		// });
+		let conf: any = {
 			method: props.method,
-			headers,
-			body: props.body ? JSON.stringify(props.body) : undefined,
+			url: `${ENDPOINT}${props.url}`,
+			headers: headers,
 		};
-		const result = await fetch(`${ENDPOINT}${props.url}`, request);
-
-		const json = await result.json();
-		return { status: result.status, data: json };
+		if (props.method.toUpperCase() === "GET") conf["params"] = props.body;
+		else conf["data"] = props.body;
+		const { data, status } = await axios(conf);
+		return { status: status, data: data };
 	} catch (e) {
 		return { error: e };
 	}

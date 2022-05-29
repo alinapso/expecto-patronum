@@ -44,7 +44,7 @@ const TableDatasource = ({
 	const filterByValue = generateFilter();
 	const { data: result, error } = useSWR(
 		{
-			method: "POST",
+			method: "GET",
 			url: dataSourceUrl,
 			body: { ...pagination, ...orderByValue, ...filterByValue },
 		},
@@ -58,14 +58,14 @@ const TableDatasource = ({
 		pageTotal: -1,
 	});
 	useEffect(() => {
-		console.log(result);
+		//console.log(result);
 		if (result?.data)
 			setTableData({
 				data: result?.data?.data ? result?.data?.data : [],
 				currentPage: result?.data.currentPage ? result.data.currentPage : -1,
 				pageTotal: result?.data.pageTotal ? result.data.pageTotal : -1,
 			});
-		console.log(tableData);
+		//console.log(tableData);
 	}, [result]);
 	useEffect(() => {
 		setPagination({});

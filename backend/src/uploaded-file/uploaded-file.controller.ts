@@ -38,22 +38,18 @@ export class UploadedFileController {
     private readonly uploadedFileService: UploadedFileService,
   ) {}
 
-  @Get()
-  getFile(): StreamableFile {
-    const file = createReadStream(
-      join(process.cwd(), 'files/pp-a455.jpg'),
-    );
-    return new StreamableFile(file);
+  @Get(':id')
+  getFile(@Param('id') id: string): any {
+    //console.log(`files/${id}`);
+    try {
+      const file = createReadStream(
+        join(process.cwd(), `files/${id}`),
+      );
+      return new StreamableFile(file);
+    } catch (e) {
+      return new Response();
+    }
   }
-
-  // @Get(':id')
-  // getFile2(@Res() res: Response) {
-  //   const file = createReadStream(
-  //     join(process.cwd(), 'package.json'),
-  //   );
-  //   file.pipe(res);
-  // }
-
   @Patch(':id')
   update(
     @Param('id') id: string,

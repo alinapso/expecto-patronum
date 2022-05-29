@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { SponsoredService } from './sponsored.service';
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
@@ -21,7 +22,10 @@ import {
 } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
 import { User } from 'expecto-patronum-common';
-import { ApiCallDto } from 'src/Dto/apiCall';
+import {
+  ApiCallDto,
+  CreateFromQuery,
+} from 'src/Dto/apiCall';
 
 @UseGuards(JwtGuard)
 @Controller('sponsored')
@@ -38,53 +42,30 @@ export class SponsoredController {
     return sponsered;
   }
 
-  @UseGuards(AdminGuard)
-  @Post()
+  @Get()
   @ApiOperation({
-    summary: 'Returns all Sponsered, admin only',
+    summary: 'Returns all Sponsered',
   })
-  getSponsered(@Body() apiCall: ApiCallDto<any>) {
-    console.log('request came in');
+  getSponsered(
+    @Query() query,
+    @GetUser() user: User,
+  ) {
+    const apiCall = CreateFromQuery(query);
     return this.sponsoredService.getSponsered(
       apiCall,
-    );
-  }
-  @Post('me')
-  @ApiOperation({
-    summary: 'Returns all Sponsered by user',
-  })
-  getSponseredByPatron(
-    @GetUser() user: User,
-    @Body() apiCall: ApiCallDto<any>,
-  ) {
-    return this.sponsoredService.getSponseredByPatron(
       user,
-      apiCall,
     );
   }
+
   @ApiOperation({
     summary:
       'Returns all Sponsered without patron',
   })
-  @Post('not')
+  @Get('not')
   getNonSponsered() {
     return this.sponsoredService.getNotSponsered();
   }
-  @Post(':id')
-  @ApiOperation({
-    summary: 'Returns Sponsered By ID',
-  })
-  findOne(
-    @GetUser() user: User,
-    @Param('id') id: string,
-  ) {
-    if (user.role == 'ADMIN')
-      return this.sponsoredService.findOne(+id);
-    return this.sponsoredService.findOneWithPatron(
-      user,
-      +id,
-    );
-  }
+
   @UseGuards(AdminGuard)
   @Patch(':id')
   update(

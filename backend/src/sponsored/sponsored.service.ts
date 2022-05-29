@@ -10,6 +10,7 @@ import { User } from 'expecto-patronum-common';
 import {
   ApiCallDto,
   calcPageCount,
+  getFilter,
   getOrderBy,
   getPagination,
   getParams,
@@ -20,7 +21,7 @@ import { PrismaClientValidationError } from '@prisma/client/runtime';
 export class SponsoredService {
   constructor(private prisma: PrismaService) {}
   async create(dto: CreateSponsoredDto) {
-    console.log(dto);
+    //console.log(dto);
     const res =
       await this.prisma.sponsored.create({
         data: {
@@ -35,14 +36,33 @@ export class SponsoredService {
     return res;
   }
 
-  async getSponsered(apiCall: ApiCallDto<any>) {
+  async getSponsered(
+    apiCall: ApiCallDto<any>,
+    user: User,
+  ) {
     const params = getParams(apiCall);
-    console.log(params);
+    let filter: { where: any } = {
+      where: undefined,
+    };
+    if (user.role == 'PATRON') {
+      filter = {
+        where: {
+          OR: [
+            { patronId: user.id },
+            { patronId: null },
+          ],
+          ...apiCall.filter,
+        },
+      };
+    } else filter = getFilter(apiCall);
+    console.log(apiCall);
+    const pagination = getPagination(apiCall);
+    const orderBy = getOrderBy(apiCall);
     const result = await this.prisma.$transaction(
       [
         this.prisma.sponsored.aggregate({
           _count: true,
-          ...params,
+          ...filter,
         }),
         this.prisma.sponsored.findMany({
           include: {
@@ -53,15 +73,18 @@ export class SponsoredService {
               },
             },
           },
-          ...params,
+          ...filter,
+          ...pagination,
+          ...orderBy,
         }),
       ],
     );
     return {
+      count: result[0]._count,
       currentPage: apiCall.pagination
         ? apiCall.pagination.page
         : 1,
-      pageTotal: calcPageCount(result[0]._count),
+      pageTotal: calcPageCount(result[0]?._count),
       data: result[1],
     };
   }
@@ -108,7 +131,7 @@ export class SponsoredService {
       ) {
         throw new BadRequestException();
       }
-      console.log(e);
+      //console.log(e);
       throw new InternalServerErrorException();
     }
   }

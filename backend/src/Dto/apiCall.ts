@@ -11,15 +11,27 @@ export class ApiCallDto<T> {
   @IsOptional()
   orderBy: any;
 }
-
+export function CreateFromQuery(query: any) {
+  const res = new ApiCallDto<any>();
+  res.filter = query.filter
+    ? JSON.parse(query.filter)
+    : undefined;
+  res.pagination = query.pagination
+    ? JSON.parse(query.pagination)
+    : undefined;
+  res.orderBy = query.orderBy
+    ? JSON.parse(query.orderBy)
+    : undefined;
+  return res;
+}
 export function getParams(
   apiCall: ApiCallDto<any>,
 ) {
-  console.log(apiCall);
+  //console.log(apiCall);
   const pagination = getPagination(apiCall);
   const orderBy = getOrderBy(apiCall);
   const filter = getFilter(apiCall);
-  console.log(apiCall);
+  //console.log(apiCall);
   return { ...pagination, ...orderBy, ...filter };
 }
 export function getPagination(
@@ -59,7 +71,7 @@ export function calcPageCount(
 ) {
   let pageCount =
     recoredCount / defualtPerPageCount;
-  if (pageCount % defualtPerPageCount > 0)
+  if (recoredCount % defualtPerPageCount > 0)
     pageCount++;
   return Math.floor(pageCount);
 }

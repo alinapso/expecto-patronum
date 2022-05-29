@@ -2,13 +2,19 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
+  Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from 'expecto-patronum-common';
-import { ApiCallDto } from 'src/Dto/apiCall';
+import {
+  ApiCallDto,
+  CreateFromQuery,
+} from 'src/Dto/apiCall';
 import { PaginationDto } from 'src/Dto/pagination';
 import { GetUser } from '../auth/decorator';
 import {
@@ -17,6 +23,7 @@ import {
 } from '../auth/guard';
 import { UpdateUserDto } from '../generatedDtos/user/dto/update-user.dto';
 import { UserService } from './user.service';
+import { Request } from 'express';
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -37,7 +44,17 @@ export class UserController {
   }
   @UseGuards(AdminGuard)
   @Post()
-  getPatrons(@Body() apiCall: ApiCallDto<any>) {
+  postPatrons(@Body() apiCall: ApiCallDto<any>) {
+    console.log(apiCall);
+    return this.userService.getUsers(apiCall);
+  }
+
+  @UseGuards(AdminGuard)
+  @Get()
+  getPatrons(@Query() query) {
+    console.log(query);
+
+    const apiCall = CreateFromQuery(query);
     console.log(apiCall);
     return this.userService.getUsers(apiCall);
   }
