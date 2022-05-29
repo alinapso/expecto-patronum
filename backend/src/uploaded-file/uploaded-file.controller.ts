@@ -10,6 +10,8 @@ import {
   UploadedFile,
   UseInterceptors,
   UploadedFiles,
+  Res,
+  StreamableFile,
 } from '@nestjs/common';
 import { UploadedFileService } from './uploaded-file.service';
 import { CreateUploadedFileDto } from './dto/create-uploaded-file.dto';
@@ -25,6 +27,8 @@ import {
   editFileName,
   imageFileFilter,
 } from './fileUpload.util';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 @UseGuards(JwtGuard)
 @ApiTags('Uploaded File')
@@ -35,14 +39,20 @@ export class UploadedFileController {
   ) {}
 
   @Get()
-  findAll() {
-    return this.uploadedFileService.findAll();
+  getFile(): StreamableFile {
+    const file = createReadStream(
+      join(process.cwd(), 'files/pp-a455.jpg'),
+    );
+    return new StreamableFile(file);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.uploadedFileService.findOne(+id);
-  }
+  // @Get(':id')
+  // getFile2(@Res() res: Response) {
+  //   const file = createReadStream(
+  //     join(process.cwd(), 'package.json'),
+  //   );
+  //   file.pipe(res);
+  // }
 
   @Patch(':id')
   update(
@@ -57,7 +67,7 @@ export class UploadedFileController {
   }
   @Post()
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('file', {
       storage: diskStorage({
         destination: './files',
         filename: editFileName,
@@ -74,7 +84,7 @@ export class UploadedFileController {
   }
   @Post('multiple')
   @UseInterceptors(
-    FilesInterceptor('image', 20, {
+    FilesInterceptor('file', 20, {
       storage: diskStorage({
         destination: './files',
         filename: editFileName,

@@ -7,11 +7,13 @@ export const imageFileFilter = (
 ) => {
   if (
     !file.originalname.match(
-      /\.(jpg|jpeg|png|gif)$/,
+      /\.(jpg|jpeg|png|gif|doc|docx|pdf)$/,
     )
   ) {
     return callback(
-      new Error('Only image files are allowed!'),
+      new Error(
+        'Only jpg|jpeg|png|gif|doc|docx|pdf files are allowed!',
+      ),
       false,
     );
   }

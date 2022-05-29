@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import helmet from 'helmet';
 import {
   SwaggerModule,
   DocumentBuilder,
@@ -13,6 +14,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.use(helmet());
   app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Expecto Patronum')

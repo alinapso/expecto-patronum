@@ -4981,6 +4981,11 @@
     "capital-case" "^1.0.4"
     "tslib" "^2.0.3"
 
+"helmet@^5.1.0":
+  "integrity" "sha512-klsunXs8rgNSZoaUrNeuCiWUxyc+wzucnEnFejUg3/A+CaF589k9qepLZZ1Jehnzig7YbD4hEuscGXuBY3fq+g=="
+  "resolved" "https://registry.npmjs.org/helmet/-/helmet-5.1.0.tgz"
+  "version" "5.1.0"
+
 "hexoid@1.0.0":
   "integrity" "sha512-QFLV0taWQOZtvIRIAdBChesmogZrtuXvVWsFHZTk2SU+anspqZ2vMnoLg7IE1+Uk16N19APic1BuF8bC8c2m5g=="
   "resolved" "https://registry.npmjs.org/hexoid/-/hexoid-1.0.0.tgz"

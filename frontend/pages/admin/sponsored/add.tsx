@@ -17,70 +17,42 @@ export default function Sponsored() {
 	const formTabs = [
 		{
 			id: 1,
-			name: "1-test",
-			title: "Test",
+			name: "Add New Sponsored",
+			title: "Add New Sponsored",
 			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
 			active: true,
 			elements: [
 				{
-					id: "test1",
-					name: "test1",
-					labelText: "string",
+					id: "first_name",
+					name: "first_name",
+					labelText: "First Name",
 					elemetType: FormElementTypes.Text,
 					required: true,
-					placeholder: "string",
+					placeholder: "First Name",
 				},
 				{
-					id: "test-file",
-					name: "test-file",
-					labelText: "string",
-					elemetType: FormElementTypes.File,
-					required: true,
-					placeholder: "string",
-				},
-				{
-					id: "test-date",
-					name: "test-date",
-					labelText: "date",
-					elemetType: FormElementTypes.Datepicker,
-					required: true,
-					placeholder: "string",
-				},
-			],
-		},
-
-		{
-			id: 2,
-			name: "asdasdtest4",
-			title: "asdasdTest4",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: false,
-			elements: [
-				{
-					id: "test2",
-					name: "test2",
-					labelText: "string",
+					id: "middle_name",
+					name: "middle_name",
+					labelText: "Middle Name",
 					elemetType: FormElementTypes.Text,
 					required: false,
-					placeholder: "string",
-					style: "col-md-6",
+					placeholder: "Middle Name",
 				},
 				{
-					id: "text3",
-					name: "test3",
-					labelText: "string",
+					id: "FatherName",
+					name: "FatherName",
+					labelText: "Father Name",
 					elemetType: FormElementTypes.Text,
-					required: false,
-					placeholder: "string",
-					style: "col-md-6",
+					required: true,
+					placeholder: "First Name",
 				},
 				{
-					id: "test4",
-					name: "test4",
-					labelText: "string",
-					elemetType: FormElementTypes.Textarea,
-					required: false,
-					placeholder: "string",
+					id: "last_name",
+					name: "last_name",
+					labelText: "Last Name",
+					elemetType: FormElementTypes.Text,
+					required: true,
+					placeholder: "Last Name",
 				},
 			],
 		},
@@ -90,9 +62,17 @@ export default function Sponsored() {
 	else if (loggedOut) {
 		Router.push("/");
 	}
-	const handleSubmit = (values: any) => {
+	const handleSubmit = async (values: any) => {
 		console.log(values);
+		const res = await RemoteApiCall({
+			method: "POST",
+			url: `/Sponsored/add`,
+			body: { ...values },
+		});
+		console.log(res);
+		Router.push("/admin/sponsored");
 	};
+
 	return (
 		<Layout items={AdminNav}>
 			<Container>

@@ -36,12 +36,7 @@ export default function Patrons() {
 					</Col>
 				</Row>
 
-				<TableDatasource
-					headers={headers}
-					dataSourceUrl="/users/"
-					keyValue="id"
-					filterValue={{ role: "PATRON" }}
-				/>
+				<TableDatasource headers={headers} dataSourceUrl="/users/" keyValue="id" filterValue={{ role: "PATRON" }} />
 			</Container>
 		</Layout>
 	);
