@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import useSWR from "swr";
 import { RemoteApiCall } from "./remoteAPI";
 
-export default function useUser({ redirectTo = "", isAdmin = false } = {}) {
+export default function useUser() {
 	const { data, mutate, error } = useSWR(
 		{
 			method: "Get",
@@ -14,20 +14,19 @@ export default function useUser({ redirectTo = "", isAdmin = false } = {}) {
 
 	useEffect(() => {
 		console.log(return_data);
-		if (!return_data) {
+		if (!data) {
 			return;
 		}
 
-		if (return_data.status == 200) {
-			Router.push(redirectTo);
-		} else if (return_data.status == 401) {
+		if (data.status == 200) {
+		} else if (data.status == 401) {
 			Router.push("/login");
 		}
-	}, [data, redirectTo]);
-	console.log(data, error);
+	}, [data]);
 	const loading = !data && !error;
 	const loggedOut = !data || data.error || (data.status >= 400 && data.status < 500);
 	const return_data = data && data.status == 200 ? data.data : undefined;
+
 	return {
 		loading,
 		loggedOut,
