@@ -9,6 +9,8 @@ import { UploadedFileModule } from './uploaded-file/uploaded-file.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SponsoredEventsModule } from './sponsored-events/sponsored-events.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -17,6 +19,9 @@ import { MulterModule } from '@nestjs/platform-express';
     }),
     MulterModule.register({
       dest: './files',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'files'),
     }),
     AuthModule,
     UserModule,

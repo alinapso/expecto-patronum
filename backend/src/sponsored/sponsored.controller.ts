@@ -10,6 +10,7 @@ import {
   Query,
   UploadedFile,
   UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { SponsoredService } from './sponsored.service';
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
@@ -24,11 +25,11 @@ import {
 } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
 import { User } from 'expecto-patronum-common';
+import { CreateFromQuery } from 'src/Dto/apiCall';
 import {
-  ApiCallDto,
-  CreateFromQuery,
-} from 'src/Dto/apiCall';
-import { FileInterceptor } from '@nestjs/platform-express';
+  FileInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import {
   editFileName,
@@ -44,24 +45,12 @@ export class SponsoredController {
   ) {}
   @UseGuards(AdminGuard)
   @Post()
-  @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: './files',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
-  )
-  async create(
-    @Body() dto: CreateSponsoredDto,
-    @UploadedFile() profileImage,
-  ) {
+  @ApiOperation({
+    summary: 'add new sponsored',
+  })
+  async create(@Body() dto: CreateSponsoredDto) {
     const sponsered =
-      await this.sponsoredService.create(
-        dto,
-        profileImage.filename,
-      );
+      await this.sponsoredService.create(dto);
     return sponsered;
   }
 

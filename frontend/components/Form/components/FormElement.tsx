@@ -1,3 +1,4 @@
+import DragDrop from "components/FileUpload";
 import { RefObject, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import FormElementDto, { FormElementTypes } from "../types/FormElementDto";
@@ -19,8 +20,8 @@ function elemenetFactorey(elem: FormElementDto) {
 			params = { as: "textarea", rows: 5 };
 			break;
 		case FormElementTypes.File:
-			params = { type: "file" };
-			break;
+			return <DragDrop></DragDrop>;
+
 		case FormElementTypes.Datepicker:
 			params = { type: "date" };
 			break;

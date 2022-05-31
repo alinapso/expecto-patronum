@@ -53,6 +53,14 @@ export default function Sponsored() {
 					required: true,
 					placeholder: "Last Name",
 				},
+				{
+					id: "last_name",
+					name: "last_name",
+					labelText: "Last Name",
+					elemetType: FormElementTypes.File,
+					required: true,
+					placeholder: "Last Name",
+				},
 			],
 		},
 	];

@@ -22,9 +22,9 @@ export class SponsoredService {
   constructor(private prisma: PrismaService) {}
   async create(
     dto: CreateSponsoredDto,
-    profileImage: string,
+    profileImage?: string,
   ) {
-    //console.log(dto);
+    console.log(dto);
     const res =
       await this.prisma.sponsored.create({
         data: {
