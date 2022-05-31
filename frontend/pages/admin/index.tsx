@@ -70,7 +70,7 @@ export default function SgProfile() {
 				</Col>
 			</Row>
 			<Row className="mt-4">
-				<Col>
+				<Col md={6}>
 					<LineChart></LineChart>
 				</Col>
 			</Row>
