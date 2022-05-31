@@ -38,12 +38,6 @@ export class UserController {
   ) {
     return this.userService.editUser(userId, dto);
   }
-  @UseGuards(AdminGuard)
-  @Post()
-  postPatrons(@Body() apiCall: ApiCallDto<any>) {
-    console.log(apiCall);
-    return this.userService.getUsers(apiCall);
-  }
 
   @UseGuards(AdminGuard)
   @Get()

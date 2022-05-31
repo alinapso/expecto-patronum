@@ -8,6 +8,8 @@ import {
   Delete,
   UseGuards,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SponsoredService } from './sponsored.service';
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
@@ -26,6 +28,12 @@ import {
   ApiCallDto,
   CreateFromQuery,
 } from 'src/Dto/apiCall';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import {
+  editFileName,
+  imageFileFilter,
+} from 'src/uploaded-file/fileUpload.util';
 
 @UseGuards(JwtGuard)
 @Controller('sponsored')
@@ -35,10 +43,25 @@ export class SponsoredController {
     private readonly sponsoredService: SponsoredService,
   ) {}
   @UseGuards(AdminGuard)
-  @Post('add')
-  async create(@Body() dto: CreateSponsoredDto) {
+  @Post()
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './files',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async create(
+    @Body() dto: CreateSponsoredDto,
+    @UploadedFile() profileImage,
+  ) {
     const sponsered =
-      await this.sponsoredService.create(dto);
+      await this.sponsoredService.create(
+        dto,
+        profileImage.filename,
+      );
     return sponsered;
   }
 

@@ -20,7 +20,10 @@ import { PrismaClientValidationError } from '@prisma/client/runtime';
 @Injectable()
 export class SponsoredService {
   constructor(private prisma: PrismaService) {}
-  async create(dto: CreateSponsoredDto) {
+  async create(
+    dto: CreateSponsoredDto,
+    profileImage: string,
+  ) {
     //console.log(dto);
     const res =
       await this.prisma.sponsored.create({
@@ -33,6 +36,7 @@ export class SponsoredService {
           is_active: true,
           patron_id: undefined,
           place_of_birth: dto.place_of_birth,
+          profile_pic: profileImage,
         },
       });
     return res;
