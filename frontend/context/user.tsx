@@ -20,7 +20,7 @@ export const UserProvider = ({ children }: any) => {
 	});
 
 	const logoutUser = () => {
-		setUser({ data: undefined, status: UserStatus.LoggedOut, api_access_token: undefined });
+		setUser({ data: undefined, status: UserStatus.LoggedOut });
 		localStorage.removeItem("api_access_token");
 	};
 	async function loginUser(email: string, password: string) {

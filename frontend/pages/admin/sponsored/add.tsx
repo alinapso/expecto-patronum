@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "components/Layout";
 import { AdminNav } from "../consts";
-import useUser from "lib///useUser";
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";
 import Link from "next/link";
