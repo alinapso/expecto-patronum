@@ -43,6 +43,7 @@ export const UserProvider = ({ children }: any) => {
 	}
 	async function getUser() {
 		if (typeof window === "undefined") {
+			setUser({ data: undefined, status: UserStatus.Loading });
 			return;
 		}
 		const api_access_token = localStorage.getItem("api_access_token") as string;

@@ -28,6 +28,8 @@ import pageimg2 from "../assets/images/page-img/44.png";
 import pageimg3 from "../assets/images/page-img/45.png";
 import pageimg4 from "../assets/images/page-img/46.png";
 import pageimg5 from "../assets/images/page-img/47.png";
+import DynamicForm from "./Form";
+import { FormElementTypes } from "./Form/types/FormElementDto";
 const SponsoredEvent = () => {
 	return (
 		<Col sm={12}>
@@ -327,162 +329,126 @@ const SponsoredEvent = () => {
 	);
 };
 const CreateEventMenu = () => {
+	const [show, setShow] = useState(false);
+	const handleSubmit = async (values: any) => {
+		// //console.log(values);
+		// const res = await RemoteApiCall({
+		// 	method: "POST",
+		// 	url: `/Sponsored/add`,
+		// 	body: { ...values },
+		// });
+		// //console.log(res);
+		// Router.push("/admin/sponsored");
+	};
+	const formTabs = [
+		{
+			id: 1,
+			name: "Add Details",
+			title: "Add New Sponsored",
+			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
+			active: true,
+			elements: [
+				{
+					id: "first_name",
+					name: "first_name",
+					labelText: "First Name",
+					elemetType: FormElementTypes.Text,
+					required: true,
+					placeholder: "First Name",
+				},
+				{
+					id: "evenet_time",
+					name: "evenet_time",
+					labelText: "Evenet time",
+					elemetType: FormElementTypes.Datepicker,
+					required: false,
+					placeholder: "Evenet Time",
+				},
+			],
+		},
+		{
+			id: 2,
+			name: "Add New Sponsored",
+			title: "Add New Sponsored",
+			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
+			active: true,
+			elements: [
+				{
+					id: "first_name",
+					name: "first_name",
+					labelText: "First Name",
+					elemetType: FormElementTypes.Text,
+					required: true,
+					placeholder: "First Name",
+				},
+				{
+					id: "middle_name",
+					name: "middle_name",
+					labelText: "Middle Name",
+					elemetType: FormElementTypes.Text,
+					required: false,
+					placeholder: "Middle Name",
+				},
+				{
+					id: "FatherName",
+					name: "FatherName",
+					labelText: "Father Name",
+					elemetType: FormElementTypes.Text,
+					required: true,
+					placeholder: "First Name",
+				},
+				{
+					id: "last_name",
+					name: "last_name",
+					labelText: "Last Name",
+					elemetType: FormElementTypes.Text,
+					required: true,
+					placeholder: "Last Name",
+				},
+			],
+		},
+	];
 	return (
 		<Col sm={12}>
-			<Card id="post-modal-data">
-				<div className="card-header d-flex justify-content-between">
-					<div className="header-title">
-						<h4 className="card-title">Create Post</h4>
+			<Card>
+				<Card.Body className=" profile-page p-0">
+					<div className="profile-header">
+						<div className="position-relative">
+							<img src={img1.src} alt="profile-bg" className="rounded img-fluid" />
+						</div>
+						<div className="user-detail text-center mb-3">
+							<div className="profile-img">
+								<img src={img2.src} alt="profile-img1" className="avatar-130 img-fluid" />
+							</div>
+							<div className="profile-detail">
+								<div className="profile-detail">
+									<h3>Bni Cyst</h3>
+								</div>
+							</div>
+						</div>
+						<div className="profile-info p-3 d-flex align-items-center justify-content-start position-relative">
+							<div className="social-info">
+								<button
+									className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2"
+									onClick={() => setShow(true)}>
+									Create a new Post
+								</button>
+							</div>
+						</div>
 					</div>
-				</div>
-				<Card.Body>
-					<ul className=" post-opt-block d-flex list-inline m-0 p-0 flex-wrap">
-						<li className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2">
-							<img src={small07.src} alt="icon" className="img-fluid me-2" /> Photo/Video
-						</li>
-						<li className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2">
-							<img src={small08.src} alt="icon" className="img-fluid me-2" /> Tag Friend
-						</li>
-						<li className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3">
-							<img src={small09.src} alt="icon" className="img-fluid me-2" /> Feeling/Activity
-						</li>
-					</ul>
 				</Card.Body>
-				<Modal size="lg">
+
+				<Modal size="lg" show={show}>
 					<Modal.Header className="d-flex justify-content-between">
 						<h5 className="modal-title" id="post-modalLabel">
 							Create Post
 						</h5>
-						<button type="button" className="btn btn-secondary">
+						<button type="button" className="btn btn-secondary" onClick={() => setShow(false)}>
 							<i className="ri-close-fill"></i>
 						</button>
 					</Modal.Header>
 					<Modal.Body>
-						<div className="d-flex align-items-center">
-							<div className="user-img">
-								<img src={img5.src} alt="userimg" className="avatar-60 rounded-circle img-fluid" />
-							</div>
-							<form className="post-text ms-3 w-100" action="">
-								<input
-									type="text"
-									className="form-control rounded"
-									placeholder="Write something here..."
-									style={{ border: "none" }}
-								/>
-							</form>
-						</div>
-						<hr />
-						<ul className="d-flex flex-wrap align-items-center list-inline m-0 p-0">
-							<li className="col-md-6 mb-3">
-								<div className="bg-soft-primary rounded p-2 pointer me-3">
-									<Link href="#18">
-										<>
-											<img src={small1.src} alt="icon" className="img-fluid" /> Play with Friends
-										</>
-									</Link>
-								</div>
-							</li>
-							<li className="col-md-6 mb-3">
-								<div className="bg-soft-primary rounded p-2 pointer me-3">
-									<Link href="#2">
-										<>
-											<img src={small8.src} alt="icon" className="img-fluid" /> Play with Friends
-										</>
-									</Link>
-								</div>
-							</li>
-							<li className="col-md-6 mb-3">
-								<div className="bg-soft-primary rounded p-2 pointer me-3">
-									<Link href="#3">
-										<>
-											<img src={small8.src} alt="icon" className="img-fluid" /> Play with Friends
-										</>
-									</Link>
-								</div>
-							</li>
-							<li className="col-md-6 mb-3">
-								<div className="bg-soft-primary rounded p-2 pointer me-3">
-									<Link href="#4">
-										<>
-											<img src={small8.src} alt="icon" className="img-fluid" /> Play with Friends
-										</>
-									</Link>
-								</div>
-							</li>
-							<li className="col-md-6 mb-3">
-								<div className="bg-soft-primary rounded p-2 pointer me-3">
-									<Link href="#8">
-										<>
-											<img src={small8.src} alt="icon" className="img-fluid" /> Play with Friends
-										</>
-									</Link>
-								</div>
-							</li>
-						</ul>
-						<hr />
-						<div className="other-option">
-							<div className="d-flex align-items-center justify-content-between">
-								<div className="d-flex align-items-center">
-									<div className="user-img me-3">
-										<img src={user9.src} alt="userimg" className="avatar-60 rounded-circle img-fluid" />
-									</div>
-									<h6>Your Story</h6>
-								</div>
-								<div className="card-post-toolbar">
-									<Dropdown>
-										<Dropdown.Toggle
-											className="dropdown-toggle"
-											data-bs-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false"
-											role="button">
-											<span className="btn btn-primary">Friend</span>
-										</Dropdown.Toggle>
-										<Dropdown.Menu className="dropdown-menu m-0 p-0">
-											<Dropdown.Item className="dropdown-item p-3" href="#">
-												<div className="d-flex align-items-top">
-													<i className="ri-save-line h4"></i>
-													<div className="data ms-2">
-														<h6>Public</h6>
-														<p className="mb-0">Anyone on or off Facebook</p>
-													</div>
-												</div>
-											</Dropdown.Item>
-											<Dropdown.Item className="dropdown-item p-3" href="#">
-												<div className="d-flex align-items-top">
-													<i className="ri-close-circle-line h4"></i>
-													<div className="data ms-2">
-														<h6>Friends</h6>
-														<p className="mb-0">Your Friend on facebook</p>
-													</div>
-												</div>
-											</Dropdown.Item>
-											<Dropdown.Item className="dropdown-item p-3" href="#">
-												<div className="d-flex align-items-top">
-													<i className="ri-user-unfollow-line h4"></i>
-													<div className="data ms-2">
-														<h6>Friends except</h6>
-														<p className="mb-0">Don't show to some friends</p>
-													</div>
-												</div>
-											</Dropdown.Item>
-											<Dropdown.Item className="dropdown-item p-3" href="#">
-												<div className="d-flex align-items-top">
-													<i className="ri-notification-line h4"></i>
-													<div className="data ms-2">
-														<h6>Only Me</h6>
-														<p className="mb-0">Only me</p>
-													</div>
-												</div>
-											</Dropdown.Item>
-										</Dropdown.Menu>
-									</Dropdown>
-								</div>
-							</div>
-						</div>
-						<Button variant="primary" className="d-block w-100 mt-3">
-							Post
-						</Button>
+						<DynamicForm tabs={formTabs} handleSubmit={handleSubmit} />
 					</Modal.Body>
 				</Modal>
 			</Card>
@@ -494,31 +460,6 @@ const SponseredView = ({ sponsered }: any) => {
 		return (
 			<Container>
 				<Row>
-					<Col sm={12}>
-						<Card>
-							<Card.Body className=" profile-page p-0">
-								<div className="profile-header">
-									<div className="position-relative">
-										<img src={img1.src} alt="profile-bg" className="rounded img-fluid" />
-									</div>
-									<div className="user-detail text-center">
-										<div className="profile-img">
-											<img src={img2.src} alt="profile-img1" className="avatar-130 img-fluid" />
-										</div>
-										<div className="profile-detail">
-											<div className="profile-detail">
-												<h3>Bni Cyst</h3>
-											</div>
-										</div>
-									</div>
-									<div className="profile-info p-3 d-flex align-items-center justify-content-center position-relative">
-										<div className="social-info"></div>
-									</div>
-								</div>
-							</Card.Body>
-						</Card>
-					</Col>
-
 					<CreateEventMenu />
 
 					<SponsoredEvent />
