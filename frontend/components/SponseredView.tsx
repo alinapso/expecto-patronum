@@ -6,28 +6,21 @@ import React, { useState } from "react";
 import img1 from "../assets/images/page-img/profile-bg1.jpg";
 import img2 from "../assets/images/user/11.png";
 
-import img5 from "../assets/images/icon/10.png";
-
 import user1 from "../assets/images/user/1.jpg";
-
-import user02 from "../assets/images/user/02.jpg";
-import user03 from "../assets/images/user/03.jpg";
 
 import p1 from "../assets/images/page-img/p1.jpg";
 
 import loader from "../assets/images/page-img/page-load-loader.gif";
-import small07 from "../assets/images/small/07.png";
-import small08 from "../assets/images/small/08.png";
-import small09 from "../assets/images/small/09.png";
-import small1 from "../assets/images/small/07.png";
 
-import small8 from "../assets/images/small/14.png";
-import user9 from "../assets/images/user/1.jpg";
 import pageimg1 from "../assets/images/page-img/43.png";
 import pageimg2 from "../assets/images/page-img/44.png";
 import pageimg3 from "../assets/images/page-img/45.png";
 import pageimg4 from "../assets/images/page-img/46.png";
-import pageimg5 from "../assets/images/page-img/47.png";
+import pdf from "../assets/images/pdf.png";
+import word from "../assets/images/word.png";
+
+import image from "../assets/images/image.png";
+
 import DynamicForm from "./Form";
 import { FormElementTypes } from "./Form/types/FormElementDto";
 const SponsoredEvent = () => {
@@ -154,37 +147,8 @@ const SponsoredEvent = () => {
 								</div>
 							</Card.Header>
 							<Card.Body>
-								<div className="table-responsive">
-									<Row className="justify-content-between d-flex">
-										<Col sm="12" md="6">
-											<div id="user_list_datatable_info" className="dataTables_filter">
-												<form className="me-3 position-relative">
-													<div className="form-group mb-0">
-														<input
-															type="search"
-															className="form-control"
-															id="exampleInputSearch"
-															placeholder="Search"
-														/>
-													</div>
-												</form>
-											</div>
-										</Col>
-										<Col sm="12" md="6">
-											<div className="user-list-files d-flex justify-content-end">
-												<Link href="#" className="chat-icon-phone btn bg-soft-primary">
-													Print
-												</Link>
-												<Link href="#" className="chat-icon-video btn bg-soft-primary">
-													Excel
-												</Link>
-												<Link href="#" className="chat-icon-delete btn bg-soft-primary">
-													Pdf
-												</Link>
-											</div>
-										</Col>
-									</Row>
-									<table className="files-lists table table-striped mt-4">
+								<div>
+									<table className="files-lists table table-striped ">
 										<thead>
 											<tr>
 												<th scope="col">
@@ -193,7 +157,6 @@ const SponsoredEvent = () => {
 													</div>
 												</th>
 												<th scope="col">File Name</th>
-												<th scope="col">File Type</th>
 												<th scope="col">Date</th>
 												<th scope="col">Size</th>
 												<th scope="col">Author</th>
@@ -208,25 +171,19 @@ const SponsoredEvent = () => {
 													</div>
 												</td>
 												<td>
-													<img className="rounded-circle img-fluid avatar-40 me-2" src={pageimg1.src} alt="profile" />{" "}
-													post report
+													<img src={word.src} /> post report
 												</td>
-												<td>Document</td>
 												<td>Mar 12, 2020</td>
 												<td>390 kb</td>
 												<td>Anna Sthesia</td>
 												<td>
 													<div className="flex align-items-center list-user-action">
-														<OverlayTrigger placement="top" overlay={<Tooltip>Download</Tooltip>}>
-															<Link href="#">
-																<i className="ri-download-line"></i>
-															</Link>
-														</OverlayTrigger>
-														<OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-															<Link href="#">
-																<i className="ri-delete-bin-line"></i>
-															</Link>
-														</OverlayTrigger>
+														<Link href="#">
+															<i className="ri-download-line"></i>
+														</Link>
+														<Link href="#">
+															<i className="ri-delete-bin-line ms-2"></i>
+														</Link>
 													</div>
 												</td>
 											</tr>
@@ -237,25 +194,20 @@ const SponsoredEvent = () => {
 													</div>
 												</td>
 												<td>
-													<img className="rounded-circle img-fluid avatar-40 me-2" src={pageimg2.src} alt="profile" />{" "}
+													<img src={pdf.src} />
 													usages
 												</td>
-												<td>Document</td>
 												<td>Mar 18, 2020</td>
 												<td>600 kb</td>
 												<td>Paul Molive</td>
 												<td>
 													<div className="flex align-items-center list-user-action">
-														<OverlayTrigger placement="top" overlay={<Tooltip>Download</Tooltip>}>
-															<Link href="#">
-																<i className="ri-download-line"></i>
-															</Link>
-														</OverlayTrigger>
-														<OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-															<Link href="#">
-																<i className="ri-delete-bin-line"></i>
-															</Link>
-														</OverlayTrigger>
+														<Link href="#">
+															<i className="ri-download-line"></i>
+														</Link>
+														<Link href="#">
+															<i className="ri-delete-bin-line ms-2"></i>
+														</Link>
 													</div>
 												</td>
 											</tr>
@@ -266,54 +218,20 @@ const SponsoredEvent = () => {
 													</div>
 												</td>
 												<td>
-													<img className="rounded-circle img-fluid avatar-40 me-2" src={pageimg3.src} alt="profile" />{" "}
-													Images file
+													<img src={image.src} /> Images file
 												</td>
-												<td>Slide</td>
 												<td>Mar 19, 2020</td>
 												<td>800 kb</td>
 												<td>Bob Frapples</td>
 												<td>
 													<div className="flex align-items-center list-user-action">
-														<OverlayTrigger placement="top" overlay={<Tooltip>Download</Tooltip>}>
-															<Link href="#">
-																<i className="ri-download-line"></i>
-															</Link>
-														</OverlayTrigger>
-														<OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-															<Link href="#">
-																<i className="ri-delete-bin-line"></i>
-															</Link>
-														</OverlayTrigger>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td>
-													<div className=" text-center">
-														<input type="checkbox" className="form-check-input" />
-													</div>
-												</td>
-												<td>
-													<img className="rounded-circle img-fluid avatar-40 me-2" src={pageimg4.src} alt="profile" />{" "}
-													total comments
-												</td>
-												<td>Document</td>
-												<td>Mar 21, 2020</td>
-												<td>500 kb</td>
-												<td>Barb Ackue</td>
-												<td>
-													<div className="flex align-items-center list-user-action">
-														<OverlayTrigger placement="top" overlay={<Tooltip>Download</Tooltip>}>
-															<Link href="#">
-																<i className="ri-download-line"></i>
-															</Link>
-														</OverlayTrigger>
-														<OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
-															<Link href="#">
-																<i className="ri-delete-bin-line"></i>
-															</Link>
-														</OverlayTrigger>
+														<Link href="#">
+															<i className="ri-download-line"></i>
+														</Link>
+
+														<Link href="#">
+															<i className="ri-delete-bin-line ms-2"></i>
+														</Link>
 													</div>
 												</td>
 											</tr>
@@ -328,7 +246,7 @@ const SponsoredEvent = () => {
 		</Col>
 	);
 };
-const CreateEventMenu = () => {
+const CreateEventMenuAndHeader = () => {
 	const [show, setShow] = useState(false);
 	const handleSubmit = async (values: any) => {
 		// //console.log(values);
@@ -460,7 +378,7 @@ const SponseredView = ({ sponsered }: any) => {
 		return (
 			<Container>
 				<Row>
-					<CreateEventMenu />
+					<CreateEventMenuAndHeader />
 
 					<SponsoredEvent />
 

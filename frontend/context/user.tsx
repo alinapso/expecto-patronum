@@ -25,6 +25,7 @@ export const UserProvider = ({ children }: any) => {
 	};
 	async function loginUser(email: string, password: string) {
 		setUser({ data: undefined, status: UserStatus.Loading });
+
 		const res = await RemoteApiCall({
 			method: "POST",
 			url: "/auth/signin",
