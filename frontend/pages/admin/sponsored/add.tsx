@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "components/Layout";
 import { AdminNav } from "../consts";
-import useUser from "lib/useUser";
+import useUser from "lib///useUser";
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";
 import Link from "next/link";
 import { Container, Col, Row, Card, Form, Nav, TabContent, TabPane, Button, Image } from "react-bootstrap";
 import DynamicForm from "components/Form";
 import { FormElementTypes } from "components/Form/types/FormElementDto";
+import { UserStatus, useUserState } from "context/user";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
-	const { loading, loggedOut, user, mutate } = useUser();
+	const { user } = useUserState();
 
 	const formTabs = [
 		{
@@ -65,8 +66,8 @@ export default function Sponsored() {
 		},
 	];
 
-	if (loading) return <h1>loading</h1>;
-	else if (loggedOut) {
+	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
+	else if (user.status == UserStatus.LoggedOut) {
 		Router.push("/");
 	}
 	const handleSubmit = async (values: any) => {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Layout from "components/Layout";
-import useUser from "lib/useUser";
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
@@ -8,25 +7,16 @@ import Form from "components/Form";
 import { AdminNav } from "./consts";
 import LineChart from "components/indexCharts/totalDonationsByMonth";
 import { Col, Card, Row } from "react-bootstrap";
+import { useUserState, UserStatus } from "context/user";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function SgProfile() {
-	const { loading, loggedOut, user, mutate } = useUser();
-	const [sponsoredParams, setSponsoredParams] = useState({});
+	const { user } = useUserState();
+	console.log(user);
 	useEffect(() => {
-		if (user)
-			setSponsoredParams({
-				method: "GET",
-				url: "/sponsored",
-			});
+		console.log(user);
 	}, [user]);
-	console.log(loading, loggedOut, user);
-	const { data: sponsoredList } = useSWR(
-		[sponsoredParams],
-
-		RemoteApiCall
-	);
-	if (loading) return <h1>loading</h1>;
-	else if (loggedOut) {
+	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
+	else if (user.status == UserStatus.LoggedOut) {
 		Router.push("/");
 	}
 	return (

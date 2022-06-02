@@ -3,16 +3,18 @@ import { Row, Col, Container, Form, Button, Image, Alert } from "react-bootstrap
 import Link from "next/link";
 import Router from "next/router";
 import { login } from "lib/auth";
-import useUser from "lib/useUser";
+
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useUserState, UserStatus } from "context/user";
 
 export default function SignUp() {
 	const [errorMsg, setErrorMsg] = useState("");
 	const [showErrorBox, setShowErrorBox] = useState(false);
-	const { user, mutate } = useUser();
+	const { user, loginUser } = useUserState();
 	useEffect(() => {
-		if (user) user.role ? (user.role == "ADMIN" ? Router.push("/admin") : Router.push("/dashboard")) : Router.push("/");
+		if (user.status == UserStatus.loggedIn) Router.push("/");
+		console.log(user);
 	}, [user]);
 	return (
 		<>
@@ -42,9 +44,7 @@ export default function SignUp() {
 										setShowErrorBox(false);
 										setErrorMsg("");
 										try {
-											await login(event.currentTarget.email.value, event.currentTarget.password.value);
-											mutate();
-											console.log(user);
+											await loginUser(event.currentTarget.email.value, event.currentTarget.password.value);
 										} catch (error: any) {
 											setErrorMsg(error.toString());
 											setShowErrorBox(true);

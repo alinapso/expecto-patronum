@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Layout from "components/Layout";
-import useUser from "lib/useUser";
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
@@ -8,15 +7,16 @@ import Form from "components/Form";
 import { AdminNav } from "../consts";
 import SponseredView from "components/SponseredView";
 import user09 from "../../../assets/images/user/09.jpg";
+import { UserStatus, useUserState } from "context/user";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
-	const { loading, loggedOut, user, mutate } = useUser();
+	const { user } = useUserState();
 	const [sponsoredParams, setSponsoredParams] = useState({});
-	if (loading) return <h1>loading</h1>;
-	else if (loggedOut) {
-		Router.push("/");
-	}
+
+	const patrnDecorator = (value: any, id: any) => {
+		return `${value.firstName} ${value.lastName}`;
+	};
 	const sponsered = [
 		{
 			id: 1,
@@ -26,6 +26,10 @@ export default function Sponsored() {
 			description: "Let see if this works, it's seems it is",
 		},
 	];
+	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
+	else if (user.status == UserStatus.LoggedOut) {
+		Router.push("/");
+	}
 	return (
 		<Layout items={AdminNav}>
 			<SponseredView sponsered={sponsered} />

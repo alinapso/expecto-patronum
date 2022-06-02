@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "components/Layout";
-import useUser from "lib/useUser";
+
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
@@ -15,7 +15,7 @@ const items = [
 	{ href: "/", icon: "las la-newspaper", title: "Newsfeed" },
 ];
 export default function SgProfile() {
-	const { loading, loggedOut, user, mutate } = useUser();
+	const { loading, loggedOut, user, mutate } = //useUser();
 	const [sponsoredParams, setSponsoredParams] = useState({});
 	if (loading) return <h1>loading</h1>;
 	else if (loggedOut) {

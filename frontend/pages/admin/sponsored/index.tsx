@@ -8,11 +8,16 @@ import Layout from "components/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 import { useState } from "react";
+import { UserStatus, useUserState } from "../../../context/user";
+import Router from "next/router";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
-	const [refresh, setRefresh] = useState(false);
-
+	const { user } = useUserState();
+	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
+	else if (user.status == UserStatus.LoggedOut) {
+		Router.push("/");
+	}
 	const patrnDecorator = (value: any, id: any) => {
 		return `${value.firstName} ${value.lastName}`;
 	};
@@ -38,20 +43,7 @@ export default function Sponsored() {
 			day: "2-digit",
 		}).format(date);
 	};
-	// const deactivateSponsered = async (id: any) => {
-	// 	await RemoteApiCall({
-	// 		method: "PATCH",
-	// 		url: `/Sponsored/deactivate/${id}`,
-	// 	});
-	// 	setRefresh(!refresh);
-	// };
-	// const activateSponsered = async (id: any) => {
-	// 	await RemoteApiCall({
-	// 		method: "PATCH",
-	// 		url: `/Sponsored/activate/${id}`,
-	// 	});
-	// 	setRefresh(!refresh);
-	// };
+
 	const gotoProfile = (value: any, id: any) => {
 		return (
 			<span className="table-remove">

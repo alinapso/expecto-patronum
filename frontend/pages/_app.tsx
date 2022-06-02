@@ -6,19 +6,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "swiper/css/bundle";
 import "swiper/css/navigation";
 import "../assets/scss/socialv.scss";
+import React from "react";
+import { UserProvider } from "../context/user";
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <SWRConfig
-      value={{
-        fetcher: RemoteApiCall,
-        onError: (err) => {
-          console.error(err);
-        },
-      }}
-    >
-      <Component {...pageProps} />
-    </SWRConfig>
-  );
+	return (
+		<UserProvider>
+			<Component {...pageProps} />
+		</UserProvider>
+	);
 }
 
 export default MyApp;

@@ -27,10 +27,11 @@ export async function RemoteApiCall(props: ApiProps) {
 			url: `${ENDPOINT}${props.url}`,
 			headers: headers,
 		};
-		if (props.method.toUpperCase() === "GET") conf["params"] = props.body;
-		else conf["data"] = props.body;
+
+		if (props.method.toUpperCase() === "GET") {
+			if (props.body) conf["params"] = props.body;
+		} else conf["data"] = props.body;
 		const { data, status } = await axios(conf);
-		console.log(data, status);
 		return { status: status, data: data };
 	} catch (e) {
 		return { error: e, status: 500 };
