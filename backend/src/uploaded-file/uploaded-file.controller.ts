@@ -75,8 +75,6 @@ export class UploadedFileController {
     @UploadedFile() file,
     @Body() body,
   ) {
-    console.log('body-----------------');
-    console.log(body);
     const category = body.category
       ? +body.category
       : 0;
