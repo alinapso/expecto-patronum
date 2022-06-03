@@ -46,7 +46,7 @@ const TableDatasource = ({
 		{
 			method: "GET",
 			url: dataSourceUrl,
-			body: { ...pagination, ...orderByValue, ...filterByValue },
+			params: { ...pagination, ...orderByValue, ...filterByValue },
 		},
 
 		RemoteApiCall

@@ -10,6 +10,7 @@ export const imageFileFilter = (
       /\.(jpg|jpeg|png|gif|doc|docx|pdf)$/,
     )
   ) {
+    console.log(file);
     return callback(
       new Error(
         'Only jpg|jpeg|png|gif|doc|docx|pdf files are allowed!',

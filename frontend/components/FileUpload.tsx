@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { Row, Col, Container, Dropdown, Nav, Tab, OverlayTrigger, Tooltip, Button, Modal, Card } from "react-bootstrap";
-import Link from "next/link";
-
+import { Col, Button, Card } from "react-bootstrap";
 import image from "../assets/images/image.png";
 import pdf from "../assets/images/pdf.png";
 import word from "../assets/images/word.png";
+import { ApiUploadFile, RemoteApiCall } from "lib/remoteAPI";
+import useSWR, { useSWRConfig } from "swr";
 
 const fileTypesDefualt = ["JPG", "PNG", "GIF"];
 export const enum FileTypes {
@@ -50,11 +50,7 @@ const DragDrop = ({
 	defualtValue?: TableItems[];
 }) => {
 	const [filesList, setFilesList] = useState(defualtValue);
-	useEffect(() => {
-		if (filesList.length > 1) {
-			console.log(filesList);
-		}
-	}, [filesList]);
+
 	const handleDownload = (index: number) => {
 		console.log(index);
 	};
@@ -63,8 +59,10 @@ const DragDrop = ({
 		filesList.splice(index, 1);
 		setFilesList([...filesList]);
 	};
-	const handleUpload = (file: any) => {
+	const handleUpload = async (file: any) => {
 		if (file) {
+			const result = await ApiUploadFile(file);
+			console.log(result);
 			setFilesList([
 				...filesList,
 				new TableItems({
