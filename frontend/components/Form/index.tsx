@@ -4,7 +4,15 @@ import { FormSectionTab, FormSectionNav } from "./components/FormSection";
 import FormElemenetDto from "./types/FormElementDto";
 import FormSectionDto from "./types/FormSectionDto";
 
-const DynamicForm = ({ tabs, handleSubmit }: { tabs: FormSectionDto[]; handleSubmit: (event: any) => void }) => {
+const DynamicForm = ({
+	tabs,
+	handleSubmit,
+	showNav,
+}: {
+	tabs: FormSectionDto[];
+	handleSubmit: (event: any) => void;
+	showNav?: boolean;
+}) => {
 	const [activeTab, setActiveTab] = useState(1);
 	const [showAlert, setShowAlert] = useState({ show: false, error: "" });
 	if (tabs.length < 1) return <h1>your form is empty!</h1>;
@@ -44,10 +52,10 @@ const DynamicForm = ({ tabs, handleSubmit }: { tabs: FormSectionDto[]; handleSub
 		tab.onNavClick = onNavClick;
 		tab.onNextClick = onNextClick;
 	});
-
+	console.log(showNav);
 	return (
 		<Form method="post" id="registration" onSubmit={handleFormSubmit}>
-			{tabs.length > 1 ? (
+			{showNav && tabs.length > 1 ? (
 				<Nav fill variant="pills" className="stepwizard-row" id="nav-tab" role="tablist">
 					{tabs.map((tab: FormSectionDto) => {
 						return <FormSectionNav sectionDef={tab} key={`nav-${tab.id}`} />;

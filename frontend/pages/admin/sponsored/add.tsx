@@ -57,7 +57,7 @@ export default function Sponsored() {
 					id: "last_name",
 					name: "last_name",
 					labelText: "Last Name",
-					elemetType: FormElementTypes.File,
+					elemetType: FormElementTypes.Docs,
 					required: true,
 					placeholder: "Last Name",
 				},

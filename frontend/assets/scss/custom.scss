@@ -1,0 +1,11 @@
+table.table-text {
+    display: block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  table.table-fit {
+    width: auto !important;
+    table-layout: auto !important;
+}

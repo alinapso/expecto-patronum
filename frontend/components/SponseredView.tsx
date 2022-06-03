@@ -12,10 +12,6 @@ import p1 from "../assets/images/page-img/p1.jpg";
 
 import loader from "../assets/images/page-img/page-load-loader.gif";
 
-import pageimg1 from "../assets/images/page-img/43.png";
-import pageimg2 from "../assets/images/page-img/44.png";
-import pageimg3 from "../assets/images/page-img/45.png";
-import pageimg4 from "../assets/images/page-img/46.png";
 import pdf from "../assets/images/pdf.png";
 import word from "../assets/images/word.png";
 
@@ -262,17 +258,17 @@ const CreateEventMenuAndHeader = () => {
 		{
 			id: 1,
 			name: "Add Details",
-			title: "Add New Sponsored",
+			title: "Add New Event",
 			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
 			active: true,
 			elements: [
 				{
-					id: "first_name",
-					name: "first_name",
-					labelText: "First Name",
+					id: "evenet_title",
+					name: "evenet_title",
+					labelText: "Evenet title",
 					elemetType: FormElementTypes.Text,
-					required: true,
-					placeholder: "First Name",
+					required: false,
+					placeholder: "Evenet title",
 				},
 				{
 					id: "evenet_time",
@@ -282,46 +278,29 @@ const CreateEventMenuAndHeader = () => {
 					required: false,
 					placeholder: "Evenet Time",
 				},
-			],
-		},
-		{
-			id: 2,
-			name: "Add New Sponsored",
-			title: "Add New Sponsored",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: true,
-			elements: [
 				{
-					id: "first_name",
-					name: "first_name",
-					labelText: "First Name",
-					elemetType: FormElementTypes.Text,
+					id: "event_description",
+					name: "event_description",
+					labelText: "Event Description",
+					elemetType: FormElementTypes.Textarea,
 					required: true,
-					placeholder: "First Name",
+					placeholder: "write description here",
 				},
 				{
-					id: "middle_name",
-					name: "middle_name",
-					labelText: "Middle Name",
-					elemetType: FormElementTypes.Text,
-					required: false,
-					placeholder: "Middle Name",
+					id: "images",
+					name: "images",
+					labelText: "Images",
+					elemetType: FormElementTypes.Images,
+					required: true,
+					placeholder: "Images",
 				},
 				{
-					id: "FatherName",
-					name: "FatherName",
-					labelText: "Father Name",
-					elemetType: FormElementTypes.Text,
+					id: "docs",
+					name: "docs",
+					labelText: "Docs",
+					elemetType: FormElementTypes.Docs,
 					required: true,
-					placeholder: "First Name",
-				},
-				{
-					id: "last_name",
-					name: "last_name",
-					labelText: "Last Name",
-					elemetType: FormElementTypes.Text,
-					required: true,
-					placeholder: "Last Name",
+					placeholder: "Docs",
 				},
 			],
 		},
