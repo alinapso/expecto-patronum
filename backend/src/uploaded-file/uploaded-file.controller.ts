@@ -71,12 +71,28 @@ export class UploadedFileController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadedFile(@UploadedFile() file) {
-    console.log(file);
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
+  async uploadedFile(
+    @UploadedFile() file,
+    @Body() body,
+  ) {
+    console.log('body-----------------');
+    console.log(body);
+    const category = body.category
+      ? +body.category
+      : 0;
+    const split = file.filename.split('.');
+    const payload = {
+      id: split[0],
+      name: file.originalname,
+      type: split[1],
+      //size: file.size,
+      category: category,
     };
+    console.log(payload);
+    const response =
+      await this.uploadedFileService.create(
+        payload,
+      );
     return response;
   }
   @Post('multiple')

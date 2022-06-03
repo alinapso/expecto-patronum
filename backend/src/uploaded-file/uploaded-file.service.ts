@@ -1,13 +1,23 @@
 import { Injectable } from '@nestjs/common';
+
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUploadedFileDto } from './dto/create-uploaded-file.dto';
 import { UpdateUploadedFileDto } from './dto/update-uploaded-file.dto';
 
 @Injectable()
 export class UploadedFileService {
-  create(
-    createUploadedFileDto: CreateUploadedFileDto,
-  ) {
-    return 'This action adds a new uploadedFile';
+  constructor(private prisma: PrismaService) {}
+  async create(dto: CreateUploadedFileDto) {
+    const res =
+      await this.prisma.uploadedFile.create({
+        data: {
+          id: dto.id,
+          title: dto.name,
+          postfix: dto.type,
+          fileCategory: dto.category,
+        },
+      });
+    return res;
   }
 
   findAll() {

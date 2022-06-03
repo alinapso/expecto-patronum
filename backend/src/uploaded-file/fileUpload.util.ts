@@ -26,17 +26,8 @@ export const editFileName = (
   file,
   callback,
 ) => {
-  const name = file.originalname.split('.')[0];
   const fileExtName = extname(file.originalname);
   const uuid = uuidv4();
-  const randomName = Array(4)
-    .fill(null)
-    .map(() =>
-      Math.round(Math.random() * 16).toString(16),
-    )
-    .join('');
-  callback(
-    null,
-    `${uuid}.${file.originalname.split('.')[1]}`,
-  );
+
+  callback(null, `${uuid}${fileExtName}`);
 };
