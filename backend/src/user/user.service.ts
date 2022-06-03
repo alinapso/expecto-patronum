@@ -3,7 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { UpdateUserDto } from 'src/generatedDtos/user/dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import {
   ApiCallDto,
@@ -17,7 +17,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async editUser(
-    userId: number,
+    userId: string,
     dto: UpdateUserDto,
   ) {
     const user = await this.prisma.user.update({

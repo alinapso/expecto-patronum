@@ -1,10 +1,15 @@
+import Sponsored from "./sponsored";
+import UploadedFile from "./uploadedFile";
+
 export declare type SponsoredEvents = {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
-  event_date: Date;
-  title: string;
-  description: string;
-  sponsoredId: number;
+	id: string;
+	createdAt: Date;
+	updatedAt: Date;
+	eventDate: Date;
+	title: string;
+	description: string;
+	files: UploadedFile[];
+	sponsored: Sponsored;
+	sponsoredId: string;
 };
 export default SponsoredEvents;

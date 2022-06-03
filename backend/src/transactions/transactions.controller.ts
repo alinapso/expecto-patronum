@@ -38,7 +38,7 @@ export class TransactionsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.transactionsService.findOne(+id);
+    return this.transactionsService.findOne(id);
   }
 
   @Patch(':id')
@@ -48,13 +48,13 @@ export class TransactionsController {
     updateTransactionDto: UpdateTransactionDto,
   ) {
     return this.transactionsService.update(
-      +id,
+      id,
       updateTransactionDto,
     );
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.transactionsService.remove(+id);
+    return this.transactionsService.remove(id);
   }
 }

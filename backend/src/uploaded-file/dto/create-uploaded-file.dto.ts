@@ -1,6 +1,6 @@
 export class CreateUploadedFileDto {
-  id: number;
+  id: string;
   name: string;
   type: string;
-  sponsoredEventsId: number | null;
+  sponsoredEventsId: string | null;
 }

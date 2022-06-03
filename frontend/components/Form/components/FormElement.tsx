@@ -22,7 +22,7 @@ function elemenetFactorey(elem: FormElementDto) {
 		case FormElementTypes.Images:
 			return <DragDrop fileTypes={["JPG", "PNG", "GIF"]}></DragDrop>;
 		case FormElementTypes.Docs:
-			return <DragDrop fileTypes={["DOC", "DOCX", "PDF"]}></DragDrop>;
+			return <DragDrop fileTypes={["JPG", "PNG", "GIF", "DOC", "DOCX", "PDF"]}></DragDrop>;
 		case FormElementTypes.Datepicker:
 			params = { type: "date" };
 			break;

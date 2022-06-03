@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Container, Form, Button, Image, Alert } from "react-bootstrap";
 import Link from "next/link";
-import router from "next/router";
+import Router from "next/router";
 import { RemoteApiCall } from "lib/remoteAPI";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";

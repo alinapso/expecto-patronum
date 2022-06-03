@@ -1,5 +1,5 @@
 import { extname } from 'path';
-
+import { v4 as uuidv4 } from 'uuid';
 export const imageFileFilter = (
   req,
   file,
@@ -28,6 +28,7 @@ export const editFileName = (
 ) => {
   const name = file.originalname.split('.')[0];
   const fileExtName = extname(file.originalname);
+  const uuid = uuidv4();
   const randomName = Array(4)
     .fill(null)
     .map(() =>
@@ -36,6 +37,6 @@ export const editFileName = (
     .join('');
   callback(
     null,
-    `${name}-${randomName}${fileExtName}`,
+    `${uuid}.${file.originalname.split('.')[1]}`,
   );
 };

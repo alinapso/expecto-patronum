@@ -8,9 +8,6 @@ import {
   Delete,
   UseGuards,
   Query,
-  UploadedFile,
-  UseInterceptors,
-  UploadedFiles,
 } from '@nestjs/common';
 import { SponsoredService } from './sponsored.service';
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
@@ -26,15 +23,6 @@ import {
 import { GetUser } from 'src/auth/decorator';
 import { User } from 'expecto-patronum-common';
 import { CreateFromQuery } from 'src/Dto/apiCall';
-import {
-  FileInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import {
-  editFileName,
-  imageFileFilter,
-} from 'src/uploaded-file/fileUpload.util';
 
 @UseGuards(JwtGuard)
 @Controller('sponsored')
@@ -86,7 +74,7 @@ export class SponsoredController {
     updateSponsoredDto: UpdateSponsoredDto,
   ) {
     return this.sponsoredService.update(
-      +id,
+      id,
       updateSponsoredDto,
     );
   }
@@ -94,7 +82,7 @@ export class SponsoredController {
   @Patch('deactivate/:id')
   deactivate(@Param('id') id: string) {
     return this.sponsoredService.changeStatus(
-      +id,
+      id,
       false,
     );
   }
@@ -102,13 +90,13 @@ export class SponsoredController {
   @Patch('activate/:id')
   activate(@Param('id') id: string) {
     return this.sponsoredService.changeStatus(
-      +id,
+      id,
       true,
     );
   }
   @UseGuards(AdminGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.sponsoredService.remove(+id);
+    return this.sponsoredService.remove(id);
   }
 }

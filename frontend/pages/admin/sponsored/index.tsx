@@ -54,11 +54,11 @@ export default function Sponsored() {
 		);
 	};
 	const headers = [
-		{ name: "First Name", mapKey: "first_name" },
-		{ name: "Middle Name", mapKey: "middle_name" },
-		{ name: "Last Name", mapKey: "last_name" },
-		{ name: "Father Name", mapKey: "father_name" },
-		{ name: "Birth Date", mapKey: "birth_date", customDecorators: dateDecorator },
+		{ name: "First Name", mapKey: "firstName" },
+		{ name: "Middle Name", mapKey: "middleName" },
+		{ name: "Last Name", mapKey: "lastName" },
+		{ name: "Father Name", mapKey: "fatherName" },
+		{ name: "Birth Date", mapKey: "birthDate", customDecorators: dateDecorator },
 		{
 			name: "Patron",
 			mapKey: "patron",
@@ -67,21 +67,21 @@ export default function Sponsored() {
 		},
 		{
 			name: "Start Date",
-			mapKey: "start_date",
+			mapKey: "startDate",
 			customDecorators: dateDecorator,
 		},
 		{
 			name: "End Date",
-			mapKey: "end_date",
+			mapKey: "endDate",
 			customDecorators: dateDecorator,
 		},
 		{
 			name: "Monthly sum",
-			mapKey: "monthly_sum",
+			mapKey: "monthlySum",
 		},
 		{
 			name: "_remove",
-			mapKey: "is_active",
+			mapKey: "isActive",
 			customDecorators: gotoProfile,
 		},
 	];

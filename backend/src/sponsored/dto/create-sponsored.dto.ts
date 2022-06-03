@@ -7,20 +7,25 @@ import {
 export class CreateSponsoredDto {
   @IsString()
   @IsNotEmpty()
-  first_name: string;
+  firstName: string;
   @IsString()
   @IsNotEmpty()
-  middle_name: string;
+  middleName: string;
   @IsString()
   @IsOptional()
-  father_name: string;
+  fatherName: string;
   @IsString()
   @IsNotEmpty()
-  last_name: string;
+  lastName: string;
   @IsDateString()
   @IsNotEmpty()
-  birth_date: Date;
+  birthDate: Date;
   @IsString()
   @IsNotEmpty()
-  place_of_birth: string;
+  placeOfBirth: string;
+  @IsOptional()
+  @IsString()
+  uploadedFileId: string;
+  @IsString()
+  description: string;
 }

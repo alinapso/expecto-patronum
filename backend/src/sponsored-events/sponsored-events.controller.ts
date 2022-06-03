@@ -39,7 +39,7 @@ export class SponsoredEventsController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sponsoredEventsService.findOne(
-      +id,
+      id,
     );
   }
 
@@ -50,15 +50,13 @@ export class SponsoredEventsController {
     updateSponsoredEventDto: UpdateSponsoredEventDto,
   ) {
     return this.sponsoredEventsService.update(
-      +id,
+      id,
       updateSponsoredEventDto,
     );
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.sponsoredEventsService.remove(
-      +id,
-    );
+    return this.sponsoredEventsService.remove(id);
   }
 }

@@ -14,18 +14,18 @@ export class UploadedFileService {
     return `This action returns all uploadedFile`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} uploadedFile`;
   }
 
   update(
-    id: number,
+    id: string,
     updateUploadedFileDto: UpdateUploadedFileDto,
   ) {
     return `This action updates a #${id} uploadedFile`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} uploadedFile`;
   }
 }

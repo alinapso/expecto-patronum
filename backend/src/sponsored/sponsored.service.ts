@@ -6,7 +6,10 @@ import {
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
 import { UpdateSponsoredDto } from './dto/update-sponsored.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { User } from 'expecto-patronum-common';
+import {
+  User,
+  UploadedFile,
+} from 'expecto-patronum-common';
 import {
   ApiCallDto,
   calcPageCount,
@@ -20,23 +23,21 @@ import { PrismaClientValidationError } from '@prisma/client/runtime';
 @Injectable()
 export class SponsoredService {
   constructor(private prisma: PrismaService) {}
-  async create(
-    dto: CreateSponsoredDto,
-    profileImage?: string,
-  ) {
+  async create(dto: CreateSponsoredDto) {
     console.log(dto);
     const res =
       await this.prisma.sponsored.create({
         data: {
-          first_name: dto.first_name,
-          middle_name: dto.middle_name,
-          father_name: dto.father_name,
-          last_name: dto.last_name,
-          birth_date: dto.birth_date,
-          is_active: true,
-          patron_id: undefined,
-          place_of_birth: dto.place_of_birth,
-          profile_pic: profileImage,
+          firstName: dto.firstName,
+          middleName: dto.middleName,
+          fatherName: dto.fatherName,
+          lastName: dto.lastName,
+          birthDate: dto.birthDate,
+          placeOfBirth: dto.placeOfBirth,
+          patronId: undefined,
+          description: dto.description,
+          isActive: true,
+          uploadedFileId: dto.uploadedFileId,
         },
       });
     return res;
@@ -53,8 +54,8 @@ export class SponsoredService {
       filter = {
         where: {
           OR: [
-            { patron_id: user.id },
-            { patron_id: null },
+            { patronId: user.id },
+            { patronId: null },
           ],
           ...apiCall.filter,
         },
@@ -97,15 +98,15 @@ export class SponsoredService {
     const sponsored =
       await this.prisma.sponsored.findMany({
         where: {
-          patron_id: null,
-          is_active: true,
+          patronId: null,
+          isActive: true,
         },
         select: {
           id: true,
-          first_name: true,
-          middle_name: true,
-          father_name: true,
-          last_name: true,
+          firstName: true,
+          middleName: true,
+          fatherName: true,
+          lastName: true,
         },
       });
     return sponsored;
@@ -120,7 +121,7 @@ export class SponsoredService {
       const sponsored =
         await this.prisma.sponsored.findMany({
           where: {
-            patron_id: user.id,
+            patronId: user.id,
             ...apiCall.filter,
           },
           include: {
@@ -141,7 +142,7 @@ export class SponsoredService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const sponsored =
       await this.prisma.sponsored.findMany({
         where: {
@@ -164,7 +165,7 @@ export class SponsoredService {
 
   async findOneWithPatron(
     user: User,
-    id: number,
+    id: string,
   ) {
     const sponsored =
       await this.prisma.sponsored.findMany({
@@ -172,10 +173,10 @@ export class SponsoredService {
           AND: [{ id: id }],
           OR: [
             {
-              patron_id: user.id,
+              patronId: user.id,
             },
             {
-              patron_id: null,
+              patronId: null,
             },
           ],
         },
@@ -195,13 +196,13 @@ export class SponsoredService {
   }
 
   update(
-    id: number,
+    id: string,
     updateSponsoredDto: UpdateSponsoredDto,
   ) {
     return `This action updates a #${id} sponsored`;
   }
   async changeStatus(
-    id: number,
+    id: string,
     status: boolean,
   ) {
     const sponsored =
@@ -210,12 +211,12 @@ export class SponsoredService {
           id: id,
         },
         data: {
-          is_active: status,
+          isActive: status,
         },
       });
     return sponsored;
   }
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} sponsored`;
   }
 }

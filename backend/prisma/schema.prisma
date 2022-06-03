@@ -5,26 +5,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator gen {
+generator client {
   provider = "prisma-client-js"
 }
 
-generator nestjsDto {
-  provider                        = "prisma-generator-nestjs-dto"
-  output                          = "../src/generatedDtos/"
-  outputToNestJsResourceStructure = "true"
-  exportRelationModifierClasses   = "false"
-  reExport                        = "false"
-  createDtoPrefix                 = "Create"
-  updateDtoPrefix                 = "Update"
-  dtoSuffix                       = "Dto"
-  entityPrefix                    = ""
-  entitySuffix                    = ""
-  fileNamingStyle                 = "camel"
-}
-
 model User {
-  id           Int            @id @default(autoincrement())
+  id           String         @id @default(uuid())
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   email        String         @unique
@@ -45,51 +31,56 @@ enum Role {
 }
 
 model Sponsored {
-  id                 Int               @id @default(autoincrement())
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  first_name         String
-  middle_name        String
-  father_name        String
-  last_name          String
-  birth_date         DateTime
-  place_of_birth     String
-  profile_pic        String?
-  is_active          Boolean
-  patron             User?             @relation(fields: [patron_id], references: [id])
-  patron_id          Int?
-  monthly_sum        Float?
-  start_date         DateTime?
-  end_date           DateTime?
-  day_of_transaction Int?
-  SponsoredEvents    SponsoredEvents[]
+  id               String            @id @default(uuid())
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  firstName        String
+  middleName       String
+  fatherName       String
+  lastName         String
+  birthDate        DateTime
+  placeOfBirth     String
+  description      String
+  uploadedFileId   String?
+  profilePic       UploadedFile?     @relation(fields: [uploadedFileId], references: [id])
+  isActive         Boolean
+  patron           User?             @relation(fields: [patronId], references: [id])
+  patronId         String?
+  monthlyDum       Float?
+  startDate        DateTime?
+  endDate          DateTime?
+  dayOfTransaction Int?
+  SponsoredEvents  SponsoredEvents[]
+
 }
 
 model UploadedFile {
-  id                Int              @id @default(autoincrement())
-  name              String
-  type              String
+  id                String           @id
+  title             String
+  postfix           String
+  fileCategory      Int
   SponsoredEvents   SponsoredEvents? @relation(fields: [sponsoredEventsId], references: [id])
-  sponsoredEventsId Int?
+  sponsoredEventsId String?
+  Sponsored         Sponsored[]
 }
 
 model SponsoredEvents {
-  id          Int            @id @default(autoincrement())
+  id          String         @id @default(uuid())
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  event_date  DateTime
+  eventDate   DateTime
   title       String
   description String
   files       UploadedFile[]
   sponsored   Sponsored      @relation(fields: [sponsoredId], references: [id])
-  sponsoredId Int
+  sponsoredId String
 }
 
 model Transactions {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   sum       Float
-  patron    User     @relation(fields: [patron_id], references: [id])
-  patron_id Int
+  patron    User     @relation(fields: [patronId], references: [id])
+  patronId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

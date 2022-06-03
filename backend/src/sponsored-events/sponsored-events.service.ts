@@ -14,18 +14,18 @@ export class SponsoredEventsService {
     return `This action returns all sponsoredEvents`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} sponsoredEvent`;
   }
 
   update(
-    id: number,
+    id: string,
     updateSponsoredEventDto: UpdateSponsoredEventDto,
   ) {
     return `This action updates a #${id} sponsoredEvent`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} sponsoredEvent`;
   }
 }

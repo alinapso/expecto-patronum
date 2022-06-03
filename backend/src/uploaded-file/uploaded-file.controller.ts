@@ -57,7 +57,7 @@ export class UploadedFileController {
     updateUploadedFileDto: UpdateUploadedFileDto,
   ) {
     return this.uploadedFileService.update(
-      +id,
+      id,
       updateUploadedFileDto,
     );
   }
@@ -104,6 +104,6 @@ export class UploadedFileController {
   }
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.uploadedFileService.remove(+id);
+    return this.uploadedFileService.remove(id);
   }
 }

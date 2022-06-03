@@ -18,7 +18,8 @@ export async function RemoteApiCall(props: ApiProps) {
 			Accept: "*/*",
 		};
 		const access_token = get_api_access_token();
-		if (access_token != "") headers = { Authorization: `Bearer ${access_token}`, ...headers };
+		console.log(access_token);
+		if (access_token != null) headers = { Authorization: `Bearer ${access_token}`, ...headers };
 		// axios.interceptors.request.use((request) => {
 		// 	console.log("Starting Request", JSON.stringify(request, null, 2));
 		// 	return request;
@@ -30,8 +31,8 @@ export async function RemoteApiCall(props: ApiProps) {
 		};
 
 		if (props.params) conf["params"] = props.params;
-		if (props.body) conf["body"] = props.body;
-
+		if (props.body) conf["data"] = props.body;
+		console.log(conf);
 		const { data, status } = await axios(conf);
 		return { status: status, data: data };
 	} catch (e) {

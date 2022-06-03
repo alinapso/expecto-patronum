@@ -18,7 +18,7 @@ import {
   AdminGuard,
   JwtGuard,
 } from '../auth/guard';
-import { UpdateUserDto } from '../generatedDtos/user/dto/update-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
 @UseGuards(JwtGuard)
@@ -33,7 +33,7 @@ export class UserController {
 
   @Patch(':id')
   editUser(
-    @GetUser('id') userId: number,
+    @GetUser('id') userId: string,
     @Body() dto: UpdateUserDto,
   ) {
     return this.userService.editUser(userId, dto);

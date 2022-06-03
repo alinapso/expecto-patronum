@@ -5,7 +5,6 @@ import helmet from 'helmet';
 import {
   SwaggerModule,
   DocumentBuilder,
-  SwaggerDocumentOptions,
 } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -31,16 +30,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('Expecto Patronum')
     .build();
-  const options: SwaggerDocumentOptions = {
-    operationIdFactory: (
-      controllerKey: string,
-      methodKey: string,
-    ) => methodKey,
-  };
+
   const document = SwaggerModule.createDocument(
     app,
     config,
-    options,
   );
 
   SwaggerModule.setup('api', app, document);

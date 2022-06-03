@@ -30,9 +30,10 @@ export class AuthService {
           role: 'PATRON',
         },
       });
-
+      console.log(user);
       return this.signToken(user);
     } catch (error) {
+      console.log(error);
       if (
         error instanceof
         PrismaClientKnownRequestError
@@ -49,6 +50,7 @@ export class AuthService {
 
   async signin(dto: AuthDto) {
     // find the user by email
+    console.log(dto);
     const user =
       await this.prisma.user.findUnique({
         where: {
