@@ -14,25 +14,13 @@ export default function Sponsored() {
 	const { user } = useUserState();
 	const [sponsoredParams, setSponsoredParams] = useState({});
 
-	const patrnDecorator = (value: any, id: any) => {
-		return `${value.firstName} ${value.lastName}`;
-	};
-	const sponsered = [
-		{
-			id: 1,
-			name: "Yolo",
-			age: "15",
-			img: user09.src,
-			description: "Let see if this works, it's seems it is",
-		},
-	];
 	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
 	else if (user.status == UserStatus.LoggedOut) {
 		Router.push("/");
 	}
 	return (
 		<Layout items={AdminNav}>
-			<SponseredView sponsered={sponsered} />
+			<SponseredView />
 		</Layout>
 	);
 }

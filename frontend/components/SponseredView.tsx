@@ -1,8 +1,9 @@
 import SponseredCard from "./SponseredCard";
 import { Row, Col, Container, Dropdown, Nav, Tab, OverlayTrigger, Tooltip, Button, Modal, Card } from "react-bootstrap";
+import { useRouter } from "next/router";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import img1 from "../assets/images/page-img/profile-bg1.jpg";
 import img2 from "../assets/images/user/11.png";
 
@@ -19,6 +20,12 @@ import image from "../assets/images/image.png";
 
 import DynamicForm from "./Form";
 import { FormElementTypes } from "./Form/types/FormElementDto";
+import useSWR from "swr";
+import { RemoteApiCall } from "lib/remoteAPI";
+import { Sponsored } from "expecto-patronum-common";
+
+const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
 const SponsoredEvent = () => {
 	return (
 		<Col sm={12}>
@@ -242,7 +249,7 @@ const SponsoredEvent = () => {
 		</Col>
 	);
 };
-const CreateEventMenuAndHeader = () => {
+const CreateEventMenuAndHeader = ({ sponsored }: { sponsored: Sponsored }) => {
 	const [show, setShow] = useState(false);
 	const handleSubmit = async (values: any) => {
 		// //console.log(values);
@@ -315,11 +322,19 @@ const CreateEventMenuAndHeader = () => {
 						</div>
 						<div className="user-detail text-center mb-3">
 							<div className="profile-img">
-								<img src={img2.src} alt="profile-img1" className="avatar-130 img-fluid" />
+								<img
+									src={
+										sponsored.profilePic
+											? `${ENDPOINT}/${sponsored.profilePic?.id}.${sponsored.profilePic?.postfix}`
+											: img1.src
+									}
+									alt="profile-img1"
+									className="avatar-130 img-fluid"
+								/>
 							</div>
 							<div className="profile-detail">
 								<div className="profile-detail">
-									<h3>Bni Cyst</h3>
+									<h3>{`${sponsored.firstName} ${sponsored.lastName}`}</h3>
 								</div>
 							</div>
 						</div>
@@ -352,12 +367,29 @@ const CreateEventMenuAndHeader = () => {
 		</Col>
 	);
 };
-const SponseredView = ({ sponsered }: any) => {
-	if (sponsered && sponsered.length > 0)
+const SponseredView = () => {
+	const router = useRouter();
+	const { id } = router.query;
+	let sponsored = undefined;
+	const { data: result, error } = useSWR(
+		{
+			method: "GET",
+			url: `/sponsored/`,
+			params: { filter: { id: id } },
+		},
+
+		RemoteApiCall
+	);
+	useEffect(() => {}, [result]);
+
+	console.log(id, result, error);
+	sponsored = result?.data.data[0];
+	console.log(sponsored);
+	if (sponsored)
 		return (
 			<Container>
 				<Row>
-					<CreateEventMenuAndHeader />
+					<CreateEventMenuAndHeader sponsored={sponsored} />
 
 					<SponsoredEvent />
 

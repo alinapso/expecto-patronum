@@ -13,7 +13,7 @@ type DragDropSingleProps = {
 	defualtValue?: string;
 };
 type DragDropSingleState = {
-	value: TableItems | undefined;
+	tableItems: TableItems | undefined;
 };
 
 export class DragDropSingle extends Component<DragDropSingleProps> {
@@ -26,7 +26,7 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 		this.fileTypes = props.fileTypes;
 	}
 	state: DragDropSingleState = {
-		value: undefined,
+		tableItems: undefined,
 	};
 
 	handleDownload = (index: number) => {
@@ -35,23 +35,26 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 	handleDelete = (index: number) => {
 		const deletedFile = this.value;
 		this.value = "";
-		this.setState((state) => ({ value: undefined }));
+		this.setState((state) => ({ tableItems: undefined }));
 
 		//do delete
 	};
 	handleUpload = async (file: any) => {
 		if (file) {
 			const result = await ApiUploadFile(file);
-			console.log(result);
-			this.value = result.data.filename;
-			this.setState((state) => ({
-				value: new TableItems({
-					name: file.name,
-					fileType: getFileType(file.name),
-					fileSize: file.size,
-				}),
-			}));
+			if (result && result.status == 201) {
+				this.value = result.data.id;
+				this.setState((state) => ({
+					tableItems: new TableItems({
+						name: file.name,
+						fileType: getFileType(file.name),
+						fileSize: file.size,
+					}),
+				}));
+				return;
+			}
 		}
+		throw new Error("Somthing went wrong with the file upload");
 	};
 
 	render() {
@@ -70,7 +73,7 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 						</div>
 					</Card.Header>
 					<Card.Body>
-						{this.state.value ? (
+						{this.state.tableItems ? (
 							<div>
 								<table className="files-lists table table-striped ">
 									<thead>
@@ -87,7 +90,7 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 									</thead>
 									<tbody>
 										<TableRow
-											data={this.state.value}
+											data={this.state.tableItems}
 											key={0}
 											onDelete={() => this.handleDelete(0)}
 											onDownload={() => this.handleDownload(0)}

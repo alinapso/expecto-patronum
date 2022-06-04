@@ -18,7 +18,6 @@ export async function RemoteApiCall(props: ApiProps) {
 			Accept: "*/*",
 		};
 		const access_token = get_api_access_token();
-		console.log(access_token);
 		if (access_token != null) headers = { Authorization: `Bearer ${access_token}`, ...headers };
 		// axios.interceptors.request.use((request) => {
 		// 	console.log("Starting Request", JSON.stringify(request, null, 2));
@@ -42,7 +41,6 @@ export async function RemoteApiCall(props: ApiProps) {
 export async function ApiUploadFile(file: any) {
 	try {
 		const access_token = get_api_access_token();
-		console.log(file);
 		if (access_token == "") return { error: "you need to be logged in", status: 401 };
 		let headers: any = {
 			"Content-Type": "multipart/form-data",
@@ -55,13 +53,11 @@ export async function ApiUploadFile(file: any) {
 		formData.append("file", file);
 		let conf: any = {
 			method: "post",
-			url: `${ENDPOINT}/uploaded-file/multiple`,
+			url: `${ENDPOINT}/uploaded-file`,
 			data: formData,
 			headers: headers,
 		};
-		console.log(conf);
 		const { data, status } = await axios(conf);
-		console.log(data);
 		return { status: status, data: data };
 	} catch (e) {
 		return { error: e, status: 500 };

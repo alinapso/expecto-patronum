@@ -9,7 +9,6 @@ const FormElement = ({ elementDef }: { elementDef: FormElementDto }) => {
 function elemenetFactorey(elem: FormElementDto) {
 	let params = {};
 	if (!elem.ref) elem.ref = useRef<HTMLInputElement>(null);
-	console.log(elem.ref);
 	switch (elem.elemetType) {
 		case FormElementTypes.Text:
 			params = { type: "text" };

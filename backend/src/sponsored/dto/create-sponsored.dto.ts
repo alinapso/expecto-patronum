@@ -19,7 +19,7 @@ export class CreateSponsoredDto {
   lastName: string;
   @IsDateString()
   @IsNotEmpty()
-  birthDate: Date;
+  birthDate: string;
   @IsString()
   @IsNotEmpty()
   placeOfBirth: string;

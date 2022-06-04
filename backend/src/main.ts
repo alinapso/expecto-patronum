@@ -11,6 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(
     AppModule,
     {
+      cors: true,
       logger: console,
     },
   );
@@ -19,9 +20,21 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  app.use(helmet());
-
-  app.enableCors();
+  app.use((req, res, next) => {
+    res.header(
+      'Access-Control-Allow-Origin',
+      '*',
+    );
+    res.header(
+      'Access-Control-Allow-Methods',
+      'GET,PUT,POST,DELETE',
+    );
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Accept',
+    );
+    next();
+  });
   const config = new DocumentBuilder()
     .setTitle('Expecto Patronum')
     .setDescription(
