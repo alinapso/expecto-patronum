@@ -58,10 +58,16 @@ model UploadedFile {
   id                String           @id
   title             String
   postfix           String
-  fileCategory      Int
+  fileCategory      FileCategory
   SponsoredEvents   SponsoredEvents? @relation(fields: [sponsoredEventsId], references: [id])
   sponsoredEventsId String?
   Sponsored         Sponsored[]
+}
+
+enum FileCategory {
+  PROFILE
+  IMAGE
+  DOC
 }
 
 model SponsoredEvents {
