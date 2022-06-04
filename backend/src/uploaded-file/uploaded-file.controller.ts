@@ -76,7 +76,7 @@ export class UploadedFileController {
     @Body() body,
   ) {
     const category = body.category
-      ? +body.category
+      ? body.category
       : 0;
     const split = file.filename.split('.');
     const payload = {

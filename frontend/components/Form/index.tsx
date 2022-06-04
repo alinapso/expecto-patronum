@@ -41,6 +41,7 @@ const DynamicForm = ({
 		let values: any = {};
 		tabs.forEach((tab) => {
 			tab.elements.forEach((elem) => {
+				console.log(elem.ref);
 				values[elem.name] = elem.ref?.current.value;
 			});
 		});

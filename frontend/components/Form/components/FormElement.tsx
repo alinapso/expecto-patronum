@@ -1,5 +1,5 @@
-import DragDrop from "components/FileUpload";
-import { RefObject, useRef, useState } from "react";
+import { DragDropMulti, DragDropSingle } from "./DragAndDrop";
+import { useRef } from "react";
 import { Form } from "react-bootstrap";
 import FormElementDto, { FormElementTypes } from "../types/FormElementDto";
 
@@ -9,6 +9,7 @@ const FormElement = ({ elementDef }: { elementDef: FormElementDto }) => {
 function elemenetFactorey(elem: FormElementDto) {
 	let params = {};
 	if (!elem.ref) elem.ref = useRef<HTMLInputElement>(null);
+	console.log(elem.ref);
 	switch (elem.elemetType) {
 		case FormElementTypes.Text:
 			params = { type: "text" };
@@ -19,10 +20,12 @@ function elemenetFactorey(elem: FormElementDto) {
 		case FormElementTypes.Textarea:
 			params = { as: "textarea", rows: 5 };
 			break;
+		case FormElementTypes.Profile:
+			return <DragDropSingle fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref}></DragDropSingle>;
 		case FormElementTypes.Images:
-			return <DragDrop fileTypes={["JPG", "PNG", "GIF"]}></DragDrop>;
+			return <DragDropMulti fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref}></DragDropMulti>;
 		case FormElementTypes.Docs:
-			return <DragDrop fileTypes={["JPG", "PNG", "GIF", "DOC", "DOCX", "PDF"]}></DragDrop>;
+			return <DragDropMulti fileTypes={["JPG", "PNG", "GIF", "DOC", "DOCX", "PDF"]} ref={elem.ref}></DragDropMulti>;
 		case FormElementTypes.Datepicker:
 			params = { type: "date" };
 			break;

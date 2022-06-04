@@ -17,6 +17,7 @@ export class UploadedFileService {
           fileCategory: dto.category,
         },
       });
+    console.log(res);
     return res;
   }
 

@@ -37,6 +37,7 @@ export enum FormElementTypes {
 	Email,
 	Textarea,
 	Datepicker,
+	Profile,
 	Images,
 	Docs,
 	Custom,

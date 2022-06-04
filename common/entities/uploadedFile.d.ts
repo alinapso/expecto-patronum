@@ -1,9 +1,9 @@
 import SponsoredEvents from "./SponsoredEvents";
 import Sponsored from "./Sponsored";
 export declare const FileCategory: {
-	PROFILE: 1;
-	IMAGE: 2;
-	DOC: 3;
+	PROFILE: "PROFILE";
+	IMAGE: "IMAGE";
+	DOC: "DOC";
 };
 export declare type UploadedFile = {
 	id: string;

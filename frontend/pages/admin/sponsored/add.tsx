@@ -57,7 +57,7 @@ export default function Sponsored() {
 					id: "uploadedFileId",
 					name: "uploadedFileId",
 					labelText: "Last Name",
-					elemetType: FormElementTypes.Docs,
+					elemetType: FormElementTypes.Profile,
 					required: true,
 					placeholder: "Last Name",
 				},
@@ -73,7 +73,7 @@ export default function Sponsored() {
 		//console.log(values);
 		const res = await RemoteApiCall({
 			method: "POST",
-			url: `/Sponsored/add`,
+			url: `/sponsored`,
 			body: { ...values },
 		});
 		//console.log(res);
