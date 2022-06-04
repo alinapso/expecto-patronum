@@ -1,13 +1,34 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateSponsoredEventDto } from './dto/create-sponsored-event.dto';
 import { UpdateSponsoredEventDto } from './dto/update-sponsored-event.dto';
 
 @Injectable()
 export class SponsoredEventsService {
-  create(
-    createSponsoredEventDto: CreateSponsoredEventDto,
-  ) {
-    return 'This action adds a new sponsoredEvent';
+  constructor(private prisma: PrismaService) {}
+  async create(dto: CreateSponsoredEventDto) {
+    const newSponsoredEvents =
+      await this.prisma.sponsoredEvents.create({
+        data: {
+          eventDate: new Date(dto.eventDate),
+          description: dto.description,
+          title: dto.title,
+          sponsoredId: dto.sponsoredId,
+        },
+      });
+
+    dto.files.forEach(async (fileID) => {
+      await this.prisma.uploadedFile.update({
+        where: {
+          id: fileID,
+        },
+        data: {
+          sponsoredEventsId:
+            newSponsoredEvents.id,
+        },
+      });
+    });
+    return newSponsoredEvents;
   }
 
   findAll() {

@@ -1,3 +1,5 @@
+import { StringChain } from "lodash";
+import Link from "next/link";
 import React from "react";
 import { Button } from "react-bootstrap";
 import image from "../../../../assets/images/image.png";
@@ -15,11 +17,21 @@ export const enum FileTypes {
 export class TableItems {
 	name: string;
 	fileType: FileTypes;
-	fileSize: number;
-	constructor({ name, fileType, fileSize }: { name: string; fileType: FileTypes; fileSize: number }) {
+	fileHerf: string;
+	//fileSize: number;
+	constructor({
+		name,
+		fileType,
+		fileHerf /*fileSize*/,
+	}: {
+		name: string;
+		fileType: FileTypes;
+		fileHerf: string /*fileSize: number*/;
+	}) {
 		this.name = name;
 		this.fileType = fileType;
-		this.fileSize = fileSize;
+		this.fileHerf = fileHerf;
+		//this.fileSize = fileSize;
 	}
 }
 
@@ -49,20 +61,13 @@ export const RowImage = ({ fileType }: { fileType: FileTypes }) => {
 	}
 };
 
-export const TableRow = ({
-	data,
-	onDownload,
-	onDelete,
-}: {
-	data: TableItems;
-	onDownload: () => void;
-	onDelete: () => void;
-}) => {
+export const TableRow = ({ data, onDelete }: { data: TableItems; onDelete: () => void }) => {
 	const fileNameSnip = (name: string) => {
 		if (!name) return "";
 		if (name.length < 20) return name;
 		return name.split("", 15) + "...";
 	};
+	const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 	return (
 		<tr>
 			<td>
@@ -74,12 +79,14 @@ export const TableRow = ({
 				<RowImage fileType={data.fileType} />
 				<span className="overflow-hidden">{fileNameSnip(data.name)}</span>
 			</td>
-			<td className="overflow-hidden">{data.fileSize}</td>
+			{/* <td className="overflow-hidden">{data.fileSize}</td> */}
 			<td className="overflow-hidden">
 				<div className="flex align-items-center list-user-action">
-					<Button type="button" className="btn btn-labeled btn-success" onClick={() => onDownload()}>
-						<i className="ri-download-line"></i>
-					</Button>
+					<Link href={`${ENDPOINT}/${data.fileHerf}`}>
+						<Button type="button" className="btn btn-labeled btn-success">
+							<i className="ri-download-line"></i>
+						</Button>
+					</Link>
 					<Button type="button" className="btn  btn-labeled btn-danger ms-2" onClick={() => onDelete()}>
 						<i className="ri-delete-bin-line "></i>
 					</Button>

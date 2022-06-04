@@ -79,7 +79,6 @@ export class SponsoredService {
               },
             },
             profilePic: true,
-            SponsoredEvents: true,
           },
           ...filter,
           ...pagination,
@@ -174,9 +173,22 @@ export class SponsoredService {
             },
           },
           profilePic: true,
-          SponsoredEvents: true,
+          SponsoredEvents: {
+            orderBy: { eventDate: 'desc' },
+            include: {
+              files: {
+                where: {
+                  OR: [
+                    { fileCategory: 'DOC' },
+                    { fileCategory: 'IMAGE' },
+                  ],
+                },
+              },
+            },
+          },
         },
       });
+
     return sponsored;
   }
 

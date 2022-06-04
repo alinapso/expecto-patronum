@@ -6,11 +6,11 @@ import pdf from "../assets/images/pdf.png";
 import word from "../assets/images/word.png";
 import { ApiUploadFile, RemoteApiCall } from "lib/remoteAPI";
 import useSWR, { useSWRConfig } from "swr";
-import { FileCategory } from "expecto-patronum-common";
+import { FileCategory, UploadedFile } from "expecto-patronum-common";
 import { getFileType, TableItems, TableRow } from "./common";
 type DragDropSingleProps = {
 	fileTypes: string[];
-	defualtValue?: string;
+	defualtValue?: UploadedFile;
 };
 type DragDropSingleState = {
 	tableItems: TableItems | undefined;
@@ -21,7 +21,18 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 	value = "";
 	constructor(props: DragDropSingleProps) {
 		super(props);
-		this.value = props.defualtValue ? props.defualtValue : "";
+		if (this.props.defualtValue != undefined) {
+			this.value = this.props.defualtValue.id;
+			const file = this.props.defualtValue;
+			this.setState((state) => ({
+				tableItems: new TableItems({
+					name: file.title,
+					fileType: getFileType(file.postfix),
+					fileHerf: `${file.id}.${file.postfix}`,
+					//fileSize: file.size,
+				}),
+			}));
+		}
 
 		this.fileTypes = props.fileTypes;
 	}
@@ -41,14 +52,15 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 	};
 	handleUpload = async (file: any) => {
 		if (file) {
-			const result = await ApiUploadFile(file);
+			const result = await ApiUploadFile(file, "PROFILE");
 			if (result && result.status == 201) {
 				this.value = result.data.id;
 				this.setState((state) => ({
 					tableItems: new TableItems({
 						name: file.name,
 						fileType: getFileType(file.name),
-						fileSize: file.size,
+						fileHerf: `${file.id}.${file.postfix}`,
+						//fileSize: file.size,
 					}),
 				}));
 				return;
@@ -84,17 +96,12 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 												</div>
 											</th>
 											<th scope="col">File Name</th>
-											<th scope="col">Size</th>
+											{/* <th scope="col">Size</th> */}
 											<th scope="col">Action</th>
 										</tr>
 									</thead>
 									<tbody>
-										<TableRow
-											data={this.state.tableItems}
-											key={0}
-											onDelete={() => this.handleDelete(0)}
-											onDownload={() => this.handleDownload(0)}
-										/>
+										<TableRow data={this.state.tableItems} key={0} onDelete={() => this.handleDelete(0)} />
 									</tbody>
 								</table>
 							</div>

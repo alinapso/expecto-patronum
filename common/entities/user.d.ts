@@ -1,5 +1,5 @@
 import Sponsored from "./sponsored";
-import Transactions from "./Transactions";
+import Transactions from "./transactions";
 export declare const Role: {
 	PATRON: "PATRON";
 	ADMIN: "ADMIN";

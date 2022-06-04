@@ -7,31 +7,29 @@ import FormElement from "./FormElement";
 export const FormSectionTab = ({ sectionDef }: { sectionDef: FormSectionDto }) => {
 	return (
 		<TabPane
-			className={` ${sectionDef.active ? "d-block" : "d-none"} fade row show`}
+			className={` ${sectionDef.active ? "d-block" : "d-none"}  fade row show`}
 			id={`${sectionDef.id}`}
 			key={sectionDef.id}>
-			<Col sm="12">
-				<Col md="12" className="p-0">
-					<h3 className="mb-4">{sectionDef.title}</h3>
-					<Row>
-						{sectionDef.elements.map((elem: FormElemenetDto) => (
-							<FormElement elementDef={elem} key={elem.id} />
-						))}
-					</Row>
-					{sectionDef.isLast ? (
-						<Button type="submit" className="btn-primary float-end" data-enchanter="submit">
-							Submit
-						</Button>
-					) : (
-						<Button
-							key={sectionDef.id}
-							className="btn-primary float-end"
-							data-enchanter="next"
-							onClick={() => (sectionDef.onNextClick ? sectionDef.onNextClick(sectionDef.id) : {})}>
-							Next
-						</Button>
-					)}
-				</Col>
+			<Col md="12" className="p-3">
+				<h3 className="mb-4">{sectionDef.title}</h3>
+				<Row>
+					{sectionDef.elements.map((elem: FormElemenetDto) => (
+						<FormElement elementDef={elem} key={elem.id} />
+					))}
+				</Row>
+				{sectionDef.isLast ? (
+					<Button type="submit" className="btn-primary float-end" data-enchanter="submit">
+						Submit
+					</Button>
+				) : (
+					<Button
+						key={sectionDef.id}
+						className="btn-primary float-end"
+						data-enchanter="next"
+						onClick={() => (sectionDef.onNextClick ? sectionDef.onNextClick(sectionDef.id) : {})}>
+						Next
+					</Button>
+				)}
 			</Col>
 		</TabPane>
 	);

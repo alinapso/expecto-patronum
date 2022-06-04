@@ -31,14 +31,14 @@ export async function RemoteApiCall(props: ApiProps) {
 
 		if (props.params) conf["params"] = props.params;
 		if (props.body) conf["data"] = props.body;
-		console.log(conf);
+
 		const { data, status } = await axios(conf);
 		return { status: status, data: data };
 	} catch (e) {
 		return { error: e, status: 500 };
 	}
 }
-export async function ApiUploadFile(file: any) {
+export async function ApiUploadFile(file: any, category: string) {
 	try {
 		const access_token = get_api_access_token();
 		if (access_token == "") return { error: "you need to be logged in", status: 401 };
@@ -51,6 +51,7 @@ export async function ApiUploadFile(file: any) {
 		};
 		var formData = new FormData();
 		formData.append("file", file);
+		formData.append("category", category);
 		let conf: any = {
 			method: "post",
 			url: `${ENDPOINT}/uploaded-file`,

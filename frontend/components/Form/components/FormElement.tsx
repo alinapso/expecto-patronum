@@ -8,7 +8,7 @@ const FormElement = ({ elementDef }: { elementDef: FormElementDto }) => {
 };
 function elemenetFactorey(elem: FormElementDto) {
 	let params = {};
-	if (!elem.ref) elem.ref = useRef<HTMLInputElement>(null);
+	if (!elem.ref) elem.ref = useRef<HTMLInputElement>(elem.initValue);
 	switch (elem.elemetType) {
 		case FormElementTypes.Text:
 			params = { type: "text" };
@@ -22,9 +22,15 @@ function elemenetFactorey(elem: FormElementDto) {
 		case FormElementTypes.Profile:
 			return <DragDropSingle fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref}></DragDropSingle>;
 		case FormElementTypes.Images:
-			return <DragDropMulti fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref}></DragDropMulti>;
+			return <DragDropMulti fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref} categoryType="IMAGE"></DragDropMulti>;
 		case FormElementTypes.Docs:
-			return <DragDropMulti fileTypes={["JPG", "PNG", "GIF", "DOC", "DOCX", "PDF"]} ref={elem.ref}></DragDropMulti>;
+			return (
+				<DragDropMulti
+					fileTypes={["JPG", "PNG", "GIF", "DOC", "DOCX", "PDF"]}
+					ref={elem.ref}
+					categoryType="DOC"
+					defualtValue={elem.initValue}></DragDropMulti>
+			);
 		case FormElementTypes.Datepicker:
 			params = { type: "date" };
 			break;
@@ -42,6 +48,7 @@ function elemenetFactorey(elem: FormElementDto) {
 				name={elem.name}
 				placeholder={elem.placeholder}
 				ref={elem.ref}
+				defaultValue={elem.initValue}
 			/>
 		</Form.Group>
 	);

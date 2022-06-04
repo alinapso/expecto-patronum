@@ -1,6 +1,6 @@
 import UploadedFile from "./uploadedFile";
-import { User } from "./User";
-import SponsoredEvents from "./uploadedFile";
+import { User } from "./user";
+import SponsoredEvents from "./sponsoredEvents";
 
 export declare type Sponsored = {
 	id: string;

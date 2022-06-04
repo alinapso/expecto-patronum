@@ -4,7 +4,7 @@ import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
 import Form from "components/Form";
-import { AdminNav } from "../consts";
+import { AdminNav } from "../../../components/consts";
 import SponseredView from "components/SponseredView";
 import user09 from "../../../assets/images/user/09.jpg";
 import { UserStatus, useUserState } from "context/user";

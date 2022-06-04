@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "components/Layout";
-import { AdminNav } from "../consts";
+import { AdminNav } from "../../../components/consts";
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";
 import Link from "next/link";
@@ -64,10 +64,10 @@ export default function Sponsored() {
 				{
 					id: "birthDate",
 					name: "birthDate",
-					labelText: "Place Of Birth",
+					labelText: "Birth Date",
 					elemetType: FormElementTypes.Datepicker,
 					required: true,
-					placeholder: "Place Of Birth",
+					placeholder: "Birth Date",
 				},
 				{
 					id: "placeOfBirth",

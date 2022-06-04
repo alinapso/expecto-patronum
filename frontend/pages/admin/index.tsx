@@ -4,7 +4,7 @@ import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
 import Form from "components/Form";
-import { AdminNav } from "./consts";
+import { AdminNav } from "../../components/consts";
 import LineChart from "components/indexCharts/totalDonationsByMonth";
 import { Col, Card, Row } from "react-bootstrap";
 import { useUserState, UserStatus } from "context/user";

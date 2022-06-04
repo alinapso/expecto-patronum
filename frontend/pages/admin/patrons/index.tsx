@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
-import { AdminNav } from "../consts";
+import { AdminNav } from "../../../components/consts";
 import Layout from "components/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";

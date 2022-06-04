@@ -4,12 +4,12 @@ module.exports = {
 	images: {
 		domains: ["avatars.githubusercontent.com"],
 	},
-	async rewrites() {
-		return [
-			{
-				source: "/:path*",
-				destination: "http://localhost:3333/:path*",
-			},
-		];
-	},
+	// async rewrites() {
+	// 	return [
+	// 		{
+	// 			source: "/:path*",
+	// 			destination: "http://localhost:3333/:path*",
+	// 		},
+	// 	];
+	// },
 };

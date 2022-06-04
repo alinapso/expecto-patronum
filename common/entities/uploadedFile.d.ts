@@ -1,5 +1,5 @@
-import SponsoredEvents from "./SponsoredEvents";
-import Sponsored from "./Sponsored";
+import SponsoredEvents from "./sponsoredEvents";
+import Sponsored from "./sponsored";
 export declare const FileCategory: {
 	PROFILE: "PROFILE";
 	IMAGE: "IMAGE";

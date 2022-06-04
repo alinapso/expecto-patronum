@@ -1,87 +1,121 @@
+import React from "react";
 import { useRef, useState } from "react";
 import { Alert, Button, Form, Nav, TabContent } from "react-bootstrap";
 import { FormSectionTab, FormSectionNav } from "./components/FormSection";
 import FormElemenetDto from "./types/FormElementDto";
 import FormSectionDto from "./types/FormSectionDto";
 
-const DynamicForm = ({
-	tabs,
-	handleSubmit,
-	showNav,
-}: {
+type DynamicFormProps = {
 	tabs: FormSectionDto[];
 	handleSubmit: (event: any) => void;
 	showNav?: boolean;
-}) => {
-	const [activeTab, setActiveTab] = useState(1);
-	const [showAlert, setShowAlert] = useState({ show: false, error: "" });
-	if (tabs.length < 1) return <h1>your form is empty!</h1>;
-	let errorValue = "";
-	const onNavClick = (id: number) => {
-		setActiveTab(id);
+	initValue?: any;
+};
+type DynamicFormState = {
+	activeTab: number;
+	showAlert: { show: boolean; error: string };
+};
+class DynamicForm extends React.Component<DynamicFormProps> {
+	constructor(props: DynamicFormProps) {
+		super(props);
+		this.props.tabs[this.props.tabs.length - 1].isLast = true;
+		this.props.tabs.forEach((tab) => {
+			tab.active = this.state.activeTab == tab.id;
+			tab.onNavClick = this.onNavClick;
+			tab.onNextClick = this.onNextClick;
+		});
+		this.props.tabs.forEach((tab) => {
+			tab.elements.forEach((elem) => {
+				if (this.props.initValue && this.props.initValue[elem.id]) {
+					elem.initValue = this.props.initValue[elem.id];
+				}
+			});
+		});
+	}
+
+	state: DynamicFormState = {
+		activeTab: 1,
+		showAlert: { show: false, error: "" },
 	};
-	const onNextClick = (id: number) => {
+	onNavClick = (id: number) => {
+		this.setState((state) => ({
+			activeTab: id,
+		}));
+	};
+	onNextClick = (id: number) => {
+		console.log("clicked next");
 		let isValid: boolean = true;
-		for (const elem of tabs[id - 1].elements) {
+		for (const elem of this.props.tabs[id - 1].elements) {
 			if (elem.required) {
 				if (!elem.ref || elem.ref?.current.value === "") {
 					elem.ref?.current.focus();
-					errorValue = `${elem.labelText} is required!`;
-					setShowAlert({ show: true, error: errorValue });
+					let errorValue = `${elem.labelText} is required!`;
+					this.setState((state) => ({
+						setShowAlert: { show: true, error: errorValue },
+					}));
+
 					isValid = false;
+					console.log("error");
 					return;
 				}
 			}
 		}
-		setShowAlert({ show: false, error: "" });
-		setActiveTab(id + 1);
+		console.log("setting state");
+		const nextTab = this.state.activeTab + 1;
+		this.props.tabs.forEach((tab) => {
+			tab.active = nextTab == tab.id;
+		});
+		this.setState((state) => ({
+			activeTab: nextTab,
+			showAlert: { show: false, error: "" },
+		}));
 	};
-	const handleFormSubmit = (event: any) => {
+	handleFormSubmit = (event: any) => {
 		event.preventDefault();
 		let values: any = {};
-		tabs.forEach((tab) => {
+		this.props.tabs.forEach((tab) => {
 			tab.elements.forEach((elem) => {
-				console.log(elem.ref);
 				values[elem.name] = elem.ref?.current.value;
 			});
 		});
-		handleSubmit(values);
+		this.props.handleSubmit(values);
 	};
-	tabs[tabs.length - 1].isLast = true;
-	tabs.forEach((tab) => {
-		tab.active = activeTab == tab.id;
-		tab.onNavClick = onNavClick;
-		tab.onNextClick = onNextClick;
-	});
-	console.log(showNav);
-	return (
-		<Form method="post" id="registration" onSubmit={handleFormSubmit}>
-			{showNav && tabs.length > 1 ? (
-				<Nav fill variant="pills" className="stepwizard-row" id="nav-tab" role="tablist">
-					{tabs.map((tab: FormSectionDto) => {
-						return <FormSectionNav sectionDef={tab} key={`nav-${tab.id}`} />;
+
+	render() {
+		if (this.props.tabs.length < 1) return <h1>your form is empty!</h1>;
+		return (
+			<Form method="post" id="registration" onSubmit={this.handleFormSubmit}>
+				{this.props.showNav && this.props.tabs.length > 1 ? (
+					<Nav fill variant="pills" className="stepwizard-row" id="nav-tab" role="tablist">
+						{this.props.tabs.map((tab: FormSectionDto) => {
+							return <FormSectionNav sectionDef={tab} key={`nav-${tab.id}`} />;
+						})}
+					</Nav>
+				) : (
+					<></>
+				)}
+				<Alert
+					variant="alert alert-warning alert-solid rounded-0  mb-3"
+					show={this.state.showAlert.show}
+					role="alert"
+					onClose={() =>
+						this.setState((state) => ({
+							setShowAlert: { show: false, error: "" },
+						}))
+					}
+					dismissible>
+					<span>
+						<i className="far fa-life-ring"></i>
+					</span>
+					<span> {this.state.showAlert.error}</span>
+				</Alert>
+				<TabContent className=" pb-2" id="nav-tabContent">
+					{this.props.tabs.map((tab: FormSectionDto) => {
+						return <FormSectionTab sectionDef={tab} key={`tab-${tab.id}`} />;
 					})}
-				</Nav>
-			) : (
-				<></>
-			)}
-			<Alert
-				variant="alert alert-warning alert-solid rounded-0  mb-3"
-				show={showAlert.show}
-				role="alert"
-				onClose={() => setShowAlert({ show: false, error: "" })}
-				dismissible>
-				<span>
-					<i className="far fa-life-ring"></i>
-				</span>
-				<span> {showAlert.error}</span>
-			</Alert>
-			<TabContent className="pt-4 pb-2" id="nav-tabContent">
-				{tabs.map((tab: FormSectionDto) => {
-					return <FormSectionTab sectionDef={tab} key={`tab-${tab.id}`} />;
-				})}
-			</TabContent>
-		</Form>
-	);
-};
+				</TabContent>
+			</Form>
+		);
+	}
+}
 export default DynamicForm;
