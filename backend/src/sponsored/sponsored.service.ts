@@ -79,6 +79,7 @@ export class SponsoredService {
               },
             },
             profilePic: true,
+            SponsoredEvents: true,
           },
           ...filter,
           ...pagination,
@@ -143,12 +144,26 @@ export class SponsoredService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, user: User) {
+    let filter: any = {
+      id: id,
+    };
+    if (user.role == 'PATRON') {
+      filter = {
+        AND: [
+          {
+            OR: [
+              { patronId: user.id },
+              { patronId: null },
+            ],
+          },
+          { id: id },
+        ],
+      };
+    }
     const sponsored =
       await this.prisma.sponsored.findMany({
-        where: {
-          id: id,
-        },
+        where: filter,
 
         include: {
           patron: {
@@ -158,6 +173,7 @@ export class SponsoredService {
               id: true,
             },
           },
+          profilePic: true,
           SponsoredEvents: true,
         },
       });

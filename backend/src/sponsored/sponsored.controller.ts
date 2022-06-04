@@ -56,6 +56,19 @@ export class SponsoredController {
       user,
     );
   }
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Returns one Sponsored',
+  })
+  getOne(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ) {
+    return this.sponsoredService.findOne(
+      id,
+      user,
+    );
+  }
 
   @ApiOperation({
     summary:

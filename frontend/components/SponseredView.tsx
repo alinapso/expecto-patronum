@@ -374,8 +374,7 @@ const SponseredView = () => {
 	const { data: result, error } = useSWR(
 		{
 			method: "GET",
-			url: `/sponsored/`,
-			params: { filter: { id: id } },
+			url: `/sponsored/${id}`,
 		},
 
 		RemoteApiCall
@@ -383,7 +382,7 @@ const SponseredView = () => {
 	useEffect(() => {}, [result]);
 
 	console.log(id, result, error);
-	sponsored = result?.data.data[0];
+	sponsored = result?.data[0];
 	console.log(sponsored);
 	if (sponsored)
 		return (
