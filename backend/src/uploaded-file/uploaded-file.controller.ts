@@ -29,6 +29,8 @@ import {
 } from './fileUpload.util';
 import { createReadStream } from 'fs';
 import { join } from 'path';
+import { User } from 'expecto-patronum-common';
+import { GetUser } from 'src/auth/decorator';
 
 @UseGuards(JwtGuard)
 @ApiTags('Uploaded File')
@@ -40,15 +42,7 @@ export class UploadedFileController {
 
   @Get(':id')
   getFile(@Param('id') id: string): any {
-    //console.log(`files/${id}`);
-    try {
-      const file = createReadStream(
-        join(process.cwd(), `files/${id}`),
-      );
-      return new StreamableFile(file);
-    } catch (e) {
-      return new Response();
-    }
+    return this.uploadedFileService.findOne(id);
   }
   @Patch(':id')
   update(

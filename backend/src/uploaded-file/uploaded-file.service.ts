@@ -1,8 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUploadedFileDto } from './dto/create-uploaded-file.dto';
 import { UpdateUploadedFileDto } from './dto/update-uploaded-file.dto';
+import { unlink } from 'node:fs';
+import {
+  UploadedFile,
+  User,
+} from 'expecto-patronum-common';
+import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class UploadedFileService {
@@ -25,8 +34,15 @@ export class UploadedFileService {
     return `This action returns all uploadedFile`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} uploadedFile`;
+  async findOne(id: string) {
+    const uploadedFile =
+      await this.prisma.uploadedFile.findFirst({
+        where: { id: id },
+      });
+    if (uploadedFile) return uploadedFile;
+    throw new NotFoundException(
+      'the file doesnt exist',
+    );
   }
 
   update(
@@ -36,7 +52,20 @@ export class UploadedFileService {
     return `This action updates a #${id} uploadedFile`;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} uploadedFile`;
+  async remove(id: string) {
+    const file = await this.findOne(id);
+    if (!file) return 'this file doesnt exist';
+    const deleteFile =
+      await this.prisma.uploadedFile.delete({
+        where: { id: id },
+      });
+    unlink(
+      `files/${file.id}.${file.postfix}`,
+      (err) => {
+        if (err) throw err;
+        console.log('path/file.txt was deleted');
+      },
+    );
+    return deleteFile;
   }
 }
