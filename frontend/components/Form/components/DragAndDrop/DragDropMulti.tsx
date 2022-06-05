@@ -4,9 +4,10 @@ import { Col, Button, Card } from "react-bootstrap";
 
 import { ApiUploadFile, RemoteApiCall } from "lib/remoteAPI";
 
-import { getFileType, TableItems, TableRow } from "./common";
+import { getFileType, TableItems, TableRow, dialogYesNo } from "./common";
 import { UploadedFile } from "expecto-patronum-common";
-
+import { confirmAlert } from "react-confirm-alert"; // Import
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 type DragDropMultiProps = {
 	fileTypes: string[];
 	defualtValue?: any[];
@@ -14,6 +15,7 @@ type DragDropMultiProps = {
 };
 type DragDropMultiState = {
 	value: TableItems[];
+	showDeleteDialog: boolean;
 };
 export class DragDropMulti extends Component<DragDropMultiProps> {
 	fileTypes: string[];
@@ -39,15 +41,15 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 			});
 		}
 		this.value = valuesInitArray;
-		console.log("-------------------------------");
-		console.log(this.props);
-		console.log("-------------------------------");
+
 		this.state = {
 			value: tableInitArray,
+			showDeleteDialog: false,
 		};
 	}
 	state: DragDropMultiState = {
 		value: [],
+		showDeleteDialog: false,
 	};
 	// componentDidMount() {
 	// 	console.log(this.initTableValue);
@@ -55,6 +57,7 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	// }
 
 	handleDelete = async (index: number) => {
+		console.log("handleDelete");
 		const deletedFile = this.value[index];
 		this.state.value.splice(index, 1);
 		this.setState((state) => ({ value: [...this.state.value] }));
@@ -64,8 +67,8 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 			method: "DELETE",
 			url: `/uploaded-file/${deletedFile}`,
 		});
-		//console.log(deletedFile, res);
 	};
+
 	handleUpload = async (file: any) => {
 		if (file) {
 			const result = await ApiUploadFile(file, this.props.categoryType);
@@ -115,7 +118,7 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 									</thead>
 									<tbody>
 										{this.state.value.map((rowData, index) => (
-											<TableRow data={rowData} key={index} onDelete={() => this.handleDelete(index)} />
+											<TableRow data={rowData} key={index} onDelete={() => () => () => this.handleDelete(index)} />
 										))}
 									</tbody>
 								</table>

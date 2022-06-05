@@ -1,7 +1,7 @@
 import { StringChain } from "lodash";
 import Link from "next/link";
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import image from "../../../../assets/images/image.png";
 import pdf from "../../../../assets/images/pdf.png";
 import word from "../../../../assets/images/word.png";
@@ -34,7 +34,31 @@ export class TableItems {
 		//this.fileSize = fileSize;
 	}
 }
+export const dialogYesNo = ({ msg, onYes }: { msg: string; onYes: () => void }) => {
+	const [showDialog, setShowDialog] = useState(true);
 
+	return (
+		<Modal show={showDialog}>
+			<Modal.Header closeButton>
+				<Modal.Title>{msg}</Modal.Title>
+			</Modal.Header>
+			showDialog
+			<Modal.Body></Modal.Body>
+			<Modal.Footer>
+				<Button
+					variant="secondary"
+					onClick={() => {
+						setShowDialog(false);
+					}}>
+					Close
+				</Button>
+				<Button variant="primary" onClick={() => onYes()}>
+					Save Changes
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	);
+};
 export const getFileType = function (name: string): FileTypes {
 	if (!name) return FileTypes.Undefined;
 	const type = name.split(".").at(-1)?.toUpperCase();
