@@ -68,16 +68,18 @@ const SponsoredEventView = ({
 		thumbnail: `${ENDPOINT}/${image.id}.${image.postfix}`,
 	}));
 	const deleteEvent = () => {
-		console.log(sponsoredEvent.id);
+		//console.log(sponsoredEvent.id);
 	};
 	const updateEvent = () => {
 		setShowEdit(true);
 	};
 	const handleEdit = (values: any) => {
-		console.log(values);
+		//console.log(values);
 	};
 	const getInitValueForEdit = () => {
 		const date = new Date(sponsoredEvent.eventDate);
+		//console.log(imagesList);
+		//console.log(docs);
 		return {
 			title: sponsoredEvent.title,
 			eventDate: moment(date).format("YYYY-MM-DD"),
@@ -266,7 +268,7 @@ const AddOrEditEvent = ({
 	handleSubmit: (values: any) => void;
 	initValue?: any;
 }) => {
-	console.log(initValue);
+	//console.log(initValue);
 	const formTabs = [
 		{
 			id: 1,
@@ -370,15 +372,14 @@ const SponseredView = () => {
 
 		RemoteApiCall
 	);
-	useEffect(() => {
-		if (showAdd == false) {
-			mutate();
-			console.log("mutate");
-		}
-	}, [result, showAdd]);
+	// useEffect(() => {
+	// 	if (showAdd == false) {
+	// 		mutate();
+	// 	}
+	// }, [result, showAdd]);
 
 	const sponsored: Sponsored = result?.data[0];
-	console.log("Loading");
+	//console.log("Loading");
 	if (sponsored)
 		return (
 			<Container>

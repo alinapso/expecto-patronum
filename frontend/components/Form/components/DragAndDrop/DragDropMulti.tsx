@@ -18,7 +18,6 @@ type DragDropMultiState = {
 export class DragDropMulti extends Component<DragDropMultiProps> {
 	fileTypes: string[];
 	value: string[];
-	initTableValue: TableItems[];
 	constructor(props: DragDropMultiProps) {
 		super(props);
 		console.log(this.props.defualtValue);
@@ -26,7 +25,6 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 		this.fileTypes = props.fileTypes;
 		let valuesInitArray: string[] = [];
 		let tableInitArray: TableItems[] = [];
-
 		if (this.props.defualtValue != undefined) {
 			this.props.defualtValue.forEach((file) => {
 				valuesInitArray.push(file.id);
@@ -41,21 +39,32 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 			});
 		}
 		this.value = valuesInitArray;
-		this.initTableValue = tableInitArray;
+		console.log("-------------------------------");
+		console.log(this.props);
+		console.log("-------------------------------");
+		this.state = {
+			value: tableInitArray,
+		};
 	}
 	state: DragDropMultiState = {
 		value: [],
 	};
-	componentDidMount() {
-		console.log(this.initTableValue);
-		this.setState((state) => ({ value: this.initTableValue }));
-	}
-	handleDelete = (index: number) => {
-		const deletedFile = this.state.value[index];
+	// componentDidMount() {
+	// 	console.log(this.initTableValue);
+	// 	this.setState((state) => ({ value: this.initTableValue }));
+	// }
+
+	handleDelete = async (index: number) => {
+		const deletedFile = this.value[index];
 		this.state.value.splice(index, 1);
 		this.setState((state) => ({ value: [...this.state.value] }));
 
 		this.value.splice(index, 1);
+		const res = await RemoteApiCall({
+			method: "DELETE",
+			url: `/uploaded-file/${deletedFile}`,
+		});
+		console.log(deletedFile, res);
 	};
 	handleUpload = async (file: any) => {
 		if (file) {

@@ -7,7 +7,7 @@ import FormElement from "./FormElement";
 export const FormSectionTab = ({ sectionDef }: { sectionDef: FormSectionDto }) => {
 	return (
 		<TabPane
-			className={` ${sectionDef.active ? "d-block" : "d-none"}  fade row show`}
+			className={` ${sectionDef.active ? "d-block show" : "d-none"} row `}
 			id={`${sectionDef.id}`}
 			key={sectionDef.id}>
 			<Col md="12" className="p-3">
