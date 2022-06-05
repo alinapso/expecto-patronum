@@ -51,13 +51,15 @@ export const TableRow = ({ data }: { data: UploadedFile }) => {
 		</tr>
 	);
 };
-const SponsoredEventView = ({
+function SponsoredEventView({
 	sponsored,
 	sponsoredEvent,
+	refresh,
 }: {
 	sponsored: Sponsored;
 	sponsoredEvent: SponsoredEvents;
-}) => {
+	refresh: () => void;
+}) {
 	const [docs, imagesList] = partition(sponsoredEvent.files, (file) => file.fileCategory === "DOC");
 	const images = imagesList.map((image) => ({
 		original: `${ENDPOINT}/${image.id}.${image.postfix}`,
@@ -65,14 +67,32 @@ const SponsoredEventView = ({
 	}));
 	const [showEdit, setShowEdit] = useState(false);
 
-	const deleteEvent = () => {
-		//console.log(sponsoredEvent.id);
+	const deleteEvent = async () => {
+		const res = await RemoteApiCall({
+			method: "DELETE",
+			url: `/sponsored-events/${sponsoredEvent.id}`,
+		});
+		refresh();
 	};
 	const updateEvent = () => {
 		setShowEdit(true);
 	};
-	const handleEdit = (values: any) => {
-		//console.log(values);
+	const handleEdit = async (values: any) => {
+		const date = new Date(values.eventDate);
+		const payload = {
+			title: values.title,
+			description: values.description,
+			eventDate: date,
+			sponsoredId: sponsored.id,
+			files: [...values.images, ...values.docs],
+		};
+		const res = await RemoteApiCall({
+			method: "PATCH",
+			url: `/sponsored-events/${sponsoredEvent.id}`,
+			body: payload,
+		});
+		refresh();
+		setShowEdit(false);
 	};
 	const getInitValueForEdit = () => {
 		const date = new Date(sponsoredEvent.eventDate);
@@ -102,7 +122,7 @@ const SponsoredEventView = ({
 												<Link
 													href={`/admin/sponsored/${sponsored.id}`}>{`${sponsored.firstName} ${sponsored.lastName}`}</Link>
 											</h5>
-
+											<h2>{sponsoredEvent.title}</h2>
 											<p className="mb-0">{new Date(sponsoredEvent.eventDate).toLocaleDateString()}</p>
 										</div>
 										<div className="card-post-toolbar">
@@ -170,7 +190,7 @@ const SponsoredEventView = ({
 				initValue={initValues}></AddOrEditEvent>
 		</Col>
 	);
-};
+}
 const CreateEventMenuAndHeader = ({
 	sponsored,
 	show,
@@ -357,7 +377,7 @@ const SponseredView = () => {
 	const [showAdd, setShowAdd] = useState(false);
 	const router = useRouter();
 	const { id } = router.query;
-
+	const [refresh, setRefresh] = useState(false);
 	const {
 		data: result,
 		error,
@@ -370,14 +390,16 @@ const SponseredView = () => {
 
 		RemoteApiCall
 	);
-	// useEffect(() => {
-	// 	if (showAdd == false) {
-	// 		mutate();
-	// 	}
-	// }, [result, showAdd]);
-
+	const refreshView = () => {
+		setRefresh(!refresh);
+	};
 	const sponsored: Sponsored = result?.data[0];
-	//console.log("Loading");
+	useEffect(() => {
+		if (showAdd == false) mutate();
+	}, [showAdd]);
+	useEffect(() => {
+		mutate();
+	}, [refresh]);
 	if (sponsored)
 		return (
 			<Container>
@@ -385,7 +407,7 @@ const SponseredView = () => {
 					<CreateEventMenuAndHeader sponsored={sponsored} show={showAdd} setShow={setShowAdd} />
 					{sponsored.SponsoredEvents && sponsored.SponsoredEvents.length > 0 ? (
 						sponsored.SponsoredEvents.map((se) => (
-							<SponsoredEventView sponsored={sponsored} sponsoredEvent={se} key={se.id} />
+							<SponsoredEventView sponsored={sponsored} sponsoredEvent={se} refresh={refreshView} key={se.id} />
 						))
 					) : (
 						<h3>No post exist yet</h3>

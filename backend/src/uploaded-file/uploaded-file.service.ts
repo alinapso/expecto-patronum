@@ -68,4 +68,29 @@ export class UploadedFileService {
     );
     return deleteFile;
   }
+  async removeByEvent(eventId: string) {
+    const deleteFiles =
+      await this.prisma.uploadedFile.findMany({
+        where: { sponsoredEventsId: eventId },
+      });
+    deleteFiles.forEach((file) => {
+      unlink(
+        `files/${file.id}.${file.postfix}`,
+        (err) => {
+          if (err) throw err;
+          console.log(
+            'path/file.txt was deleted',
+          );
+        },
+      );
+    });
+    const res =
+      await this.prisma.uploadedFile.deleteMany({
+        where: {
+          sponsoredEventsId: eventId,
+        },
+      });
+    console.log(res);
+    return deleteFiles.length;
+  }
 }

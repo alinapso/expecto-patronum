@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { unlink } from 'node:fs';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UploadedFileService } from 'src/uploaded-file/uploaded-file.service';
 import { CreateSponsoredEventDto } from './dto/create-sponsored-event.dto';
 import { UpdateSponsoredEventDto } from './dto/update-sponsored-event.dto';
 
@@ -39,14 +41,61 @@ export class SponsoredEventsService {
     return `This action returns a #${id} sponsoredEvent`;
   }
 
-  update(
+  async update(
     id: string,
-    updateSponsoredEventDto: UpdateSponsoredEventDto,
+    dto: UpdateSponsoredEventDto,
   ) {
-    return `This action updates a #${id} sponsoredEvent`;
+    const { files, ...pramas } = dto;
+
+    const updatedSponsoredEvent =
+      await this.prisma.sponsoredEvents.update({
+        where: {
+          id: id,
+        },
+        data: { ...pramas },
+      });
+    files.forEach(async (fileID) => {
+      await this.prisma.uploadedFile.update({
+        where: {
+          id: fileID,
+        },
+        data: {
+          sponsoredEventsId: id,
+        },
+      });
+    });
+    return updatedSponsoredEvent;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} sponsoredEvent`;
+  async remove(id: string) {
+    const deleteFiles =
+      await this.prisma.uploadedFile.findMany({
+        where: { sponsoredEventsId: id },
+      });
+    deleteFiles.forEach((file) => {
+      unlink(
+        `files/${file.id}.${file.postfix}`,
+        (err) => {
+          if (err) throw err;
+          console.log(
+            'path/file.txt was deleted',
+          );
+        },
+      );
+    });
+    const res =
+      await this.prisma.uploadedFile.deleteMany({
+        where: {
+          sponsoredEventsId: id,
+        },
+      });
+    console.log(res);
+    return await this.prisma.sponsoredEvents.delete(
+      {
+        where: {
+          id: id,
+        },
+      },
+    );
   }
 }
