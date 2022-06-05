@@ -9,7 +9,7 @@ import { UploadedFile } from "expecto-patronum-common";
 
 type DragDropMultiProps = {
 	fileTypes: string[];
-	defualtValue?: UploadedFile[];
+	defualtValue?: any[];
 	categoryType: string;
 };
 type DragDropMultiState = {
@@ -20,7 +20,7 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	value: string[];
 	constructor(props: DragDropMultiProps) {
 		super(props);
-		console.log(this.props.defualtValue);
+		//console.log("in constructor", this.props.defualtValue);
 
 		this.fileTypes = props.fileTypes;
 		let valuesInitArray: string[] = [];
@@ -64,12 +64,12 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 			method: "DELETE",
 			url: `/uploaded-file/${deletedFile}`,
 		});
-		console.log(deletedFile, res);
+		//console.log(deletedFile, res);
 	};
 	handleUpload = async (file: any) => {
 		if (file) {
 			const result = await ApiUploadFile(file, this.props.categoryType);
-			console.log(result);
+			//console.log(result);
 			if (result && result.status == 201) {
 				this.value.push(result.data.id);
 				this.setState((state) => ({
@@ -88,6 +88,7 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	};
 
 	render() {
+		//console.log("this.state.value", this.state.value);
 		return (
 			<Col sm={12} className="mb-3">
 				<Card>

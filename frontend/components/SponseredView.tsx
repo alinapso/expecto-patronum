@@ -54,19 +54,17 @@ export const TableRow = ({ data }: { data: UploadedFile }) => {
 const SponsoredEventView = ({
 	sponsored,
 	sponsoredEvent,
-	showEdit,
-	setShowEdit,
 }: {
 	sponsored: Sponsored;
 	sponsoredEvent: SponsoredEvents;
-	showEdit: boolean;
-	setShowEdit: any;
 }) => {
 	const [docs, imagesList] = partition(sponsoredEvent.files, (file) => file.fileCategory === "DOC");
 	const images = imagesList.map((image) => ({
 		original: `${ENDPOINT}/${image.id}.${image.postfix}`,
 		thumbnail: `${ENDPOINT}/${image.id}.${image.postfix}`,
 	}));
+	const [showEdit, setShowEdit] = useState(false);
+
 	const deleteEvent = () => {
 		//console.log(sponsoredEvent.id);
 	};
@@ -78,8 +76,7 @@ const SponsoredEventView = ({
 	};
 	const getInitValueForEdit = () => {
 		const date = new Date(sponsoredEvent.eventDate);
-		//console.log(imagesList);
-		//console.log(docs);
+
 		return {
 			title: sponsoredEvent.title,
 			eventDate: moment(date).format("YYYY-MM-DD"),
@@ -88,6 +85,8 @@ const SponsoredEventView = ({
 			docs: docs,
 		};
 	};
+	const initValues = getInitValueForEdit();
+
 	return (
 		<Col sm={12}>
 			<Card>
@@ -168,7 +167,7 @@ const SponsoredEventView = ({
 				show={showEdit}
 				setShow={setShowEdit}
 				handleSubmit={handleEdit}
-				initValue={getInitValueForEdit()}></AddOrEditEvent>
+				initValue={initValues}></AddOrEditEvent>
 		</Col>
 	);
 };
@@ -356,7 +355,6 @@ const AddOrEditEvent = ({
 };
 const SponseredView = () => {
 	const [showAdd, setShowAdd] = useState(false);
-	const [showEdit, setShowEdit] = useState(false);
 	const router = useRouter();
 	const { id } = router.query;
 
@@ -387,13 +385,7 @@ const SponseredView = () => {
 					<CreateEventMenuAndHeader sponsored={sponsored} show={showAdd} setShow={setShowAdd} />
 					{sponsored.SponsoredEvents && sponsored.SponsoredEvents.length > 0 ? (
 						sponsored.SponsoredEvents.map((se) => (
-							<SponsoredEventView
-								sponsored={sponsored}
-								sponsoredEvent={se}
-								key={se.id}
-								showEdit={showEdit}
-								setShowEdit={setShowEdit}
-							/>
+							<SponsoredEventView sponsored={sponsored} sponsoredEvent={se} key={se.id} />
 						))
 					) : (
 						<h3>No post exist yet</h3>

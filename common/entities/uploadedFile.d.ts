@@ -10,9 +10,9 @@ export declare type UploadedFile = {
 	title: string;
 	postfix: string;
 	fileCategory: FileCategory;
-	SponsoredEvents: SponsoredEvents | null;
-	sponsoredEventsId: string | null;
-	Sponsored: Sponsored[];
+	SponsoredEvents?: SponsoredEvents | null;
+	sponsoredEventsId?: string | null;
+	Sponsored?: Sponsored[];
 };
 export type FileCategory = typeof FileCategory[keyof typeof FileCategory];
 

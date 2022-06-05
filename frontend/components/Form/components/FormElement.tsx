@@ -20,9 +20,17 @@ function elemenetFactorey(elem: FormElementDto) {
 			params = { as: "textarea", rows: 5 };
 			break;
 		case FormElementTypes.Profile:
-			return <DragDropSingle fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref}></DragDropSingle>;
+			return (
+				<DragDropSingle fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref} defualtValue={elem.initValue}></DragDropSingle>
+			);
 		case FormElementTypes.Images:
-			return <DragDropMulti fileTypes={["JPG", "PNG", "GIF"]} ref={elem.ref} categoryType="IMAGE"></DragDropMulti>;
+			return (
+				<DragDropMulti
+					fileTypes={["JPG", "PNG", "GIF"]}
+					ref={elem.ref}
+					categoryType="IMAGE"
+					defualtValue={elem.initValue}></DragDropMulti>
+			);
 		case FormElementTypes.Docs:
 			return (
 				<DragDropMulti

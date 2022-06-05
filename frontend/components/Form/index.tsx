@@ -51,7 +51,7 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 		}));
 	};
 	onNextClick = (id: number) => {
-		//console.log("clicked next");
+		console.log("clicked next");
 		let isValid: boolean = true;
 		for (const elem of this.state.tabs[id - 1].elements) {
 			if (elem.required) {
@@ -69,7 +69,7 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 			}
 		}
 		const nextTab = this.state.activeTab + 1;
-		const copy = this.state.tabs;
+		const copy = [...this.state.tabs];
 		copy.forEach((tab) => {
 			tab.active = nextTab === tab.id;
 		});
@@ -91,6 +91,7 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 	};
 
 	render() {
+		console.log(this.state.tabs);
 		if (this.state.tabs.length < 1) return <h1>your form is empty!</h1>;
 		return (
 			<Form method="post" id="registration" onSubmit={this.handleFormSubmit}>
