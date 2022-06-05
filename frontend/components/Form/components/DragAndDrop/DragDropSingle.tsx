@@ -24,14 +24,14 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 		if (this.props.defualtValue != undefined) {
 			this.value = this.props.defualtValue.id;
 			const file = this.props.defualtValue;
-			this.setState((state) => ({
+			this.state = {
 				tableItems: new TableItems({
 					name: file.title,
 					fileType: getFileType(file.postfix),
 					fileHerf: `${file.id}.${file.postfix}`,
 					//fileSize: file.size,
 				}),
-			}));
+			};
 		}
 
 		this.fileTypes = props.fileTypes;
@@ -43,12 +43,16 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 	handleDownload = (index: number) => {
 		console.log(index);
 	};
-	handleDelete = (index: number) => {
+	handleDelete = async (index: number) => {
 		const deletedFile = this.value;
 		this.value = "";
 		this.setState((state) => ({ tableItems: undefined }));
-
 		//do delete
+		const res = await RemoteApiCall({
+			method: "DELETE",
+			url: `/uploaded-file/${deletedFile}`,
+		});
+		console.log(deletedFile, res);
 	};
 	handleUpload = async (file: any) => {
 		if (file) {
