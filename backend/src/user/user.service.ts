@@ -49,6 +49,7 @@ export class UserService {
               email: true,
               role: true,
               Address: true,
+              isActive: true,
             },
             ...params,
           }),
@@ -64,6 +65,34 @@ export class UserService {
         ),
         data: result[1],
       };
+    } catch (e) {
+      if (
+        e instanceof PrismaClientValidationError
+      ) {
+        throw new BadRequestException();
+      }
+      //console.log(e);
+      throw new InternalServerErrorException();
+    }
+  }
+  async getUserById(id: string) {
+    try {
+      return this.prisma.user.findFirst({
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          role: true,
+          Address: true,
+          isActive: true,
+          Sponsored: true,
+          Transactions: true,
+        },
+        where: {
+          id: id,
+        },
+      });
     } catch (e) {
       if (
         e instanceof PrismaClientValidationError

@@ -80,7 +80,7 @@ export default function Sponsored() {
 			mapKey: "monthlySum",
 		},
 		{
-			name: "_remove",
+			name: "_profile",
 			mapKey: "isActive",
 			customDecorators: gotoProfile,
 		},

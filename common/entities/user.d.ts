@@ -16,6 +16,7 @@ export declare type User = {
 	role: Role | null;
 	Sponsored?: Sponsored[] | null;
 	Transactions?: Transactions[] | null;
+	isActive: boolean;
 };
 
 export type Role = typeof Role[keyof typeof Role];

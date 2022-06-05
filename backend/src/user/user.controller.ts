@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Query,
@@ -31,6 +32,10 @@ export class UserController {
     return user;
   }
 
+  @Get(':id')
+  GetUser(@Param('id') id: string) {
+    return this.userService.getUserById(id);
+  }
   @Patch(':id')
   editUser(
     @GetUser('id') userId: string,

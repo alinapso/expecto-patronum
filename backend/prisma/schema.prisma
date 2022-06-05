@@ -21,6 +21,7 @@ model User {
   role         Role?
   Sponsored    Sponsored[]
   Transactions Transactions[]
+  isActive     Boolean        @default(true)
 
   @@map("users")
 }
