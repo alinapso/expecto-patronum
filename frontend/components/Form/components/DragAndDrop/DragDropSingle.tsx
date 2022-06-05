@@ -1,12 +1,8 @@
 import React, { Component, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { Col, Button, Card } from "react-bootstrap";
-import image from "../assets/images/image.png";
-import pdf from "../assets/images/pdf.png";
-import word from "../assets/images/word.png";
 import { ApiUploadFile, RemoteApiCall } from "lib/remoteAPI";
-import useSWR, { useSWRConfig } from "swr";
-import { FileCategory, UploadedFile } from "expecto-patronum-common";
+import { UploadedFile } from "expecto-patronum-common";
 import { getFileType, TableItems, TableRow } from "./common";
 type DragDropSingleProps = {
 	fileTypes: string[];

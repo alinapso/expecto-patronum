@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { User } from 'expecto-patronum-common';
 import { unlink } from 'node:fs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UploadedFileService } from 'src/uploaded-file/uploaded-file.service';
@@ -37,10 +38,49 @@ export class SponsoredEventsService {
     return `This action returns all sponsoredEvents`;
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} sponsoredEvent`;
+  async findOne(id: string) {
+    return await this.prisma.sponsoredEvents.findMany(
+      {
+        where: {
+          id: id,
+        },
+      },
+    );
   }
-
+  async getAllEventsByUser(user: User) {
+    return await this.prisma.sponsoredEvents.findMany(
+      {
+        orderBy: {
+          eventDate: 'desc',
+        },
+        where: {
+          sponsored: {
+            patronId: user.id,
+          },
+        },
+        include: {
+          files: true,
+          sponsored: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+            },
+          },
+        },
+      },
+    );
+  }
+  // async getAllEventsByUser(user: User) {
+  //   const patronId = user.id;
+  //   const result =
+  //     await this.prisma.$queryRawUnsafe(
+  //       'select se.* from "SponsoredEvents" se  inner join "Sponsored" s ON  s.id = se."sponsoredId" where s."patronId" = $1 order by se."eventDate" DESC',
+  //       patronId,
+  //     );
+  //   console.log(result);
+  //   return result;
+  // }
   async update(
     id: string,
     dto: UpdateSponsoredEventDto,

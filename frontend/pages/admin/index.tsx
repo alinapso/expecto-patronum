@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "components/Layout";
-import { RemoteApiCall } from "lib/remoteAPI";
-import useSWR from "swr";
 import Router from "next/router";
-import Form from "components/Form";
 import { AdminNav } from "../../components/consts";
 import LineChart from "components/indexCharts/totalDonationsByMonth";
 import { Col, Card, Row } from "react-bootstrap";

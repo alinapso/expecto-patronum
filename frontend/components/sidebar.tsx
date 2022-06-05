@@ -9,7 +9,6 @@ export declare type SideBarItem = {
 };
 
 const Sidebar = ({ items }: { items: SideBarItem[] }) => {
-	console.log(items);
 	return (
 		<>
 			<div className="iq-sidebar">

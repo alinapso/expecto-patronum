@@ -102,12 +102,8 @@ export class SponsoredService {
           patronId: null,
           isActive: true,
         },
-        select: {
-          id: true,
-          firstName: true,
-          middleName: true,
-          fatherName: true,
-          lastName: true,
+        include: {
+          profilePic: true,
         },
       });
     return sponsored;

@@ -56,6 +56,24 @@ export class SponsoredController {
       user,
     );
   }
+  @Get('me')
+  @ApiOperation({
+    summary: 'Returns all Sponsered by patron',
+  })
+  getByPatron(
+    @GetUser() user: User,
+    @Query() query,
+  ) {
+    const apiCall = CreateFromQuery(query);
+    return this.sponsoredService.getSponseredByPatron(
+      user,
+      apiCall,
+    );
+  }
+  @Get('not')
+  getNonSponsered() {
+    return this.sponsoredService.getNotSponsered();
+  }
   @Get(':id')
   @ApiOperation({
     summary: 'Returns one Sponsored',
@@ -74,11 +92,6 @@ export class SponsoredController {
     summary:
       'Returns all Sponsered without patron',
   })
-  @Get('not')
-  getNonSponsered() {
-    return this.sponsoredService.getNotSponsered();
-  }
-
   @UseGuards(AdminGuard)
   @Patch(':id')
   update(

@@ -1,5 +1,4 @@
 import { RemoteApiCall } from "lib/remoteAPI";
-import useSWR, { useSWRConfig } from "swr";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 
