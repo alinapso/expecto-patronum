@@ -1,5 +1,6 @@
 import SponsoredEvents from "./sponsoredEvents";
 import Sponsored from "./sponsored";
+import Expenses from "./expenses";
 export declare const FileCategory: {
 	PROFILE: "PROFILE";
 	IMAGE: "IMAGE";
@@ -13,6 +14,7 @@ export declare type UploadedFile = {
 	SponsoredEvents?: SponsoredEvents | null;
 	sponsoredEventsId?: string | null;
 	Sponsored?: Sponsored[];
+	Expenses?: Expenses[];
 };
 export type FileCategory = typeof FileCategory[keyof typeof FileCategory];
 

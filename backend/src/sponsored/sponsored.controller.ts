@@ -87,7 +87,26 @@ export class SponsoredController {
       user,
     );
   }
-
+  @Patch('adopt')
+  sponserASponser(
+    @GetUser() user: User,
+    @Body()
+    body: {
+      id: string;
+      user: User;
+      startDate: string;
+      endDate: string;
+      sum: number;
+    },
+  ) {
+    return this.sponsoredService.SponsorASponsered(
+      body.id,
+      user,
+      new Date(body.startDate),
+      new Date(body.endDate),
+      body.sum,
+    );
+  }
   @ApiOperation({
     summary:
       'Returns all Sponsered without patron',

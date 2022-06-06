@@ -26,7 +26,7 @@ export default function Dashboared() {
 	const [showModel, setShowModel] = useState(false);
 	useEffect(() => {
 		const getData = async () => {
-			if (user && user.status == UserStatus.loggedIn) {
+			if (user && user.status == UserStatus.loggedIn && showModel == false) {
 				const res = await RemoteApiCall({
 					method: "GET",
 					url: "/sponsored/not",
@@ -35,7 +35,7 @@ export default function Dashboared() {
 			}
 		};
 		getData();
-	}, [user]);
+	}, [user, showModel]);
 	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
 	else if (user.status == UserStatus.LoggedOut) {
 		Router.push("/");
@@ -46,68 +46,117 @@ export default function Dashboared() {
 		const age = today.getFullYear() - birthDate.getFullYear();
 		return age;
 	};
-	const handleSubmit = (values: any) => {
+	const handleSubmit = async (values: any, sponsored: Sponsored | undefined) => {
+		if (sponsored == undefined) return;
 		console.log(values);
+		const { startDate, endDate } = calcDureation(values.duration, sponsored);
+		const res = await RemoteApiCall({
+			method: "PATCH",
+			url: "/sponsored/adopt",
+			body: {
+				id: sponsored.id,
+				sum: values.sum,
+				startDate: startDate,
+				endDate: endDate,
+			},
+		});
+		setShowModel(false);
 	};
-	const formTabs = [
-		{
-			id: 1,
-			name: "sponsorship duration",
-			title: "How Long would you like to Sponsor ",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: true,
-			elements: [
-				{
-					id: "description",
-					name: "description",
-					labelText: "Event Description",
-					elemetType: FormElementTypes.DropDownList,
-					required: true,
-					placeholder: "write description here",
-					options: ["Select how much long do you want to sponsor", "one time", "6 month", "1 year", "until graduation"],
-				},
-			],
-		},
-		{
-			id: 2,
-			name: "payment",
-			title: "Insert payment details",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: true,
-			elements: [
-				{
-					id: "visa card",
-					name: "visa card",
-					labelText: "visa card",
-					elemetType: FormElementTypes.Text,
-					required: false,
-					placeholder: "visa card",
-				},
-				{
-					id: "experationDate",
-					name: "experationDate",
-					labelText: "Experation Date",
-					elemetType: FormElementTypes.Datepicker,
-					required: false,
-					placeholder: "Experation Date",
-				},
-				{
-					id: "ccv",
-					name: "ccv",
-					labelText: "ccv",
-					elemetType: FormElementTypes.Text,
-					required: false,
-					placeholder: "ccv",
-				},
-			],
-		},
-	];
+	const calcDureation = (duration: string, sponsored: Sponsored) => {
+		const today = new Date(Date.now());
+		console.log(sponsored);
+		switch (duration) {
+			case "one time":
+				return { startDate: today, endDate: today };
+
+			case "6 month":
+				return { startDate: today, endDate: new Date(new Date(Date.now()).setMonth(today.getMonth() + 6)) };
+			case "1 year":
+				return { startDate: today, endDate: new Date(new Date(Date.now()).setFullYear(today.getFullYear() + 1)) };
+			case "until graduation":
+				return {
+					startDate: today,
+					endDate: new Date(new Date(Date.now()).setFullYear(today.getFullYear() + 18 - calcAge(sponsored.birthDate))),
+				};
+			default:
+				return { startDate: today, endDate: today };
+		}
+	};
+
+	const getFormTabs = (sponsored: Sponsored | undefined) => {
+		if (sponsored == undefined) return [];
+		const sponsOptions = ["one time", "6 month", "1 year"];
+		if (calcAge(sponsored.birthDate) < 18) sponsOptions.push("until graduation");
+		const formTabs = [
+			{
+				id: 1,
+				name: "sponsorship duration",
+				title: "How Long would you like to Sponsor ",
+				icon: "ri-lock-unlock-line bg-soft-primary text-primary",
+				active: true,
+				elements: [
+					{
+						id: "duration",
+						name: "duration",
+						labelText: "Event Description",
+						elemetType: FormElementTypes.DropDownList,
+						required: true,
+						placeholder: "duration",
+						options: sponsOptions,
+					},
+					{
+						id: "sum",
+						name: "sum",
+						labelText: "Total donatiom",
+						elemetType: FormElementTypes.Text,
+						required: true,
+						placeholder: "Total donatiom",
+					},
+				],
+			},
+			{
+				id: 2,
+				name: "payment",
+				title: "Insert payment details",
+				icon: "ri-lock-unlock-line bg-soft-primary text-primary",
+				active: true,
+				elements: [
+					{
+						id: "visa card",
+						name: "visa card",
+						labelText: "visa card",
+						elemetType: FormElementTypes.Text,
+						required: true,
+						placeholder: "visa card",
+					},
+					{
+						id: "experationDate",
+						name: "experationDate",
+						labelText: "Experation Date",
+						elemetType: FormElementTypes.Datepicker,
+						required: true,
+						placeholder: "Experation Date",
+					},
+					{
+						id: "ccv",
+						name: "ccv",
+						labelText: "ccv",
+						elemetType: FormElementTypes.Text,
+						required: true,
+						placeholder: "ccv",
+					},
+				],
+			},
+		];
+		return formTabs;
+	};
+
 	if (sponsoredList && sponsoredList.length > 0)
 		return (
 			<Layout items={PatronNav}>
-				{sponsoredList.map((sponsored: Sponsored, index) => (
-					<Col lg="12">
-						<Card className="card-block card-stretch card-height blog-list">
+				<Col lg="12">
+					{sponsoredList.map((sponsored: Sponsored, index) => (
+						<Card className="card-block card-stretch card-height blog-list" key={sponsored.id}>
 							<Card.Body>
 								<Row className="align-items-center">
 									<Col md="6" className={`order-md-${(index % 2) + 1}`}>
@@ -145,19 +194,15 @@ export default function Dashboared() {
 								</Row>
 							</Card.Body>
 						</Card>
-
-						<CreateOrEditModel
-							show={showModel}
-							setShow={setShowModel}
-							sponsored={selected as Sponsored}
-							formTabs={formTabs}
-							handleSubmit={handleSubmit}
-						/>
-					</Col>
-				))}
+					))}
+					<CreateOrEditModel
+						show={showModel}
+						setShow={setShowModel}
+						sponsored={selected}
+						formTabs={getFormTabs(selected)}
+						handleSubmit={(values: any) => handleSubmit(values, selected)}
+					/>
+				</Col>
 			</Layout>
 		);
-}
-function generateFilter() {
-	throw new Error("Function not implemented.");
 }

@@ -16,7 +16,7 @@ const CreateOrEditModel = ({
 	handleSubmit: (values: any) => void;
 	initValue?: any;
 	formTabs: any;
-	sponsored: Sponsored;
+	sponsored: Sponsored | undefined;
 }) => {
 	//console.log(initValue);
 	if (sponsored != undefined)
@@ -35,5 +35,6 @@ const CreateOrEditModel = ({
 				</Modal.Body>
 			</Modal>
 		);
+	else return <></>;
 };
 export default CreateOrEditModel;

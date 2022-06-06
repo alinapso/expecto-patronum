@@ -63,6 +63,7 @@ model UploadedFile {
   SponsoredEvents   SponsoredEvents? @relation(fields: [sponsoredEventsId], references: [id])
   sponsoredEventsId String?
   Sponsored         Sponsored[]
+  Expenses          Expenses[]
 }
 
 enum FileCategory {
@@ -81,6 +82,7 @@ model SponsoredEvents {
   files       UploadedFile[]
   sponsored   Sponsored      @relation(fields: [sponsoredId], references: [id])
   sponsoredId String
+  Expenses    Expenses[]
 }
 
 model Transactions {
@@ -90,4 +92,14 @@ model Transactions {
   patronId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Expenses {
+  id               String          @id @default(uuid())
+  sum              Float
+  title            String
+  sponsoredEventId String
+  sponsoredEvent   SponsoredEvents @relation(fields: [sponsoredEventId], references: [id])
+  uploadedFileId   String
+  uploadedFile     UploadedFile    @relation(fields: [uploadedFileId], references: [id])
 }

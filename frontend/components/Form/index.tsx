@@ -91,7 +91,6 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 	};
 
 	render() {
-		console.log(this.state.tabs);
 		if (this.state.tabs.length < 1) return <h1>your form is empty!</h1>;
 		return (
 			<Form method="post" id="registration" onSubmit={this.handleFormSubmit}>

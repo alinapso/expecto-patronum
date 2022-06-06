@@ -28,7 +28,6 @@ export default function Dashboared() {
 		getData();
 	}, [user]);
 
-	console.log(sponsoredEvents);
 	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
 	else if (user.status == UserStatus.LoggedOut) {
 		Router.push("/");

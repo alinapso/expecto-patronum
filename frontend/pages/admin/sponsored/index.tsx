@@ -76,7 +76,7 @@ export default function Sponsored() {
 		},
 		{
 			name: "Monthly sum",
-			mapKey: "monthlySum",
+			mapKey: "monthlyDum",
 		},
 		{
 			name: "_profile",

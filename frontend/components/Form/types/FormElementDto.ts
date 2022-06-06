@@ -44,5 +44,6 @@ export enum FormElementTypes {
 	Images,
 	Docs,
 	Custom,
-	dropDownList,
+	DropDownList,
+	Number,
 }

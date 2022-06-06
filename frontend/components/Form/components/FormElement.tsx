@@ -13,6 +13,9 @@ function elemenetFactorey(elem: FormElementDto) {
 		case FormElementTypes.Text:
 			params = { type: "text" };
 			break;
+		case FormElementTypes.Number:
+			params = { type: "text" };
+			break;
 		case FormElementTypes.Email:
 			params = { type: "email" };
 			break;
@@ -49,7 +52,9 @@ function elemenetFactorey(elem: FormElementDto) {
 
 					<select className="form-select" id={elem.id} ref={elem.ref}>
 						{elem.options.map((option, index) => (
-							<option value={index}>{option}</option>
+							<option key={index} value={option}>
+								{option}
+							</option>
 						))}
 					</select>
 				</Form.Group>
@@ -63,6 +68,7 @@ function elemenetFactorey(elem: FormElementDto) {
 		<Form.Group className={`${elem.style} form-group`} key={elem.name}>
 			<Form.Label>{elem.labelText}</Form.Label>
 			<Form.Control
+				type=""
 				{...params}
 				className="form-control"
 				required={elem.required}

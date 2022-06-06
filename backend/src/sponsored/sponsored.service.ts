@@ -115,19 +115,35 @@ export class SponsoredService {
     try {
       const pagination = getPagination(apiCall);
       const orderBy = getOrderBy(apiCall);
-      const sponsored =
-        await this.prisma.sponsored.findMany({
-          where: {
-            patronId: user.id,
-            ...apiCall.filter,
-          },
-          include: {
-            SponsoredEvents: true,
-          },
-          ...pagination,
-          ...orderBy,
-        });
-      return sponsored;
+      const filter = getFilter(apiCall);
+      const result =
+        await this.prisma.$transaction([
+          this.prisma.sponsored.aggregate({
+            _count: true,
+            ...filter,
+          }),
+          this.prisma.sponsored.findMany({
+            where: {
+              patronId: user.id,
+              ...apiCall.filter,
+            },
+            include: {
+              SponsoredEvents: true,
+            },
+            ...pagination,
+            ...orderBy,
+          }),
+        ]);
+      return {
+        count: result[0]._count,
+        currentPage: apiCall.pagination
+          ? apiCall.pagination.page
+          : 1,
+        pageTotal: calcPageCount(
+          result[0]?._count,
+        ),
+        data: result[1],
+      };
     } catch (e) {
       if (
         e instanceof PrismaClientValidationError
@@ -220,11 +236,40 @@ export class SponsoredService {
     return sponsored;
   }
 
-  update(
+  async update(
     id: string,
     updateSponsoredDto: UpdateSponsoredDto,
   ) {
     return `This action updates a #${id} sponsored`;
+  }
+
+  async SponsorASponsered(
+    id: string,
+    user: User,
+    startDate: Date,
+    endDate: Date,
+    sum: number,
+  ) {
+    const spon =
+      await this.prisma.sponsored.findFirst({
+        where: {
+          id: id,
+        },
+      });
+    if (spon.isActive && spon.patronId == null)
+      return await this.prisma.sponsored.update({
+        where: {
+          id: id,
+        },
+        data: {
+          patronId: user.id,
+          dayOfTransaction: 1,
+          monthlyDum: 50,
+          startDate: startDate,
+          endDate: endDate,
+        },
+      });
+    else throw new BadRequestException();
   }
   async changeStatus(
     id: string,

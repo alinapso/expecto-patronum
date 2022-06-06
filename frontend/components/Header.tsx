@@ -11,6 +11,7 @@ export default function Header({ navbarEnabled }: any) {
 	const minisidebar = () => {
 		document.body.classList.toggle("sidebar-main");
 	};
+	console.log("user", user);
 	return (
 		<div className="iq-top-navbar">
 			<div className="iq-navbar-custom">
@@ -60,7 +61,7 @@ export default function Header({ navbarEnabled }: any) {
 							{user.status == UserStatus.loggedIn && (
 								<>
 									<li>
-										<Link href="/admin">
+										<Link href="/dashboard">
 											<a>
 												<span
 													style={{
@@ -69,11 +70,26 @@ export default function Header({ navbarEnabled }: any) {
 														borderRadius: "100%",
 														overflow: "hidden",
 													}}></span>
-												admin
+												Dashboard
 											</a>
 										</Link>
 									</li>
-
+									{user.data.role === "ADMIN" && (
+										<li>
+											<Link href="/admin">
+												<a>
+													<span
+														style={{
+															marginRight: ".3em",
+															verticalAlign: "middle",
+															borderRadius: "100%",
+															overflow: "hidden",
+														}}></span>
+													Admin
+												</a>
+											</Link>
+										</li>
+									)}
 									<li>
 										<a
 											href="/api/logout"

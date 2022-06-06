@@ -3,3 +3,4 @@ export * from "./sponsored";
 export * from "./sponsoredEvents";
 export * from "./transactions";
 export * from "./uploadedFile";
+export * from "./expenses";

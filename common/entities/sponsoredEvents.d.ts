@@ -1,3 +1,4 @@
+import Expenses from "./expenses";
 import Sponsored from "./sponsored";
 import UploadedFile from "./uploadedFile";
 
@@ -8,8 +9,9 @@ export declare type SponsoredEvents = {
 	eventDate: Date;
 	title: string;
 	description: string;
-	files: UploadedFile[];
-	sponsored: Sponsored;
 	sponsoredId: string;
+	sponsored: Sponsored;
+	Expenses: Expenses[];
+	files: UploadedFile[];
 };
 export default SponsoredEvents;

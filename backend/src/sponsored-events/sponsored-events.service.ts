@@ -67,20 +67,12 @@ export class SponsoredEventsService {
               lastName: true,
             },
           },
+          Expenses: true,
         },
       },
     );
   }
-  // async getAllEventsByUser(user: User) {
-  //   const patronId = user.id;
-  //   const result =
-  //     await this.prisma.$queryRawUnsafe(
-  //       'select se.* from "SponsoredEvents" se  inner join "Sponsored" s ON  s.id = se."sponsoredId" where s."patronId" = $1 order by se."eventDate" DESC',
-  //       patronId,
-  //     );
-  //   console.log(result);
-  //   return result;
-  // }
+
   async update(
     id: string,
     dto: UpdateSponsoredEventDto,
