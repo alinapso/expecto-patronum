@@ -42,6 +42,20 @@ function elemenetFactorey(elem: FormElementDto) {
 		case FormElementTypes.Datepicker:
 			params = { type: "date" };
 			break;
+		case FormElementTypes.DropDownList:
+			return elem.options ? (
+				<Form.Group className={`${elem.style} form-group`}>
+					<Form.Label htmlFor="exampleFormControlSelect1">{elem.labelText}</Form.Label>
+
+					<select className="form-select" id={elem.id} ref={elem.ref}>
+						{elem.options.map((option, index) => (
+							<option value={index}>{option}</option>
+						))}
+					</select>
+				</Form.Group>
+			) : (
+				<h5>no options</h5>
+			);
 		default:
 			params = {};
 	}

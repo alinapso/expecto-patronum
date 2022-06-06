@@ -10,6 +10,7 @@ export default class FormElemenetDto {
 	ref?: MutableRefObject<any>;
 	style?: string;
 	initValue?: any;
+	options?: string[];
 	constructor(
 		id: string,
 		name: string,
@@ -19,7 +20,8 @@ export default class FormElemenetDto {
 		placeholder?: string,
 		initValue?: any,
 		ref?: MutableRefObject<any>,
-		style?: string
+		style?: string,
+		options?: string[]
 	) {
 		this.id = id;
 		this.name = name;
@@ -30,6 +32,7 @@ export default class FormElemenetDto {
 		this.ref = ref;
 		this.style = style;
 		this.initValue = initValue;
+		this.options = options ? options : [];
 	}
 }
 export enum FormElementTypes {
@@ -41,4 +44,5 @@ export enum FormElementTypes {
 	Images,
 	Docs,
 	Custom,
+	dropDownList,
 }
