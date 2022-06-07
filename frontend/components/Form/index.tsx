@@ -87,6 +87,7 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 				values[elem.name] = elem.ref?.current.value;
 			});
 		});
+		console.log(event);
 		this.props.handleSubmit(values);
 	};
 

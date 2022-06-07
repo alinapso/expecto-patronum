@@ -3,7 +3,7 @@ import { MutableRefObject, RefObject } from "react";
 export default class FormElemenetDto {
 	id: string;
 	name: string;
-	labelText: string;
+	labelText?: string;
 	elemetType: FormElementTypes;
 	required: boolean = false;
 	placeholder: string;
@@ -15,7 +15,7 @@ export default class FormElemenetDto {
 		id: string,
 		name: string,
 		elemetType: FormElementTypes,
-		labelText: string,
+		labelText?: string,
 		required?: boolean,
 		placeholder?: string,
 		initValue?: any,

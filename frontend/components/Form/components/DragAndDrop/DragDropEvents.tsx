@@ -1,14 +1,16 @@
-import React, { Component, useState } from "react";
+import React, { Component, useRef, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
-import { Col, Button, Card } from "react-bootstrap";
+import { Col, Button, Card, Form } from "react-bootstrap";
 
 import { ApiUploadFile, RemoteApiCall } from "lib/remoteAPI";
 
-import { getFileType, TableItems, dialogYesNo, RowImage } from "./common";
+import { getFileType, dialogYesNo, RowImage, FileTypes } from "./common";
 import { UploadedFile } from "expecto-patronum-common";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import Link from "next/link";
+import FormElement from "../FormElement";
+import { FormElementTypes } from "components/Form/types/FormElementDto";
 type DragDropEventsProps = {
 	fileTypes: string[];
 	defualtValue?: any[];
@@ -18,33 +20,60 @@ type DragDropEventsState = {
 	value: TableItems[];
 	showDeleteDialog: boolean;
 };
+
+export class TableItems {
+	name: string;
+	fileType: FileTypes;
+	fileHerf: string;
+	title: string;
+	sum: string;
+	constructor({
+		name,
+		fileType,
+		fileHerf,
+		title,
+		sum,
+	}: {
+		name: string;
+		fileType: FileTypes;
+		fileHerf: string;
+		title: string;
+		sum: string;
+	}) {
+		this.name = name;
+		this.fileType = fileType;
+		this.fileHerf = fileHerf;
+		this.title = title;
+		this.sum = sum;
+	}
+}
 export class DragDropEvents extends Component<DragDropEventsProps> {
 	fileTypes: string[];
-	value: string[];
+	value: TableItems[];
+
 	constructor(props: DragDropEventsProps) {
 		super(props);
 		//console.log("in constructor", this.props.defualtValue);
 
 		this.fileTypes = props.fileTypes;
-		let valuesInitArray: string[] = [];
 		let tableInitArray: TableItems[] = [];
+		this.value = [];
 		if (this.props.defualtValue != undefined) {
-			this.props.defualtValue.forEach((file) => {
-				valuesInitArray.push(file.id);
-				tableInitArray.push(
+			this.props.defualtValue.forEach((file, index) => {
+				this.value.push(
 					new TableItems({
 						name: file.title,
 						fileType: getFileType(file.postfix),
 						fileHerf: `${file.id}.${file.postfix}`,
-						//fileSize: file.size,
+						title: file.name,
+						sum: "0",
 					})
 				);
 			});
 		}
-		this.value = valuesInitArray;
 
 		this.state = {
-			value: tableInitArray,
+			value: this.value,
 			showDeleteDialog: false,
 		};
 	}
@@ -52,47 +81,49 @@ export class DragDropEvents extends Component<DragDropEventsProps> {
 		value: [],
 		showDeleteDialog: false,
 	};
-	// componentDidMount() {
-	// 	console.log(this.initTableValue);
-	// 	this.setState((state) => ({ value: this.initTableValue }));
-	// }
 
 	handleDelete = async (index: number) => {
 		console.log("handleDelete");
 		const deletedFile = this.value[index];
 		this.state.value.splice(index, 1);
 		this.setState((state) => ({ value: [...this.state.value] }));
-
 		this.value.splice(index, 1);
 		const res = await RemoteApiCall({
 			method: "DELETE",
 			url: `/uploaded-file/${deletedFile}`,
 		});
 	};
-
+	handleOnChange = (type: string, tableRow: TableItems, value: string) => {
+		if (type == "title") {
+			tableRow.title = value;
+		}
+		if (type == "sum") {
+			tableRow.sum = value;
+		}
+	};
 	handleUpload = async (file: any) => {
 		if (file) {
 			const result = await ApiUploadFile(file, this.props.categoryType);
 			//console.log(result);
 			if (result && result.status == 201) {
-				this.value.push(result.data.id);
+				const newItem = new TableItems({
+					name: file.name,
+					fileType: getFileType(file.name),
+					fileHerf: `${result.data.id}.${result.data.postfix}`,
+					title: file.name,
+					sum: "0",
+				});
+				this.value.push(newItem);
 				this.setState((state) => ({
-					value: [
-						...this.state.value,
-						new TableItems({
-							name: file.name,
-							fileType: getFileType(file.name),
-							fileHerf: `${result.data.id}.${result.data.postfix}`,
-							//fileSize: file.size,
-						}),
-					],
+					value: [...this.state.value, newItem],
 				}));
+				console.log(this.state.value);
 			}
 		}
 	};
 
 	render() {
-		//console.log("this.state.value", this.state.value);
+		console.log("this.state.value", this.value);
 		return (
 			<Col sm={12} className="mb-3">
 				<Card>
@@ -118,8 +149,14 @@ export class DragDropEvents extends Component<DragDropEventsProps> {
 										</tr>
 									</thead>
 									<tbody>
-										{this.state.value.map((rowData, index) => (
-											<TableRow data={rowData} key={index} onDelete={() => () => () => this.handleDelete(index)} />
+										{this.value.map((rowData, index) => (
+											<TableRow
+												data={rowData}
+												index={index}
+												key={index}
+												onDelete={() => () => () => this.handleDelete(index)}
+												handleOnChange={(type: string, value: string) => this.handleOnChange(type, rowData, value)}
+											/>
 										))}
 									</tbody>
 								</table>
@@ -133,7 +170,17 @@ export class DragDropEvents extends Component<DragDropEventsProps> {
 		);
 	}
 }
-export const TableRow = ({ data, onDelete }: { data: TableItems; onDelete: () => void }) => {
+export const TableRow = ({
+	data,
+	onDelete,
+	index,
+	handleOnChange,
+}: {
+	data: TableItems;
+	onDelete: () => void;
+	index: number;
+	handleOnChange: (type: string, value: string) => void;
+}) => {
 	const fileNameSnip = (name: string) => {
 		if (!name) return "";
 		if (name.length < 20) return name;
@@ -151,25 +198,33 @@ export const TableRow = ({ data, onDelete }: { data: TableItems; onDelete: () =>
 				<RowImage fileType={data.fileType} />
 			</td>
 			<td>
-				<input
-					type="text"
-					className="form-control"
-					placeholder="Expense title"
-					aria-label="title"
-					aria-describedby="basic-addon2"
-				/>
+				<Form.Group className="form-group pt-3" key={2 * index + 1}>
+					<Form.Control
+						type="text"
+						pattern="^[a-zA-Z0-9_.-]*$"
+						className="form-control"
+						required={true}
+						id={`${2 * index + 1}`}
+						name={`${2 * index + 1}`}
+						placeholder={"title"}
+						onChange={(event) => handleOnChange("title", event.target.value)}
+					/>
+				</Form.Group>
 			</td>
 			<td>
-				<input
-					type="text"
-					className="form-control"
-					placeholder="Expense Total"
-					aria-label="title"
-					aria-describedby="basic-addon2"
-					pattern="([0-9]*[.])?[0-9]+"
-				/>
+				<Form.Group className="form-group pt-3" key={2 * index + 1}>
+					<Form.Control
+						type="text"
+						pattern="^([0-9]*[.])?[0-9]+"
+						className="form-control"
+						required={true}
+						id={`${2 * index + 1}`}
+						name={`${2 * index + 1}`}
+						placeholder={"sum"}
+						onChange={(event) => handleOnChange("sum", event.target.value)}
+					/>
+				</Form.Group>
 			</td>
-			{/* <td className="overflow-hidden">{data.fileSize}</td> */}
 			<td className="overflow-hidden">
 				<div className="flex align-items-center list-user-action">
 					<Link href={`${ENDPOINT}/${data.fileHerf}`}>

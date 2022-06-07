@@ -201,6 +201,7 @@ const CreateEventMenuAndHeader = ({
 	setShow: any;
 }) => {
 	const handleSubmit = async (values: any) => {
+		console.log(values);
 		const payload = {
 			title: values.title,
 			description: values.description,
