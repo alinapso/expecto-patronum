@@ -347,12 +347,12 @@ const AddOrEditEvent = ({
 			active: true,
 			elements: [
 				{
-					id: "docs",
-					name: "docs",
-					labelText: "Docs",
-					elemetType: FormElementTypes.Docs,
+					id: "events",
+					name: "events",
+					labelText: "Events",
+					elemetType: FormElementTypes.Events,
 					required: true,
-					placeholder: "Docs",
+					placeholder: "Events",
 				},
 			],
 		},

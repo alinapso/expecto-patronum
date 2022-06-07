@@ -1,4 +1,4 @@
-import { DragDropMulti, DragDropSingle } from "./DragAndDrop";
+import { DragDropMulti, DragDropSingle, DragDropEvents } from "./DragAndDrop";
 import { useRef } from "react";
 import { Form } from "react-bootstrap";
 import FormElementDto, { FormElementTypes } from "../types/FormElementDto";
@@ -11,16 +11,16 @@ function elemenetFactorey(elem: FormElementDto) {
 	if (!elem.ref) elem.ref = useRef<HTMLInputElement>(elem.initValue);
 	switch (elem.elemetType) {
 		case FormElementTypes.Text:
-			params = { type: "text" };
+			params = { type: "text", pattern: "^[a-zA-Z0-9_.-]*$" };
 			break;
 		case FormElementTypes.Number:
-			params = { type: "text" };
+			params = { type: "text", pattern: "([0-9]*[.])?[0-9]+" };
 			break;
 		case FormElementTypes.Email:
 			params = { type: "email" };
 			break;
 		case FormElementTypes.Textarea:
-			params = { as: "textarea", rows: 5 };
+			params = { as: "textarea", rows: 5, pattern: "[a-zA-Z0-9_.-:]+" };
 			break;
 		case FormElementTypes.Profile:
 			return (
@@ -41,6 +41,14 @@ function elemenetFactorey(elem: FormElementDto) {
 					ref={elem.ref}
 					categoryType="DOC"
 					defualtValue={elem.initValue}></DragDropMulti>
+			);
+		case FormElementTypes.Events:
+			return (
+				<DragDropEvents
+					fileTypes={["JPG", "PNG", "GIF", "DOC", "DOCX", "PDF"]}
+					ref={elem.ref}
+					categoryType="DOC"
+					defualtValue={elem.initValue}></DragDropEvents>
 			);
 		case FormElementTypes.Datepicker:
 			params = { type: "date" };

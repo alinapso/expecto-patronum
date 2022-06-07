@@ -8,7 +8,7 @@ import Form from "components/Form";
 import Sidebar from "components/sidebar";
 import { AdminNav, PatronNav } from "components/consts";
 import { UserStatus, useUserState } from "context/user";
-import { Card, Col, Row, Image, Button } from "react-bootstrap";
+import { Card, Col, Row, Image, Button, Container } from "react-bootstrap";
 import Link from "next/link";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 import blog6 from "../../assets/images/blog/01.jpg";
@@ -150,59 +150,68 @@ export default function Dashboared() {
 		];
 		return formTabs;
 	};
+	const sponsoredCard = (sponsored: Sponsored) => {
+		return (
+			<Card className=" pt-2 d-inline-block w-100" key={sponsored.id}>
+				<Card.Body className="align-items-center  overflow-auto ">
+					<div>
+						<Image
+							src={`${ENDPOINT}/${sponsored.profilePic?.id}.${sponsored.profilePic?.postfix}`}
+							className="img-fluid rounded w-100 "
+							alt="blog-img"
+						/>
+					</div>
 
+					<div className="blog-description p-2 ">
+						<h5 className="mb-2">{`${sponsored.firstName} ${sponsored.lastName}`}</h5>
+						<p>{sponsored.description}</p>{" "}
+						<div className="d-flex flex-wrap align-items-center justify-content-between">
+							<span>Age : {calcAge(sponsored.birthDate)}</span>
+							<span>Country of origin : {sponsored.placeOfBirth}</span>
+						</div>
+						<div className="group-smile mt-4 d-flex flex-wrap align-items-center justify-content-center position-right-side">
+							<div className="iq-media-group">
+								<Button
+									variant="success"
+									className="rounded-pill mb-1"
+									onClick={() => {
+										setSelected(sponsored);
+										setShowModel(true);
+									}}>
+									Sponsor
+								</Button>{" "}
+							</div>
+						</div>
+					</div>
+				</Card.Body>
+			</Card>
+		);
+	};
+	const createTwoCoulumns = () => {
+		let col1: any = [];
+		let col2: any = [];
+		sponsoredList.forEach((sponsored: Sponsored, index) => {
+			if (index % 2 == 0) col1.push(sponsoredCard(sponsored));
+			else col2.push(sponsoredCard(sponsored));
+		});
+		return (
+			<Row>
+				<Col md={6}>{col1}</Col>
+				<Col md={6}>{col2}</Col>
+			</Row>
+		);
+	};
 	if (sponsoredList && sponsoredList.length > 0)
 		return (
 			<Layout items={PatronNav}>
-				<Col lg="12">
-					{sponsoredList.map((sponsored: Sponsored, index) => (
-						<Card className="card-block card-stretch card-height blog-list" key={sponsored.id}>
-							<Card.Body>
-								<Row className="align-items-center">
-									<Col md="6" className={`order-md-${(index % 2) + 1}`}>
-										<div className="image-block">
-											<Image
-												src={`${ENDPOINT}/${sponsored.profilePic?.id}.${sponsored.profilePic?.postfix}`}
-												className="img-fluid rounded w-100"
-												alt="blog-img"
-											/>
-										</div>
-									</Col>
-									<Col md="6" className={`order-md-${((index + 1) % 2) + 1}`}>
-										<div className="blog-description p-2">
-											<h5 className="mb-2">{`${sponsored.firstName} ${sponsored.lastName}`}</h5>
-											<p>{sponsored.description}</p>{" "}
-											<div className="d-flex flex-wrap align-items-center justify-content-between">
-												<span>Age : {calcAge(sponsored.birthDate)}</span>
-												<span>Country of origin : {sponsored.placeOfBirth}</span>
-											</div>
-											<div className="group-smile mt-4 d-flex flex-wrap align-items-center justify-content-center position-right-side">
-												<div className="iq-media-group">
-													<Button
-														variant="success"
-														className="rounded-pill mb-1"
-														onClick={() => {
-															setSelected(sponsored);
-															setShowModel(true);
-														}}>
-														Sponsor
-													</Button>{" "}
-												</div>
-											</div>
-										</div>
-									</Col>
-								</Row>
-							</Card.Body>
-						</Card>
-					))}
-					<CreateOrEditModel
-						show={showModel}
-						setShow={setShowModel}
-						sponsored={selected}
-						formTabs={getFormTabs(selected)}
-						handleSubmit={(values: any) => handleSubmit(values, selected)}
-					/>
-				</Col>
+				<div>{createTwoCoulumns()}</div>
+				<CreateOrEditModel
+					show={showModel}
+					setShow={setShowModel}
+					sponsored={selected}
+					formTabs={getFormTabs(selected)}
+					handleSubmit={(values: any) => handleSubmit(values, selected)}
+				/>
 			</Layout>
 		);
 }
