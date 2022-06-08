@@ -60,7 +60,7 @@ export default function Sponsored() {
 				<Link href={`/dashboard/sponsored/${id}`}>
 					<Button className="btn btn-primary btn-rounded btn-sm ms-1">Profile</Button>
 				</Link>
-				<Link href={`/dashboard/sponsored/${id}`}>
+				<Link href={`/dashboard/sponsored/expenses/${id}`}>
 					<Button className="btn btn-success btn-rounded btn-sm ms-1">Expenses</Button>
 				</Link>
 				{/* <Button className="btn btn-danger btn-rounded btn-sm ms-1">stop</Button> */}

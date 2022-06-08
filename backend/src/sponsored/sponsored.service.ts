@@ -132,7 +132,7 @@ export class SponsoredService {
                 include: {
                   Expenses: {
                     include: {
-                      uploadedFile: true,
+                      UploadedFile: true,
                     },
                   },
                 },
@@ -197,7 +197,7 @@ export class SponsoredService {
             orderBy: { eventDate: 'desc' },
             include: {
               Expenses: {
-                include: { uploadedFile: true },
+                include: { UploadedFile: true },
               },
               files: {
                 where: {

@@ -27,8 +27,6 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 			tab.onNextClick = this.onNextClick;
 			tab.elements.forEach((elem) => {
 				if (this.props.initValue && this.props.initValue[elem.id]) {
-					//console.log(elem.id, this.props.initValue[elem.id]);
-
 					elem.initValue = this.props.initValue[elem.id];
 				}
 			});
@@ -51,7 +49,6 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 		}));
 	};
 	onNextClick = (id: number) => {
-		console.log("clicked next");
 		let isValid: boolean = true;
 		for (const elem of this.state.tabs[id - 1].elements) {
 			if (elem.required) {
@@ -87,7 +84,6 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 				values[elem.name] = elem.ref?.current.value;
 			});
 		});
-		console.log(event);
 		this.props.handleSubmit(values);
 	};
 

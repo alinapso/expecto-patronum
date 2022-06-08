@@ -13,10 +13,6 @@ export default function Sponsored() {
 	const { user } = useUserState();
 	const [sponsoredParams, setSponsoredParams] = useState({});
 
-	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
-	else if (user.status == UserStatus.LoggedOut) {
-		Router.push("/signin");
-	}
 	return (
 		<Layout securityLevel={SecurityLevel.USER}>
 			<SponseredView />

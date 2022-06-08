@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'expecto-patronum-common';
+import {
+  Expenses,
+  User,
+} from 'expecto-patronum-common';
 import { unlink } from 'node:fs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UploadedFileService } from 'src/uploaded-file/uploaded-file.service';
@@ -62,7 +65,7 @@ export class SponsoredEventsService {
         },
         include: {
           Expenses: {
-            include: { uploadedFile: true },
+            include: { UploadedFile: true },
           },
         },
       },
@@ -89,7 +92,7 @@ export class SponsoredEventsService {
             },
           },
           Expenses: {
-            include: { uploadedFile: true },
+            include: { UploadedFile: true },
           },
         },
       },
@@ -101,7 +104,7 @@ export class SponsoredEventsService {
     dto: UpdateSponsoredEventDto,
   ) {
     const { expenses, files, ...pramas } = dto;
-
+    console.log(expenses);
     const updatedSponsoredEvent =
       await this.prisma.sponsoredEvents.update({
         where: {
@@ -119,6 +122,57 @@ export class SponsoredEventsService {
         },
       });
     });
+    // let existing_ids: string[] = [];
+    // const getSponsoredCurrent =
+    //   await this.findOne(id);
+
+    expenses.forEach(
+      async (expense: Expenses) => {
+        console.log('------------');
+        console.log(expense);
+        console.log('------------');
+        if (!expense.id) {
+          const { title, sum, uploadedFileId } =
+            expense;
+          const res =
+            await this.prisma.expenses.create({
+              data: {
+                title: title,
+                sum: sum,
+                uploadedFileId: uploadedFileId,
+                sponsoredEventId: id,
+              },
+            });
+          //console.log(res);
+        } else if (expense.id) {
+          //existing_ids.push(expense.id);
+          const { title, sum, uploadedFileId } =
+            expense;
+          const res =
+            await this.prisma.expenses.update({
+              where: {
+                id: expense.id,
+              },
+              data: {
+                title: title,
+                sum: sum,
+                uploadedFileId: uploadedFileId,
+                sponsoredEventId: id,
+              },
+            });
+          //console.log(res);
+        }
+      },
+    );
+    // const getDeleted =
+    //   getSponsoredCurrent[0].Expenses.filter(
+    //     (e) => !existing_ids.includes(e.id),
+    //   );
+    // getDeleted.forEach(async (deleted) => {
+    //   await this.prisma.expenses.delete({
+    //     where: { id: deleted.id },
+    //   });
+    // });
     return updatedSponsoredEvent;
   }
 

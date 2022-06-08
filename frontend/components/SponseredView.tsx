@@ -34,11 +34,11 @@ export const TableRow = ({ data }: { data: Expenses }) => {
 			<td>{data.title}</td>
 			<td>{data.sum}$</td>
 			<td className="overflow-hidden pb-2">
-				{data.uploadedFile ? (
+				{data.UploadedFile ? (
 					<div className="flex align-items-center list-user-action">
-						<Link href={`${ENDPOINT}/${data.uploadedFile.id}.${data.uploadedFile.postfix}`}>
+						<Link href={`${ENDPOINT}/${data.UploadedFile.id}.${data.UploadedFile.postfix}`}>
 							<a>
-								<RowImage fileType={getFileType(data.uploadedFile ? data.uploadedFile.postfix : "")} />
+								<RowImage fileType={getFileType(data.UploadedFile ? data.UploadedFile.postfix : "")} />
 							</a>
 						</Link>
 					</div>

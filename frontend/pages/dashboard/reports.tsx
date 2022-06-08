@@ -12,14 +12,24 @@ import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 
-export default function Dashboared() {
-	const { user } = useUserState();
-
-	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
-	else if (user.status == UserStatus.LoggedOut) {
-		Router.push("/signin");
-	}
-
+export default function PatronReports() {
+	const headers = patronReportHeaders();
+	return (
+		<Layout securityLevel={SecurityLevel.USER}>
+			<Row>
+				<Col sm="12">
+					<Card>
+						<Card.Body>
+							<h4>Sponsered</h4>
+						</Card.Body>
+					</Card>
+					<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/me/" />
+				</Col>
+			</Row>
+		</Layout>
+	);
+}
+export const patronReportHeaders = () => {
 	const dateDecorator = (value: any, id: any) => {
 		const date = new Date(value);
 
@@ -54,7 +64,7 @@ export default function Dashboared() {
 			</span>
 		);
 	};
-	const sponsoredHeaders = [
+	const headers = [
 		{ name: "First Name", mapKey: "firstName" },
 		{ name: "Middle Name", mapKey: "middleName" },
 		{ name: "Last Name", mapKey: "lastName" },
@@ -80,26 +90,6 @@ export default function Dashboared() {
 			mapKey: "isActive",
 			customDecorators: gotoProfile,
 		},
-
-		// {
-		// 	name: "_stopSponsership",
-		// 	mapKey: "id",
-		// 	customDecorators: stopSponsership,
-		// },
 	];
-
-	return (
-		<Layout securityLevel={SecurityLevel.USER}>
-			<Row>
-				<Col sm="12">
-					<Card>
-						<Card.Body>
-							<h4>Sponsered</h4>
-						</Card.Body>
-					</Card>
-					<TableDatasource headers={sponsoredHeaders} keyValue="id" dataSourceUrl="/sponsored/me/" />
-				</Col>
-			</Row>
-		</Layout>
-	);
-}
+	return headers;
+};

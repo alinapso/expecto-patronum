@@ -6,6 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Expenses } from 'expecto-patronum-common';
 export class UpdateSponsoredEventDto extends PartialType(
   CreateSponsoredEventDto,
 ) {
@@ -21,4 +22,6 @@ export class UpdateSponsoredEventDto extends PartialType(
   eventDate: string;
   @IsString()
   sponsoredId: string;
+  @IsOptional()
+  expenses: Expenses[];
 }

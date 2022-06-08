@@ -1,12 +1,12 @@
 import SponsoredEvents from "./sponsoredEvents";
 import UploadedFile from "./uploadedFile";
 export declare type Expenses = {
-	id?: number;
+	id?: string;
 	sum: number;
 	title: string;
 	sponsoredEventId?: string;
 	sponsoredEvent?: SponsoredEvents;
-	uploadedFileId: string;
-	uploadedFile?: UploadedFile;
+	uploadedFileId?: string;
+	UploadedFile?: UploadedFile;
 };
 export default Expenses;

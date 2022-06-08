@@ -42,7 +42,7 @@ model Sponsored {
   birthDate        DateTime
   placeOfBirth     String
   description      String
-  uploadedFileId   String?
+  uploadedFileId   String?           @unique
   profilePic       UploadedFile?     @relation(fields: [uploadedFileId], references: [id])
   isActive         Boolean
   patron           User?             @relation(fields: [patronId], references: [id])
@@ -60,10 +60,11 @@ model UploadedFile {
   title             String
   postfix           String
   fileCategory      FileCategory
-  SponsoredEvents   SponsoredEvents? @relation(fields: [sponsoredEventsId], references: [id])
   sponsoredEventsId String?
-  Sponsored         Sponsored[]
-  Expenses          Expenses[]
+  SponsoredEvents   SponsoredEvents? @relation(fields: [sponsoredEventsId], references: [id])
+
+  Sponsored Sponsored[]
+  Expenses  Expenses[]
 }
 
 enum FileCategory {
@@ -95,11 +96,11 @@ model Transactions {
 }
 
 model Expenses {
-  id               String          @id @default(uuid())
+  id               String           @id @default(uuid())
   sum              Float
   title            String
-  sponsoredEventId String
-  sponsoredEvent   SponsoredEvents @relation(fields: [sponsoredEventId], references: [id])
-  uploadedFileId   String
-  uploadedFile     UploadedFile    @relation(fields: [uploadedFileId], references: [id])
+  sponsoredEventId String?
+  sponsoredEvent   SponsoredEvents? @relation(fields: [sponsoredEventId], references: [id])
+  uploadedFileId   String?
+  UploadedFile     UploadedFile?    @relation(fields: [uploadedFileId], references: [id])
 }

@@ -122,7 +122,7 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 									</thead>
 									<tbody>
 										{this.state.value.map((rowData, index) => (
-											<TableRow data={rowData} key={index} onDelete={() => () => () => this.handleDelete(index)} />
+											<TableRow data={rowData} key={index} onDelete={() => this.handleDelete(index)} />
 										))}
 									</tbody>
 								</table>

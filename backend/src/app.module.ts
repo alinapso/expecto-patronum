@@ -11,6 +11,9 @@ import { SponsoredEventsModule } from './sponsored-events/sponsored-events.modul
 import { MulterModule } from '@nestjs/platform-express';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ExpensesService } from './expenses/expenses.service';
+import { ExpensesController } from './expenses/expenses.controller';
+import { ExpensesModule } from './expenses/expenses.module';
 
 @Module({
   imports: [
@@ -30,6 +33,9 @@ import { join } from 'path';
     SponsoredEventsModule,
     UploadedFileModule,
     TransactionsModule,
+    ExpensesModule,
   ],
+  providers: [ExpensesService],
+  controllers: [ExpensesController],
 })
 export class AppModule {}

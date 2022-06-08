@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Layout, { SecurityLevel } from "components/Layout";
-import Router from "next/router";
-import { UserStatus, useUserState } from "context/user";
-import PatronProfile from "components/patronProfile";
 
-export default function Sponsored() {
-	const { user } = useUserState();
+import { Row, Col, Card, Button } from "react-bootstrap";
+import TableDatasource from "components/TableDatasource";
+import { patronReportHeaders } from "pages/dashboard/reports";
+import { useRouter } from "next/router";
 
-	const { id } = Router.query;
+export default function PatronProfile() {
+	const headers = patronReportHeaders();
+	const router = useRouter();
+
+	const { id } = router.query;
+
 	return (
-		<Layout securityLevel={SecurityLevel.ADMIN}>
-			<PatronProfile patronId={id as string} />
+		<Layout securityLevel={SecurityLevel.USER}>
+			<Row>
+				<Col sm="12">
+					<Card>
+						<Card.Body>
+							<h4>Sponsered</h4>
+						</Card.Body>
+					</Card>
+					<TableDatasource headers={headers} keyValue="id" dataSourceUrl={`/sponsored/${id}`} />
+				</Col>
+			</Row>
 		</Layout>
 	);
 }

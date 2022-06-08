@@ -12,11 +12,13 @@ const TableDatasource = ({
 	dataSourceUrl,
 	keyValue,
 	filterValue,
+	setValue,
 }: {
 	headers: TableHeader[];
 	dataSourceUrl: string;
 	keyValue: any;
 	filterValue?: any;
+	setValue?: (items: any) => void;
 }) => {
 	const [pagination, setPagination] = useState({});
 	const [filter, setFilter] = useState(filterValue);
@@ -56,6 +58,7 @@ const TableDatasource = ({
 		data: [],
 		currentPage: -1,
 		pageTotal: -1,
+		sum: -1,
 	});
 	useEffect(() => {
 		//console.log(result);
@@ -64,7 +67,12 @@ const TableDatasource = ({
 				data: result?.data?.data ? result?.data?.data : [],
 				currentPage: result?.data.currentPage ? result.data.currentPage : -1,
 				pageTotal: result?.data.pageTotal ? result.data.pageTotal : -1,
+				sum: result?.data.sum ? result.data.sum : -1,
 			});
+		if (setValue) {
+			setValue(result?.data);
+		}
+
 		//console.log(tableData);
 	}, [result]);
 	useEffect(() => {
@@ -75,6 +83,13 @@ const TableDatasource = ({
 		return (
 			<Row>
 				<Col sm="12">
+					{tableData.sum > -1 && (
+						<Card>
+							<Card.Body>
+								<h5 className="mb-0 d-inline-block">Total Expenses for this timeframe : {tableData.sum}$</h5>
+							</Card.Body>
+						</Card>
+					)}
 					<Card>
 						<Card.Body>
 							<TableData

@@ -34,10 +34,11 @@ export class DragDropExpenses extends Component<DragDropExpensesProps> {
 		if (this.props.defualtValue != undefined) {
 			this.props.defualtValue.forEach((expense: Expenses, index) => {
 				this.value.push({
-					uploadedFile: expense.uploadedFile,
+					UploadedFile: expense.UploadedFile,
 					uploadedFileId: expense.uploadedFileId,
 					sum: expense.sum,
 					title: expense.title,
+					id: expense.id,
 				});
 			});
 		}
@@ -55,12 +56,13 @@ export class DragDropExpenses extends Component<DragDropExpensesProps> {
 	handleDelete = async (index: number) => {
 		console.log("handleDelete");
 		const deletedFile = this.value[index];
+		console.log(deletedFile);
 		this.state.value.splice(index, 1);
 		this.setState((state) => ({ value: [...this.state.value] }));
 		this.value.splice(index, 1);
 		const res = await RemoteApiCall({
 			method: "DELETE",
-			url: `/uploaded-file/${deletedFile}`,
+			url: `/expenses/${deletedFile.id}`,
 		});
 	};
 	handleOnChange = (type: string, tableRow: Expenses, value: string) => {
@@ -76,22 +78,21 @@ export class DragDropExpenses extends Component<DragDropExpensesProps> {
 			const result = await ApiUploadFile(file, this.props.categoryType);
 			if (result && result.status == 201) {
 				const newItem = {
-					uploadedFile: result.data,
+					UploadedFile: result.data,
 					uploadedFileId: result.data.id,
 					sum: 0,
 					title: file.title,
 				};
+
 				this.value.push(newItem);
 				this.setState((state) => ({
 					value: [...this.state.value, newItem],
 				}));
-				console.log(this.state.value);
 			}
 		}
 	};
 
 	render() {
-		console.log("this.state.value", this.value);
 		return (
 			<Col sm={12} className="mb-3">
 				<Card>
@@ -125,7 +126,7 @@ export class DragDropExpenses extends Component<DragDropExpensesProps> {
 												data={rowData}
 												index={index}
 												key={index}
-												onDelete={() => () => () => this.handleDelete(index)}
+												onDelete={() => this.handleDelete(index)}
 												handleOnChange={(type: string, value: string) => this.handleOnChange(type, rowData, value)}
 											/>
 										))}
@@ -157,6 +158,7 @@ export const TableRow = ({
 		if (name.length < 20) return name;
 		return name.split("", 15) + "...";
 	};
+
 	const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 	return (
 		<tr>
@@ -166,13 +168,13 @@ export const TableRow = ({
 				</div>
 			</td>
 			<td>
-				<RowImage fileType={data.uploadedFile ? getFileType(data.uploadedFile.postfix) : FileTypes.Undefined} />
+				<RowImage fileType={data.UploadedFile ? getFileType(data.UploadedFile.postfix) : FileTypes.Undefined} />
 			</td>
 			<td>
 				<Form.Group className="form-group pt-3" key={2 * index + 1}>
 					<Form.Control
 						type="text"
-						pattern="^[a-zA-Z0-9_.-]*$"
+						// pattern="^[a-zA-Z0-9_.-]*$"
 						className="form-control"
 						required={true}
 						id={`${2 * index + 1}`}
@@ -200,9 +202,9 @@ export const TableRow = ({
 			</td>
 			<td className="overflow-hidden">
 				<div className="flex align-items-center list-user-action">
-					{data.uploadedFile ? (
+					{data.UploadedFile ? (
 						<>
-							<Link href={`${ENDPOINT}/${data.uploadedFile.id}.${data.uploadedFile.postfix}`}>
+							<Link href={`${ENDPOINT}/${data.UploadedFile.id}.${data.UploadedFile.postfix}`}>
 								<Button type="button" className="btn btn-labeled btn-success">
 									<i className="ri-download-line"></i>
 								</Button>
