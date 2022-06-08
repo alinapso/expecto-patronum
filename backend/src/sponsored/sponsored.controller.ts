@@ -60,16 +60,32 @@ export class SponsoredController {
   @ApiOperation({
     summary: 'Returns all Sponsered by patron',
   })
-  getByPatron(
+  getByPatronMe(
     @GetUser() user: User,
     @Query() query,
   ) {
     const apiCall = CreateFromQuery(query);
     return this.sponsoredService.getSponseredByPatron(
-      user,
+      user.id,
       apiCall,
     );
   }
+
+  @Get('patron/:id')
+  @ApiOperation({
+    summary: 'Returns all Sponsered by patron',
+  })
+  getByPatron(
+    @Param('id') id: string,
+    @Query() query,
+  ) {
+    const apiCall = CreateFromQuery(query);
+    return this.sponsoredService.getSponseredByPatron(
+      id,
+      apiCall,
+    );
+  }
+
   @Get('not')
   getNonSponsered() {
     return this.sponsoredService.getNotSponsered();

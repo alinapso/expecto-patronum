@@ -130,7 +130,7 @@ export function SponsoredEventView({
 										<div>
 											<h5 className="mb-0 d-inline-block">
 												<Link
-													href={`/admin/sponsored/${sponsored.id}`}>{`${sponsored.firstName} ${sponsored.lastName}`}</Link>
+													href={`/dashboard/sponsored/${sponsored.id}`}>{`${sponsored.firstName} ${sponsored.lastName}`}</Link>
 											</h5>
 											<h2>{sponsoredEvent.title}</h2>
 											<p className="mb-0">{new Date(sponsoredEvent.eventDate).toLocaleDateString()}</p>
@@ -235,11 +235,42 @@ const CreateEventMenuAndHeader = ({
 		});
 		setShow(false);
 	};
-
+	const updateEvent = async () => {};
+	const deleteEvent = async () => {};
 	return (
 		<Col sm={12}>
 			<Card>
 				<Card.Body className="profile-page p-0">
+					{isAdmin && (
+						<div className="card-post-toolbar d-flex justify-content-end">
+							<Dropdown>
+								<Dropdown.Toggle className="bg-transparent border-white">
+									<i className="ri-more-fill"></i>
+								</Dropdown.Toggle>
+								<Dropdown.Menu className=" m-0 p-0">
+									<Dropdown.Item className=" p-3" onClick={() => updateEvent()}>
+										<div className="d-flex align-items-top">
+											<i className="ri-pencil-line h4"></i>
+											<div className="data ms-2">
+												<h6>Edit User</h6>
+												<p className="mb-0">Update this user</p>
+											</div>
+										</div>
+									</Dropdown.Item>
+
+									<Dropdown.Item className=" p-3" onClick={() => deleteEvent()}>
+										<div className="d-flex align-items-top">
+											<i className="ri-delete-bin-7-line h4"></i>
+											<div className="data ms-2">
+												<h6>Delete</h6>
+												<p className="mb-0">Delete this User</p>
+											</div>
+										</div>
+									</Dropdown.Item>
+								</Dropdown.Menu>
+							</Dropdown>
+						</div>
+					)}
 					<div className="profile-header">
 						<div className="position-relative text-center pt-3  ">
 							<div className="profile-img ">
@@ -283,11 +314,14 @@ const CreateEventMenuAndHeader = ({
 						<div className="profile-header">
 							<div className="profile-info p-3 d-flex align-items-center justify-content-start position-relative">
 								<div className="social-info">
-									<button
-										className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2"
-										onClick={() => setShow(true)}>
+									<button className="btn btn-secondary m-1" onClick={() => setShow(true)}>
 										Create a new Post
 									</button>
+									<Link href={`/dashboard/sponsored/expenses/${sponsored.id}`}>
+										<button className="btn btn-secondary m-1" onClick={() => setShow(true)}>
+											Expenses
+										</button>
+									</Link>
 								</div>
 							</div>
 						</div>

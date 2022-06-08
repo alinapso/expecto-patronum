@@ -18,10 +18,10 @@ export default function PatronProfile() {
 				<Col sm="12">
 					<Card>
 						<Card.Body>
-							<h4>Sponsered</h4>
+							<h4></h4>
 						</Card.Body>
 					</Card>
-					<TableDatasource headers={headers} keyValue="id" dataSourceUrl={`/sponsored/${id}`} />
+					<TableDatasource headers={headers} keyValue="id" dataSourceUrl={`/sponsored/patron/${id}`} />
 				</Col>
 			</Row>
 		</Layout>

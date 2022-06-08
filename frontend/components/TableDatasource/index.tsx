@@ -83,13 +83,6 @@ const TableDatasource = ({
 		return (
 			<Row>
 				<Col sm="12">
-					{tableData.sum > -1 && (
-						<Card>
-							<Card.Body>
-								<h5 className="mb-0 d-inline-block">Total Expenses for this timeframe : {tableData.sum}$</h5>
-							</Card.Body>
-						</Card>
-					)}
 					<Card>
 						<Card.Body>
 							<TableData
@@ -122,6 +115,18 @@ const TableDatasource = ({
 							/>
 						</Card.Body>
 					</Card>
+					{tableData.sum > -1 && (
+						<Card>
+							<Card.Body>
+								<div className="d-flex justify-content-center">
+									<h5 className="mb-0 d-inline-block">Total Expenses for Current timeframe : </h5>
+								</div>
+								<div className="d-flex justify-content-center">
+									<h2>{tableData.sum}$</h2>
+								</div>
+							</Card.Body>
+						</Card>
+					)}
 				</Col>
 			</Row>
 		);

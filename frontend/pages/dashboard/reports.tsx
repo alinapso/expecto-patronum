@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Layout, { SecurityLevel } from "components/Layout";
 
-import { RemoteApiCall } from "lib/remoteAPI";
-import useSWR from "swr";
-import Router from "next/router";
-import Form from "components/Form";
-import Sidebar from "components/sidebar";
-import { UserStatus, useUserState } from "context/user";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
-// Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 
 export default function PatronReports() {
 	const headers = patronReportHeaders();
@@ -20,7 +13,7 @@ export default function PatronReports() {
 				<Col sm="12">
 					<Card>
 						<Card.Body>
-							<h4>Sponsered</h4>
+							<h4>Sponsered by me</h4>
 						</Card.Body>
 					</Card>
 					<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/me/" />

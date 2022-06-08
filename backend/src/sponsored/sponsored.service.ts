@@ -109,7 +109,7 @@ export class SponsoredService {
     return sponsored;
   }
   async getSponseredByPatron(
-    user: User,
+    id: string,
     apiCall: ApiCallDto<any>,
   ) {
     try {
@@ -124,7 +124,7 @@ export class SponsoredService {
           }),
           this.prisma.sponsored.findMany({
             where: {
-              patronId: user.id,
+              patronId: id,
               ...apiCall.filter,
             },
             include: {
