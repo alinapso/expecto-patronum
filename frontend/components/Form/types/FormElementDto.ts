@@ -46,5 +46,5 @@ export enum FormElementTypes {
 	Custom,
 	DropDownList,
 	Number,
-	Events,
+	Expenses,
 }

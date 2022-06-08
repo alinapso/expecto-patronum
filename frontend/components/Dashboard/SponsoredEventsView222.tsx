@@ -1,13 +1,14 @@
-import { SponsoredEvents, UploadedFile } from "expecto-patronum-common";
+import { SponsoredEvents, Expenses } from "expecto-patronum-common";
 import { Card, Col, Button } from "react-bootstrap";
 import Link from "next/link";
 import { partition } from "lodash";
 import ImageGallery from "react-image-gallery";
 import { RowImage, getFileType } from "components/Form/components/DragAndDrop/common";
+import { useUserState } from "context/user";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 export default function SponsoredEventView({ sponsoredEvent }: { sponsoredEvent: SponsoredEvents }) {
-	const [docs, imagesList] = partition(sponsoredEvent.files, (file) => file.fileCategory === "DOC");
+	const [imagesList] = partition(sponsoredEvent.files, (file) => file.fileCategory === "DOC");
 	const images = imagesList.map((image) => ({
 		original: `${ENDPOINT}/${image.id}.${image.postfix}`,
 		thumbnail: `${ENDPOINT}/${image.id}.${image.postfix}`,
@@ -47,13 +48,14 @@ export default function SponsoredEventView({ sponsoredEvent }: { sponsoredEvent:
 											<input type="checkbox" className="form-check-input" />
 										</div>
 									</th>
-									<th scope="col">File Name</th>
-									<th scope="col">type</th>
+									<th scope="col">file</th>
+									<th scope="col">title</th>
+									<th scope="col">sum</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{docs.map((rowData, index) => (
+								{sponsoredEvent.Expenses.map((rowData, index) => (
 									<TableRow data={rowData} key={index} />
 								))}
 							</tbody>
@@ -64,7 +66,7 @@ export default function SponsoredEventView({ sponsoredEvent }: { sponsoredEvent:
 		</Col>
 	);
 }
-export const TableRow = ({ data }: { data: UploadedFile }) => {
+export const TableRow = ({ data }: { data: Expenses }) => {
 	const fileNameSnip = (name: string) => {
 		if (!name) return "";
 		if (name.length < 20) return name;
@@ -78,20 +80,23 @@ export const TableRow = ({ data }: { data: UploadedFile }) => {
 				</div>
 			</td>
 			<td>
-				<RowImage fileType={getFileType(data.postfix)} />
+				<RowImage fileType={getFileType(data.uploadedFile ? data.uploadedFile.postfix : "")} />
 				<span className="overflow-hidden">{fileNameSnip(data.title)}</span>
 			</td>
-			<td>
-				<span className="overflow-hidden">{data.postfix}</span>
-			</td>
+			<td>{data.title}</td>
+			<td>{data.sum}$</td>
 			<td className="overflow-hidden">
-				<div className="flex align-items-center list-user-action">
-					<Link href={`${ENDPOINT}/${data.id}.${data.postfix}`}>
-						<Button type="button" className="btn btn-labeled btn-success">
-							<i className="ri-download-line"></i>
-						</Button>
-					</Link>
-				</div>
+				{data.uploadedFile ? (
+					<div className="flex align-items-center list-user-action">
+						<Link href={`${ENDPOINT}/${data.uploadedFile.id}.${data.uploadedFile.postfix}`}>
+							<Button type="button" className="btn btn-labeled btn-success">
+								<i className="ri-download-line"></i>
+							</Button>
+						</Link>
+					</div>
+				) : (
+					<></>
+				)}
 			</td>
 		</tr>
 	);

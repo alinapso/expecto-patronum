@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import Expenses from 'expecto-patronum-common/entities/expenses';
 export class CreateSponsoredEventDto {
   @IsString()
   @IsNotEmpty()
@@ -17,4 +18,6 @@ export class CreateSponsoredEventDto {
   eventDate: string;
   @IsString()
   sponsoredId: string;
+  @IsOptional()
+  expenses: Expenses[];
 }

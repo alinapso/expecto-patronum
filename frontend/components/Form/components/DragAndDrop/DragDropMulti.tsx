@@ -12,6 +12,7 @@ type DragDropMultiProps = {
 	fileTypes: string[];
 	defualtValue?: any[];
 	categoryType: string;
+	label?: string;
 };
 type DragDropMultiState = {
 	value: TableItems[];
@@ -96,6 +97,9 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 			<Col sm={12} className="mb-3">
 				<Card>
 					<Card.Header className="">
+						<div className="mb-3">
+							<h4>{this.props.label}</h4>
+						</div>
 						<div className="input-block-level">
 							<FileUploader handleChange={this.handleUpload} name="file" types={this.fileTypes} />
 						</div>

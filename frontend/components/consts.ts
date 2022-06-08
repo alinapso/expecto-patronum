@@ -1,5 +1,9 @@
 export const AdminNav = [
-	{ href: "/admin", icon: "las la-newspaper", title: "Home" },
+	{
+		href: "/admin",
+		icon: "las la-campground",
+		title: "Admin",
+	},
 	{
 		href: "/admin/sponsored",
 		icon: "las la-users",
@@ -9,7 +13,11 @@ export const AdminNav = [
 ];
 
 export const PatronNav = [
-	{ href: "/dashboard", icon: "las la-newspaper", title: "Home" },
+	{
+		href: "/dashboard/",
+		icon: "las la-address-card",
+		title: "Feed",
+	},
 	{
 		href: "/dashboard/add",
 		icon: "las la-child",

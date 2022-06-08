@@ -39,13 +39,13 @@ export default function Header({ navbarEnabled }: any) {
 					</Navbar.Toggle>
 					<Navbar.Collapse>
 						<Nav as="ul" className="ms-auto navbar-list">
-							<li>
-								<Link href="/">
-									<a>Home</a>
-								</Link>
-							</li>
 							{user.status == UserStatus.LoggedOut && (
 								<>
+									<li>
+										<Link href="/">
+											<a>Home</a>
+										</Link>
+									</li>
 									<li>
 										<Link href="/signin">
 											<a>Login</a>
@@ -70,26 +70,11 @@ export default function Header({ navbarEnabled }: any) {
 														borderRadius: "100%",
 														overflow: "hidden",
 													}}></span>
-												Dashboard
+												Home
 											</a>
 										</Link>
 									</li>
-									{user.data.role === "ADMIN" && (
-										<li>
-											<Link href="/admin">
-												<a>
-													<span
-														style={{
-															marginRight: ".3em",
-															verticalAlign: "middle",
-															borderRadius: "100%",
-															overflow: "hidden",
-														}}></span>
-													Admin
-												</a>
-											</Link>
-										</li>
-									)}
+
 									<li>
 										<a
 											href="/api/logout"

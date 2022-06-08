@@ -60,7 +60,7 @@ export default function SignUp() {
 											//console.log(res);
 											if (res.status == 201) {
 												localStorage.setItem("api_access_token", res.data.access_token);
-												Router.push("/");
+												Router.push("/signin");
 											} else {
 												let error_msg = "";
 

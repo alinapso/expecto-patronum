@@ -128,7 +128,15 @@ export class SponsoredService {
               ...apiCall.filter,
             },
             include: {
-              SponsoredEvents: true,
+              SponsoredEvents: {
+                include: {
+                  Expenses: {
+                    include: {
+                      uploadedFile: true,
+                    },
+                  },
+                },
+              },
             },
             ...pagination,
             ...orderBy,
@@ -188,6 +196,9 @@ export class SponsoredService {
           SponsoredEvents: {
             orderBy: { eventDate: 'desc' },
             include: {
+              Expenses: {
+                include: { uploadedFile: true },
+              },
               files: {
                 where: {
                   OR: [

@@ -10,6 +10,7 @@ import { UpdateSponsoredEventDto } from './dto/update-sponsored-event.dto';
 export class SponsoredEventsService {
   constructor(private prisma: PrismaService) {}
   async create(dto: CreateSponsoredEventDto) {
+    console.log(dto);
     const newSponsoredEvents =
       await this.prisma.sponsoredEvents.create({
         data: {
@@ -31,6 +32,21 @@ export class SponsoredEventsService {
         },
       });
     });
+
+    if (dto.expenses) {
+      dto.expenses.forEach(async (expense) => {
+        await this.prisma.expenses.create({
+          data: {
+            sponsoredEventId:
+              newSponsoredEvents.id,
+            title: expense.title,
+            sum: expense.sum,
+            uploadedFileId:
+              expense.uploadedFileId,
+          },
+        });
+      });
+    }
     return newSponsoredEvents;
   }
 
@@ -43,6 +59,11 @@ export class SponsoredEventsService {
       {
         where: {
           id: id,
+        },
+        include: {
+          Expenses: {
+            include: { uploadedFile: true },
+          },
         },
       },
     );
@@ -67,7 +88,9 @@ export class SponsoredEventsService {
               lastName: true,
             },
           },
-          Expenses: true,
+          Expenses: {
+            include: { uploadedFile: true },
+          },
         },
       },
     );
@@ -77,7 +100,7 @@ export class SponsoredEventsService {
     id: string,
     dto: UpdateSponsoredEventDto,
   ) {
-    const { files, ...pramas } = dto;
+    const { expenses, files, ...pramas } = dto;
 
     const updatedSponsoredEvent =
       await this.prisma.sponsoredEvents.update({

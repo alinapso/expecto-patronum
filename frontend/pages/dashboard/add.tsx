@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "components/Layout";
+import Layout, { SecurityLevel } from "components/Layout";
 
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
@@ -36,10 +36,7 @@ export default function Dashboared() {
 		};
 		getData();
 	}, [user, showModel]);
-	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
-	else if (user.status == UserStatus.LoggedOut) {
-		Router.push("/");
-	}
+
 	const calcAge = (birthDate: Date) => {
 		const today = new Date(Date.now());
 		birthDate = new Date(birthDate);
@@ -203,7 +200,7 @@ export default function Dashboared() {
 	};
 	if (sponsoredList && sponsoredList.length > 0)
 		return (
-			<Layout items={PatronNav}>
+			<Layout securityLevel={SecurityLevel.USER}>
 				<div>{createTwoCoulumns()}</div>
 				<CreateOrEditModel
 					show={showModel}

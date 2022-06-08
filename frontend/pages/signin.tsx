@@ -13,7 +13,7 @@ export default function SignUp() {
 	const [showErrorBox, setShowErrorBox] = useState(false);
 	const { user, loginUser } = useUserState();
 	useEffect(() => {
-		if (user.status == UserStatus.loggedIn) Router.push("/");
+		if (user.status == UserStatus.loggedIn) Router.push("/dashboard");
 		console.log(user);
 	}, [user]);
 	return (

@@ -1,7 +1,6 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
-import { AdminNav } from "../../../components/consts";
-import Layout from "components/Layout";
+import Layout, { SecurityLevel } from "components/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 import SecureFile from "components/SecureImage";
@@ -39,7 +38,7 @@ export default function Patrons() {
 		},
 	];
 	return (
-		<Layout items={AdminNav}>
+		<Layout securityLevel={SecurityLevel.ADMIN}>
 			<Container>
 				<Row>
 					<Col sm="12">

@@ -17,56 +17,57 @@ import { Sponsored, SponsoredEvents, UploadedFile } from "expecto-patronum-commo
 import { partition } from "lodash";
 import { RowImage, getFileType } from "./Form/components/DragAndDrop/common";
 import moment from "moment";
+import Expenses from "expecto-patronum-common/entities/expenses";
+import { useUserState, UserStatus } from "context/user";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
-export const TableRow = ({ data }: { data: UploadedFile }) => {
-	const fileNameSnip = (name: string) => {
+export const TableRow = ({ data }: { data: Expenses }) => {
+	console.log("TableRow", data);
+	const fileNameSnip = (name: string | undefined) => {
 		if (!name) return "";
 		if (name.length < 20) return name;
 		return name.split("", 15) + "...";
 	};
 	return (
-		<tr>
-			<td>
-				<div className=" text-center">
-					<input type="checkbox" className="form-check-input" />
-				</div>
-			</td>
-			<td>
-				<RowImage fileType={getFileType(data.postfix)} />
-				<span className="overflow-hidden">{fileNameSnip(data.title)}</span>
-			</td>
-			<td>
-				<span className="overflow-hidden">{data.postfix}</span>
-			</td>
-			<td className="overflow-hidden">
-				<div className="flex align-items-center list-user-action">
-					<Link href={`${ENDPOINT}/${data.id}.${data.postfix}`}>
-						<Button type="button" className="btn btn-labeled btn-success">
-							<i className="ri-download-line"></i>
-						</Button>
-					</Link>
-				</div>
+		<tr className="mx-auto">
+			<td></td>
+			<td>{data.title}</td>
+			<td>{data.sum}$</td>
+			<td className="overflow-hidden pb-2">
+				{data.uploadedFile ? (
+					<div className="flex align-items-center list-user-action">
+						<Link href={`${ENDPOINT}/${data.uploadedFile.id}.${data.uploadedFile.postfix}`}>
+							<a>
+								<RowImage fileType={getFileType(data.uploadedFile ? data.uploadedFile.postfix : "")} />
+							</a>
+						</Link>
+					</div>
+				) : (
+					<></>
+				)}
 			</td>
 		</tr>
 	);
 };
-function SponsoredEventView({
+
+export function SponsoredEventView({
 	sponsored,
 	sponsoredEvent,
 	refresh,
+	isAdmin,
 }: {
 	sponsored: Sponsored;
 	sponsoredEvent: SponsoredEvents;
 	refresh: () => void;
+	isAdmin: boolean;
 }) {
-	const [docs, imagesList] = partition(sponsoredEvent.files, (file) => file.fileCategory === "DOC");
+	const imagesList = sponsoredEvent.files;
 	const images = imagesList.map((image) => ({
 		original: `${ENDPOINT}/${image.id}.${image.postfix}`,
 		thumbnail: `${ENDPOINT}/${image.id}.${image.postfix}`,
 	}));
 	const [showEdit, setShowEdit] = useState(false);
-
+	console.log(sponsoredEvent);
 	const deleteEvent = async () => {
 		const res = await RemoteApiCall({
 			method: "DELETE",
@@ -79,12 +80,14 @@ function SponsoredEventView({
 	};
 	const handleEdit = async (values: any) => {
 		const date = new Date(values.eventDate);
+		console.log("values", values);
 		const payload = {
 			title: values.title,
 			description: values.description,
 			eventDate: date,
 			sponsoredId: sponsored.id,
-			files: [...values.images, ...values.docs],
+			files: [...values.images],
+			expenses: values.expenses,
 		};
 		const res = await RemoteApiCall({
 			method: "PATCH",
@@ -102,11 +105,18 @@ function SponsoredEventView({
 			eventDate: moment(date).format("YYYY-MM-DD"),
 			description: sponsoredEvent.description,
 			images: imagesList,
-			docs: docs,
+			expenses: sponsoredEvent.Expenses,
 		};
 	};
 	const initValues = getInitValueForEdit();
-
+	const getTotal = (expenses: Expenses[] | undefined) => {
+		if (!expenses) return 0;
+		let totalSum = 0;
+		expenses.forEach((exp) => {
+			totalSum += exp.sum;
+		});
+		return totalSum;
+	};
 	return (
 		<Col sm={12}>
 			<Card>
@@ -125,34 +135,36 @@ function SponsoredEventView({
 											<h2>{sponsoredEvent.title}</h2>
 											<p className="mb-0">{new Date(sponsoredEvent.eventDate).toLocaleDateString()}</p>
 										</div>
-										<div className="card-post-toolbar">
-											<Dropdown>
-												<Dropdown.Toggle className="bg-transparent border-white">
-													<i className="ri-more-fill"></i>
-												</Dropdown.Toggle>
-												<Dropdown.Menu className=" m-0 p-0">
-													<Dropdown.Item className=" p-3" onClick={() => updateEvent()}>
-														<div className="d-flex align-items-top">
-															<i className="ri-pencil-line h4"></i>
-															<div className="data ms-2">
-																<h6>Edit Post</h6>
-																<p className="mb-0">Update this event and saved items</p>
+										{isAdmin && (
+											<div className="card-post-toolbar">
+												<Dropdown>
+													<Dropdown.Toggle className="bg-transparent border-white">
+														<i className="ri-more-fill"></i>
+													</Dropdown.Toggle>
+													<Dropdown.Menu className=" m-0 p-0">
+														<Dropdown.Item className=" p-3" onClick={() => updateEvent()}>
+															<div className="d-flex align-items-top">
+																<i className="ri-pencil-line h4"></i>
+																<div className="data ms-2">
+																	<h6>Edit Post</h6>
+																	<p className="mb-0">Update this event and saved items</p>
+																</div>
 															</div>
-														</div>
-													</Dropdown.Item>
+														</Dropdown.Item>
 
-													<Dropdown.Item className=" p-3" onClick={() => deleteEvent()}>
-														<div className="d-flex align-items-top">
-															<i className="ri-delete-bin-7-line h4"></i>
-															<div className="data ms-2">
-																<h6>Delete</h6>
-																<p className="mb-0">Delete this event</p>
+														<Dropdown.Item className=" p-3" onClick={() => deleteEvent()}>
+															<div className="d-flex align-items-top">
+																<i className="ri-delete-bin-7-line h4"></i>
+																<div className="data ms-2">
+																	<h6>Delete</h6>
+																	<p className="mb-0">Delete this event</p>
+																</div>
 															</div>
-														</div>
-													</Dropdown.Item>
-												</Dropdown.Menu>
-											</Dropdown>
-										</div>
+														</Dropdown.Item>
+													</Dropdown.Menu>
+												</Dropdown>
+											</div>
+										)}
 									</div>
 								</div>
 							</div>
@@ -164,20 +176,24 @@ function SponsoredEventView({
 						<table className="files-lists table table-striped ">
 							<thead>
 								<tr>
-									<th scope="col">
-										<div className=" text-center">
-											<input type="checkbox" className="form-check-input" />
-										</div>
-									</th>
-									<th scope="col">File Name</th>
-									<th scope="col">type</th>
-									<th scope="col">Action</th>
+									<th scope="col"></th>
+									<th scope="col">title</th>
+									<th scope="col">sum</th>
+									<th scope="col">Invoice</th>
 								</tr>
 							</thead>
 							<tbody>
-								{docs.map((rowData, index) => (
+								{sponsoredEvent.Expenses.map((rowData, index) => (
 									<TableRow data={rowData} key={index} />
 								))}
+								<tr className="table-warning">
+									<td></td>
+									<td></td>
+									<td>
+										<h5>Total : {getTotal(sponsoredEvent.Expenses)}$</h5>
+									</td>
+									<td></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -195,19 +211,22 @@ const CreateEventMenuAndHeader = ({
 	sponsored,
 	show,
 	setShow,
+	isAdmin,
 }: {
 	sponsored: Sponsored;
 	show: boolean;
 	setShow: any;
+	isAdmin: boolean;
 }) => {
 	const handleSubmit = async (values: any) => {
-		console.log(values);
+		console.log("values", values);
 		const payload = {
 			title: values.title,
 			description: values.description,
 			eventDate: values.eventDate,
 			sponsoredId: sponsored.id,
-			files: [...values.images, ...values.docs],
+			files: [...values.images],
+			expenses: values.expenses,
 		};
 		const res = await RemoteApiCall({
 			method: "POST",
@@ -258,22 +277,24 @@ const CreateEventMenuAndHeader = ({
 					</div>
 				</Card.Body>
 			</Card>
-			<Card>
-				<Card.Body className="profile-page p-0">
-					<div className="profile-header">
-						<div className="profile-info p-3 d-flex align-items-center justify-content-start position-relative">
-							<div className="social-info">
-								<button
-									className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2"
-									onClick={() => setShow(true)}>
-									Create a new Post
-								</button>
+			{isAdmin && (
+				<Card>
+					<Card.Body className="profile-page p-0">
+						<div className="profile-header">
+							<div className="profile-info p-3 d-flex align-items-center justify-content-start position-relative">
+								<div className="social-info">
+									<button
+										className="bg-soft-primary rounded p-2 pointer d-flex align-items-center me-3 mb-md-0 mb-2"
+										onClick={() => setShow(true)}>
+										Create a new Post
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				</Card.Body>
-				<AddOrEditEvent show={show} setShow={setShow} handleSubmit={handleSubmit}></AddOrEditEvent>
-			</Card>
+					</Card.Body>
+					<AddOrEditEvent show={show} setShow={setShow} handleSubmit={handleSubmit}></AddOrEditEvent>
+				</Card>
+			)}
 		</Col>
 	);
 };
@@ -321,15 +342,7 @@ const AddOrEditEvent = ({
 					required: true,
 					placeholder: "write description here",
 				},
-			],
-		},
-		{
-			id: 2,
-			name: "upload-Images",
-			title: "Upload Images",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: true,
-			elements: [
+
 				{
 					id: "images",
 					name: "images",
@@ -338,22 +351,13 @@ const AddOrEditEvent = ({
 					required: true,
 					placeholder: "Images",
 				},
-			],
-		},
-		{
-			id: 3,
-			name: "upload-files",
-			title: "Upload files",
-			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
-			active: true,
-			elements: [
 				{
-					id: "events",
-					name: "events",
-					labelText: "Events",
-					elemetType: FormElementTypes.Events,
+					id: "expenses",
+					name: "expenses",
+					labelText: "Expenses",
+					elemetType: FormElementTypes.Expenses,
 					required: true,
-					placeholder: "Events",
+					placeholder: "Expenses",
 				},
 			],
 		},
@@ -379,6 +383,7 @@ const SponseredView = () => {
 	const router = useRouter();
 	const { id } = router.query;
 	const [refresh, setRefresh] = useState(false);
+	const { user } = useUserState();
 	const {
 		data: result,
 		error,
@@ -401,14 +406,23 @@ const SponseredView = () => {
 	useEffect(() => {
 		mutate();
 	}, [refresh]);
+
+	const isAdmin = user && user.status == UserStatus.loggedIn && user.data.role === "ADMIN";
+
 	if (sponsored)
 		return (
 			<Container>
 				<Row>
-					<CreateEventMenuAndHeader sponsored={sponsored} show={showAdd} setShow={setShowAdd} />
+					<CreateEventMenuAndHeader sponsored={sponsored} show={showAdd} setShow={setShowAdd} isAdmin={isAdmin} />
 					{sponsored.SponsoredEvents && sponsored.SponsoredEvents.length > 0 ? (
 						sponsored.SponsoredEvents.map((se) => (
-							<SponsoredEventView sponsored={sponsored} sponsoredEvent={se} refresh={refreshView} key={se.id} />
+							<SponsoredEventView
+								sponsored={sponsored}
+								sponsoredEvent={se}
+								refresh={refreshView}
+								key={se.id}
+								isAdmin={isAdmin}
+							/>
 						))
 					) : (
 						<h3>No post exist yet</h3>

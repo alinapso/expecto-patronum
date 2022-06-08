@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Layout from "components/Layout";
-import { AdminNav } from "../../../components/consts";
+import Layout, { SecurityLevel } from "components/Layout";
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";
 import Link from "next/link";
@@ -89,10 +88,6 @@ export default function Sponsored() {
 		},
 	];
 
-	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
-	else if (user.status == UserStatus.LoggedOut) {
-		Router.push("/");
-	}
 	const handleSubmit = async (values: any) => {
 		//console.log(values);
 		const res = await RemoteApiCall({
@@ -105,7 +100,7 @@ export default function Sponsored() {
 	};
 
 	return (
-		<Layout items={AdminNav}>
+		<Layout securityLevel={SecurityLevel.ADMIN}>
 			<Container>
 				<Row>
 					<Col sm="12" lg="12">

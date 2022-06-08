@@ -2,8 +2,7 @@ import { RemoteApiCall } from "lib/remoteAPI";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import { AdminNav } from "../../../components/consts";
-import Layout from "components/Layout";
+import Layout, { SecurityLevel } from "components/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 import { useState } from "react";
@@ -13,10 +12,7 @@ import Router from "next/router";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Sponsored() {
 	const { user } = useUserState();
-	if (user.status == UserStatus.Loading) return <h1>loading</h1>;
-	else if (user.status == UserStatus.LoggedOut) {
-		Router.push("/");
-	}
+
 	const patrnDecorator = (value: any, id: any) => {
 		return `${value.firstName} ${value.lastName}`;
 	};
@@ -42,14 +38,33 @@ export default function Sponsored() {
 			day: "2-digit",
 		}).format(date);
 	};
-
-	const gotoProfile = (value: any, id: any) => {
+	const gotoExpenses = (value: any, id: any) => {
 		return (
 			<span className="table-remove">
-				<Link href={`/admin/sponsored/${id}`}>
-					<Button className="btn btn-primary btn-rounded btn-sm ms-1">Profile</Button>
+				<Link href={`/dashboard/sponsored/${id}`}>
+					<Button className="btn btn-success btn-rounded btn-sm ms-1">Expenses</Button>
 				</Link>
 			</span>
+		);
+	};
+	const stopSponsership = (value: any, id: any) => {
+		return (
+			<span className="table-remove">
+				<Button className="btn btn-danger btn-rounded btn-sm ms-1">stop</Button>
+			</span>
+		);
+	};
+	const gotoProfile = (value: any, id: any) => {
+		return (
+			<>
+				<Link href={`/dashboard/sponsored/${id}`}>
+					<Button className="btn btn-primary btn-rounded btn-sm ms-1">Profile</Button>
+				</Link>
+				<Link href={`/dashboard/sponsored/${id}`}>
+					<Button className="btn btn-success btn-rounded btn-sm ms-1">Expenses</Button>
+				</Link>
+				{/* <Button className="btn btn-danger btn-rounded btn-sm ms-1">stop</Button> */}
+			</>
 		);
 	};
 	const headers = [
@@ -86,7 +101,7 @@ export default function Sponsored() {
 	];
 
 	return (
-		<Layout items={AdminNav}>
+		<Layout securityLevel={SecurityLevel.ADMIN}>
 			<Container>
 				<Row>
 					<Col sm="12">
