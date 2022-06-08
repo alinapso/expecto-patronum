@@ -89,6 +89,12 @@ export class SponsoredEventsService {
               id: true,
               firstName: true,
               lastName: true,
+              profilePic: {
+                select: {
+                  id: true,
+                  postfix: true,
+                },
+              },
             },
           },
           Expenses: {
