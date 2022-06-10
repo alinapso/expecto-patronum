@@ -89,13 +89,11 @@ export default function Sponsored() {
 	];
 
 	const handleSubmit = async (values: any) => {
-		//console.log(values);
 		const res = await RemoteApiCall({
 			method: "POST",
 			url: `/sponsored`,
 			body: { ...values },
 		});
-		//console.log(res);
 		Router.push("/admin/sponsored");
 	};
 

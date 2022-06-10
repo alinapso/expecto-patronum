@@ -45,7 +45,6 @@ export default function Dashboared() {
 	};
 	const handleSubmit = async (values: any, sponsored: Sponsored | undefined) => {
 		if (sponsored == undefined) return;
-		console.log(values);
 		const { startDate, endDate } = calcDureation(values.duration, sponsored);
 		const res = await RemoteApiCall({
 			method: "PATCH",
@@ -61,7 +60,6 @@ export default function Dashboared() {
 	};
 	const calcDureation = (duration: string, sponsored: Sponsored) => {
 		const today = new Date(Date.now());
-		console.log(sponsored);
 		switch (duration) {
 			case "one time":
 				return { startDate: today, endDate: today };

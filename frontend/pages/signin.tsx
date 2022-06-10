@@ -14,7 +14,6 @@ export default function SignUp() {
 	const { user, loginUser } = useUserState();
 	useEffect(() => {
 		if (user.status == UserStatus.loggedIn) Router.push("/dashboard");
-		console.log(user);
 	}, [user]);
 	return (
 		<>
@@ -84,7 +83,7 @@ export default function SignUp() {
 									</div>
 									<div className="sign-info">
 										<span className="dark-color d-inline-block line-height-2">
-											Don't have an account? <Link href="/auth/sign-up">Sign up</Link>
+											Don't have an account? <Link href="/signup">Sign up</Link>
 										</span>
 									</div>
 								</Form>

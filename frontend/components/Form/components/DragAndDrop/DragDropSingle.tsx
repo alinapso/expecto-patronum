@@ -36,9 +36,6 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 		tableItems: undefined,
 	};
 
-	handleDownload = (index: number) => {
-		console.log(index);
-	};
 	handleDelete = async (index: number) => {
 		const deletedFile = this.value;
 		this.value = "";
@@ -48,7 +45,6 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 			method: "DELETE",
 			url: `/uploaded-file/${deletedFile}`,
 		});
-		console.log(deletedFile, res);
 	};
 	handleUpload = async (file: any) => {
 		if (file) {

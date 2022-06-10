@@ -60,7 +60,6 @@ class DynamicForm extends React.Component<DynamicFormProps> {
 					}));
 
 					isValid = false;
-					console.log("error");
 					return;
 				}
 			}

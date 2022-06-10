@@ -61,7 +61,6 @@ const TableDatasource = ({
 		sum: -1,
 	});
 	useEffect(() => {
-		//console.log(result);
 		if (result?.data)
 			setTableData({
 				data: result?.data?.data ? result?.data?.data : [],
@@ -72,8 +71,6 @@ const TableDatasource = ({
 		if (setValue) {
 			setValue(result?.data);
 		}
-
-		//console.log(tableData);
 	}, [result]);
 	useEffect(() => {
 		setPagination({});

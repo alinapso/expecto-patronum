@@ -6,9 +6,7 @@ export class FileSelector extends React.Component<undefined, undefined> {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	handleChange(selectorFiles: FileList) {
-		//console.log(selectorFiles);
-	}
+	handleChange(selectorFiles: FileList) {}
 
 	render() {
 		return (

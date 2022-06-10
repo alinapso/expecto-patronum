@@ -54,9 +54,7 @@ export class DragDropExpenses extends Component<DragDropExpensesProps> {
 	};
 
 	handleDelete = async (index: number) => {
-		console.log("handleDelete");
 		const deletedFile = this.value[index];
-		console.log(deletedFile);
 		this.state.value.splice(index, 1);
 		this.setState((state) => ({ value: [...this.state.value] }));
 		this.value.splice(index, 1);

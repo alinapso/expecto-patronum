@@ -11,7 +11,6 @@ export default function Header({ navbarEnabled }: any) {
 	const minisidebar = () => {
 		document.body.classList.toggle("sidebar-main");
 	};
-	console.log("user", user);
 	return (
 		<div className="iq-top-navbar">
 			<div className="iq-navbar-custom">
@@ -77,9 +76,8 @@ export default function Header({ navbarEnabled }: any) {
 
 									<li>
 										<a
-											href="/api/logout"
+											href="/"
 											onClick={async (e) => {
-												e.preventDefault();
 												logout();
 											}}>
 											Logout

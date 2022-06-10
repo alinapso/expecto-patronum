@@ -23,7 +23,6 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	value: string[];
 	constructor(props: DragDropMultiProps) {
 		super(props);
-		//console.log("in constructor", this.props.defualtValue);
 
 		this.fileTypes = props.fileTypes;
 		let valuesInitArray: string[] = [];
@@ -52,13 +51,8 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 		value: [],
 		showDeleteDialog: false,
 	};
-	// componentDidMount() {
-	// 	console.log(this.initTableValue);
-	// 	this.setState((state) => ({ value: this.initTableValue }));
-	// }
 
 	handleDelete = async (index: number) => {
-		console.log("handleDelete");
 		const deletedFile = this.value[index];
 		this.state.value.splice(index, 1);
 		this.setState((state) => ({ value: [...this.state.value] }));
@@ -73,7 +67,6 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	handleUpload = async (file: any) => {
 		if (file) {
 			const result = await ApiUploadFile(file, this.props.categoryType);
-			//console.log(result);
 			if (result && result.status == 201) {
 				this.value.push(result.data.id);
 				this.setState((state) => ({
@@ -92,7 +85,6 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	};
 
 	render() {
-		//console.log("this.state.value", this.state.value);
 		return (
 			<Col sm={12} className="mb-3">
 				<Card>

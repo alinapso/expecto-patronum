@@ -19,10 +19,6 @@ export async function RemoteApiCall(props: ApiProps) {
 		};
 		const access_token = get_api_access_token();
 		if (access_token != null) headers = { Authorization: `Bearer ${access_token}`, ...headers };
-		// axios.interceptors.request.use((request) => {
-		// 	console.log("Starting Request", JSON.stringify(request, null, 2));
-		// 	return request;
-		// });
 		let conf: any = {
 			method: props.method,
 			url: `${ENDPOINT}${props.url}`,

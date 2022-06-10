@@ -25,7 +25,6 @@ export const UserProvider = ({ children }: any) => {
 	};
 	async function loginUser(email: string, password: string) {
 		setUser({ data: undefined, status: UserStatus.Loading });
-		console.log(email, password);
 		const res = await RemoteApiCall({
 			method: "POST",
 			url: "/auth/signin",
@@ -34,7 +33,6 @@ export const UserProvider = ({ children }: any) => {
 				password,
 			},
 		});
-		console.log(res);
 		if (res.status == 200) {
 			localStorage.setItem("api_access_token", res.data.access_token);
 			setUser({ data: res.data, status: UserStatus.loggedIn });

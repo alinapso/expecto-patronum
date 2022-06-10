@@ -25,7 +25,3 @@ export function get_api_access_token() {
 	}
 	return "";
 }
-export function checkIfLoggedIn() {
-	if (get_api_access_token() === "") console.log("here");
-	Router.push("/signin");
-}

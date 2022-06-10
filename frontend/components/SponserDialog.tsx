@@ -18,7 +18,6 @@ const CreateOrEditModel = ({
 	formTabs: any;
 	sponsored: Sponsored | undefined;
 }) => {
-	//console.log(initValue);
 	if (sponsored != undefined)
 		return (
 			<Modal size="lg" show={show}>

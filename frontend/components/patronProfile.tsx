@@ -28,7 +28,6 @@ class PatronProfile extends React.Component<PatronProfileProps> {
 		this.setState({ patronData: patron.data });
 	};
 	render() {
-		console.log(this.state.patronData);
 		return (
 			<Col sm={12}>
 				<Card>

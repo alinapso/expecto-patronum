@@ -19,7 +19,10 @@ import {
   AdminGuard,
   JwtGuard,
 } from '../auth/guard';
-import { UpdateUserDto } from './dto/update-user.dto';
+import {
+  UpdateUserDto,
+  UpdateUserAdminDto,
+} from './dto/update-user.dto';
 import { UserService } from './user.service';
 
 @UseGuards(JwtGuard)
@@ -36,12 +39,23 @@ export class UserController {
   GetUser(@Param('id') id: string) {
     return this.userService.getUserById(id);
   }
-  @Patch(':id')
-  editUser(
-    @GetUser('id') userId: string,
+  @Patch('me')
+  editUserMe(
+    @GetUser() user: User,
     @Body() dto: UpdateUserDto,
   ) {
-    return this.userService.editUser(userId, dto);
+    console.log(user, dto);
+    return this.userService.editUser(
+      user.id,
+      dto,
+    );
+  }
+  @Patch(':id')
+  editUser(
+    @Param('id') id: string,
+    @Body() dto: UpdateUserAdminDto,
+  ) {
+    return this.userService.editUser(id, dto);
   }
 
   @UseGuards(AdminGuard)

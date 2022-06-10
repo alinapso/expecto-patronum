@@ -5,6 +5,5 @@ const SecureFile = async (file: string) => {
 		method: "GET",
 		url: `/uploaded-file/${file}`,
 	});
-	//console.log(res);
 };
 export default SecureFile;

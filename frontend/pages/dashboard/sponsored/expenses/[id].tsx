@@ -16,7 +16,6 @@ export default function SponsoredExpenses() {
 	const [id, setId] = useState("");
 	useEffect(() => {
 		if (router && router.query) {
-			console.log(router.query);
 			setTableUrl(`/expenses/${router.query.id}`);
 			setId(router.query.id as string);
 		}
@@ -39,7 +38,6 @@ export default function SponsoredExpenses() {
 	const [errorMessage, setErrorMessage] = useState("");
 	const [tableSum, setTableSum] = useState(0);
 	const dateDecorator = (value: any, id: any) => {
-		console.log(value, id);
 		if (value) {
 			const date = new Date(value);
 
@@ -76,7 +74,6 @@ export default function SponsoredExpenses() {
 	];
 
 	const sponsored: Sponsored = sponsoredApiCall?.data[0];
-	console.log(tableUrl);
 	if (sponsored && tableUrl)
 		return (
 			<Layout securityLevel={SecurityLevel.USER}>
@@ -94,7 +91,7 @@ export default function SponsoredExpenses() {
 						<Card>
 							<Card.Body>
 								<Row className="row align-items-center">
-									<Col md-4>
+									<Col md={4}>
 										<Form.Group className={"form-group"} key="startDate">
 											<Form.Label>Start Range</Form.Label>
 											<Form.Control
@@ -106,13 +103,13 @@ export default function SponsoredExpenses() {
 											/>
 										</Form.Group>
 									</Col>
-									<Col md-4>
+									<Col md={4}>
 										<Form.Group className={"form-group"} key="startDate">
 											<Form.Label>End Range</Form.Label>
 											<Form.Control ref={endRef} type="date" className="form-control" id="startDate" name="startDate" />
 										</Form.Group>
 									</Col>
-									<Col md-4>
+									<Col md={4}>
 										<Button type="button" className="btn btn-labeled btn-success m-2" onClick={() => handleFileter()}>
 											Filter
 										</Button>

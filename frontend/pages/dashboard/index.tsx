@@ -35,6 +35,7 @@ export default function Dashboared() {
 	const createSponsoredEventView = (sponsoredEvent: SponsoredEvents) => {
 		return (
 			<SponsoredEventView
+				key={sponsoredEvent.id}
 				sponsoredEvent={sponsoredEvent}
 				sponsored={sponsoredEvent.sponsored}
 				refresh={refreshView}
@@ -51,8 +52,12 @@ export default function Dashboared() {
 		});
 		return (
 			<Row>
-				<Col md={6}>{col1}</Col>
-				<Col md={6}>{col2}</Col>
+				<Col md={6} key="1">
+					{col1}
+				</Col>
+				<Col md={6} key="2">
+					{col2}
+				</Col>
 			</Row>
 		);
 	};

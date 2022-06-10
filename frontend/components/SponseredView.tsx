@@ -22,7 +22,6 @@ import { useUserState, UserStatus } from "context/user";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 export const TableRow = ({ data }: { data: Expenses }) => {
-	console.log("TableRow", data);
 	const fileNameSnip = (name: string | undefined) => {
 		if (!name) return "";
 		if (name.length < 20) return name;
@@ -67,7 +66,6 @@ export function SponsoredEventView({
 		thumbnail: `${ENDPOINT}/${image.id}.${image.postfix}`,
 	}));
 	const [showEdit, setShowEdit] = useState(false);
-	console.log(sponsoredEvent);
 	const deleteEvent = async () => {
 		const res = await RemoteApiCall({
 			method: "DELETE",
@@ -80,7 +78,6 @@ export function SponsoredEventView({
 	};
 	const handleEdit = async (values: any) => {
 		const date = new Date(values.eventDate);
-		console.log("values", values);
 		const payload = {
 			title: values.title,
 			description: values.description,
@@ -219,7 +216,6 @@ const CreateEventMenuAndHeader = ({
 	isAdmin: boolean;
 }) => {
 	const handleSubmit = async (values: any) => {
-		console.log("values", values);
 		const payload = {
 			title: values.title,
 			description: values.description,
@@ -343,12 +339,11 @@ const AddOrEditEvent = ({
 	handleSubmit: (values: any) => void;
 	initValue?: any;
 }) => {
-	//console.log(initValue);
 	const formTabs = [
 		{
 			id: 1,
-			name: "Add Details",
-			title: "Add New Event",
+			name: "Event Details",
+			title: "Event Details",
 			icon: "ri-lock-unlock-line bg-soft-primary text-primary",
 			active: true,
 			elements: [
@@ -400,7 +395,7 @@ const AddOrEditEvent = ({
 		<Modal size="lg" show={show}>
 			<Modal.Header className="d-flex justify-content-between">
 				<h5 className="modal-title" id="post-modalLabel">
-					Create Post
+					{initValue ? "Edit event" : "Add New Event"}
 				</h5>
 				<button type="button" className="btn btn-secondary" onClick={() => setShow(false)}>
 					<i className="ri-close-fill"></i>

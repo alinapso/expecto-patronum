@@ -48,7 +48,6 @@ export default function SignUp() {
 												setErrorMsg("Passwords must match");
 												return;
 											}
-											//console.log("this is ok");
 											let res = await RemoteApiCall({
 												method: "POST",
 												url: "/auth/signup",
@@ -57,7 +56,6 @@ export default function SignUp() {
 													password,
 												},
 											});
-											//console.log(res);
 											if (res.status == 201) {
 												localStorage.setItem("api_access_token", res.data.access_token);
 												Router.push("/signin");
