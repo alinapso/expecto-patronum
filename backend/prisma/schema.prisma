@@ -52,7 +52,7 @@ model Sponsored {
   endDate          DateTime?
   dayOfTransaction Int?
   SponsoredEvents  SponsoredEvents[]
-
+  Transactions     Transactions[]
 }
 
 model UploadedFile {
@@ -87,12 +87,14 @@ model SponsoredEvents {
 }
 
 model Transactions {
-  id        String   @id @default(uuid())
-  sum       Float
-  patron    User     @relation(fields: [patronId], references: [id])
-  patronId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(uuid())
+  sum         Float
+  patron      User      @relation(fields: [patronId], references: [id])
+  patronId    String
+  sponsoredId String
+  Sponsored   Sponsored @relation(fields: [sponsoredId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Expenses {

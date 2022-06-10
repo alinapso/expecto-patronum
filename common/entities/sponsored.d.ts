@@ -1,6 +1,7 @@
 import UploadedFile from "./uploadedFile";
 import { User } from "./user";
 import SponsoredEvents from "./sponsoredEvents";
+import Transactions from "./transactions";
 
 export declare type Sponsored = {
 	id: string;
@@ -23,6 +24,7 @@ export declare type Sponsored = {
 	dayOfTransaction: number | null;
 	SponsoredEvents: SponsoredEvents[];
 	uploadedFileId: string | null;
+	Transactions: Transactions[];
 };
 
 export default Sponsored;

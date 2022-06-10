@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { pageIsLoading, SecurityLevel } from "components/Layout";
 
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";

@@ -1,7 +1,7 @@
 import React from "react";
 import Layout, { SecurityLevel } from "components/Layout";
 
-import { Row, Col, Card, Button } from "react-bootstrap";
+import { Row, Col, Card, Button, Tab, Nav } from "react-bootstrap";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 
@@ -12,11 +12,13 @@ export default function PatronReports() {
 			<Row>
 				<Col sm="12">
 					<Card>
-						<Card.Body>
+						<Card.Header>
 							<h4>Sponsered by me</h4>
+						</Card.Header>
+						<Card.Body>
+							<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/me/" />
 						</Card.Body>
 					</Card>
-					<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/me/" />
 				</Col>
 			</Row>
 		</Layout>

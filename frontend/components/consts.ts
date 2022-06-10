@@ -1,9 +1,9 @@
 export const AdminNav = [
-	{
-		href: "/admin",
-		icon: "las la-campground",
-		title: "Admin",
-	},
+	// {
+	// 	href: "/admin",
+	// 	icon: "las la-campground",
+	// 	title: "Admin",
+	// },
 	{
 		href: "/admin/sponsored",
 		icon: "las la-users",

@@ -6,17 +6,13 @@ import {
 import { CreateSponsoredDto } from './dto/create-sponsored.dto';
 import { UpdateSponsoredDto } from './dto/update-sponsored.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  User,
-  UploadedFile,
-} from 'expecto-patronum-common';
+import { User } from 'expecto-patronum-common';
 import {
   ApiCallDto,
   calcPageCount,
   getFilter,
   getOrderBy,
   getPagination,
-  getParams,
 } from 'src/Dto/apiCall';
 import { PrismaClientValidationError } from '@prisma/client/runtime';
 
@@ -137,6 +133,7 @@ export class SponsoredService {
                   },
                 },
               },
+              Transactions: true,
             },
             ...pagination,
             ...orderBy,
@@ -267,20 +264,36 @@ export class SponsoredService {
           id: id,
         },
       });
-    if (spon.isActive && spon.patronId == null)
-      return await this.prisma.sponsored.update({
-        where: {
-          id: id,
-        },
-        data: {
-          patronId: user.id,
-          dayOfTransaction: 1,
-          monthlyDum: 50,
-          startDate: startDate,
-          endDate: endDate,
-        },
-      });
-    else throw new BadRequestException();
+    if (spon.isActive && spon.patronId == null) {
+      const res =
+        await this.prisma.transactions.create({
+          data: {
+            patronId: user.id,
+            sponsoredId: id,
+            sum: +sum,
+          },
+        });
+      console.log(res);
+      const date = new Date(Date.now());
+      const transactionDate =
+        date.getMonth() == 2 &&
+        date.getDay() == 29
+          ? 1
+          : date.getDay();
+      const sponsored =
+        await this.prisma.sponsored.update({
+          where: {
+            id: id,
+          },
+          data: {
+            patronId: user.id,
+            dayOfTransaction: transactionDate,
+            monthlyDum: 50,
+            startDate: startDate,
+            endDate: endDate,
+          },
+        });
+    } else throw new BadRequestException();
   }
   async changeStatus(
     id: string,

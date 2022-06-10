@@ -78,54 +78,47 @@ const TableDatasource = ({
 
 	if (result)
 		return (
-			<Row>
-				<Col sm="12">
-					<Card>
-						<Card.Body>
-							<TableData
-								data={tableData.data}
-								headers={headers}
-								keyValue={keyValue}
-								colSortClick={(colMapKey: string) => {
-									let dir = SortDirection.ASC;
-									if (colMapKey === orderBy.orderByKey) {
-										if (orderBy.direction == SortDirection.ASC) dir = SortDirection.DESC;
-									}
-									setOrderBy({
-										orderByKey: colMapKey,
-										direction: dir,
-									});
-								}}
-								orderBy={orderBy}
-							/>
+			<>
+				<TableData
+					data={tableData.data}
+					headers={headers}
+					keyValue={keyValue}
+					colSortClick={(colMapKey: string) => {
+						let dir = SortDirection.ASC;
+						if (colMapKey === orderBy.orderByKey) {
+							if (orderBy.direction == SortDirection.ASC) dir = SortDirection.DESC;
+						}
+						setOrderBy({
+							orderByKey: colMapKey,
+							direction: dir,
+						});
+					}}
+					orderBy={orderBy}
+				/>
 
-							<TablePagination
-								onPageChange={(id) => {
-									setPagination({
-										pagination: {
-											page: id,
-										},
-									});
-								}}
-								pageTotal={tableData.pageTotal}
-								currentPage={tableData.currentPage}
-							/>
-						</Card.Body>
-					</Card>
-					{tableData.sum > -1 && (
-						<Card>
-							<Card.Body>
-								<div className="d-flex justify-content-center">
-									<h5 className="mb-0 d-inline-block">Total Expenses for Current timeframe : </h5>
-								</div>
-								<div className="d-flex justify-content-center">
-									<h2>{tableData.sum}$</h2>
-								</div>
-							</Card.Body>
-						</Card>
-					)}
-				</Col>
-			</Row>
+				<TablePagination
+					onPageChange={(id) => {
+						setPagination({
+							pagination: {
+								page: id,
+							},
+						});
+					}}
+					pageTotal={tableData.pageTotal}
+					currentPage={tableData.currentPage}
+				/>
+
+				{tableData.sum > -1 && (
+					<div>
+						<div className="d-flex justify-content-center">
+							<h5 className="mb-0 d-inline-block">Total for Current time range : </h5>
+						</div>
+						<div className="d-flex justify-content-center">
+							<h2>{tableData.sum}$</h2>
+						</div>
+					</div>
+				)}
+			</>
 		);
 	else if (error) return <h1>Something is wrong</h1>;
 	else

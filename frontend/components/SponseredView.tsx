@@ -28,7 +28,7 @@ export const TableRow = ({ data }: { data: Expenses }) => {
 		return name.split("", 15) + "...";
 	};
 	return (
-		<tr className="mx-auto">
+		<tr>
 			<td></td>
 			<td>{data.title}</td>
 			<td>{data.sum}$</td>
@@ -170,29 +170,33 @@ export function SponsoredEventView({
 							<p>{sponsoredEvent.description}</p>
 							{images && images.length > 0 ? <ImageGallery items={images} /> : <></>}
 						</div>
-						<table className="files-lists table table-striped ">
-							<thead>
-								<tr>
-									<th scope="col"></th>
-									<th scope="col">title</th>
-									<th scope="col">sum</th>
-									<th scope="col">Invoice</th>
-								</tr>
-							</thead>
-							<tbody>
-								{sponsoredEvent.Expenses.map((rowData, index) => (
-									<TableRow data={rowData} key={index} />
-								))}
-								<tr className="table-warning">
-									<td></td>
-									<td></td>
-									<td>
-										<h5>Total : {getTotal(sponsoredEvent.Expenses)}$</h5>
-									</td>
-									<td></td>
-								</tr>
-							</tbody>
-						</table>
+						<div>
+							<table className="files-lists table table-striped w-100 ">
+								<thead className="">
+									<tr>
+										<th scope="col" className="mx-auto"></th>
+										<th scope="col" className="mx-auto ">
+											title
+										</th>
+										<th scope="col">sum</th>
+										<th scope="col">Invoice</th>
+									</tr>
+								</thead>
+								<tbody className="w-100">
+									{sponsoredEvent.Expenses.map((rowData, index) => (
+										<TableRow data={rowData} key={index} />
+									))}
+									<tr className="table-warning">
+										<td></td>
+										<td></td>
+										<td>
+											<h5>Total : {getTotal(sponsoredEvent.Expenses)}$</h5>
+										</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</Card.Body>
 			</Card>

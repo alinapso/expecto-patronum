@@ -1,3 +1,4 @@
+import Sponsored from "./sponsored";
 import User from "./user";
 
 export declare type Transactions = {
@@ -5,6 +6,8 @@ export declare type Transactions = {
 	sum: number;
 	patron: User;
 	patronId: number;
+	sponsoredId: string;
+	Sponsored: Sponsored;
 	createdAt: Date;
 	updatedAt: Date;
 };
