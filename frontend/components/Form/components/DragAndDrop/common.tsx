@@ -95,11 +95,6 @@ export const TableRow = ({ data, onDelete }: { data: TableItems; onDelete: () =>
 	return (
 		<tr>
 			<td>
-				<div className=" text-center">
-					<input type="checkbox" className="form-check-input" />
-				</div>
-			</td>
-			<td>
 				<RowImage fileType={data.fileType} />
 				<span className="overflow-hidden">{fileNameSnip(data.name)}</span>
 			</td>

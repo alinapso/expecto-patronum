@@ -1,1 +1,31 @@
-export class CreateTransactionDto {}
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+export class CreateTransactionDto {
+  @IsString()
+  @IsNotEmpty()
+  firstName: string;
+  @IsString()
+  @IsNotEmpty()
+  middleName: string;
+  @IsString()
+  @IsOptional()
+  fatherName: string;
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
+  @IsDateString()
+  @IsNotEmpty()
+  birthDate: string;
+  @IsString()
+  @IsNotEmpty()
+  placeOfBirth: string;
+  @IsOptional()
+  @IsString()
+  uploadedFileId: string;
+  @IsString()
+  description: string;
+}

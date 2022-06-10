@@ -93,49 +93,43 @@ export class DragDropExpenses extends Component<DragDropExpensesProps> {
 	render() {
 		return (
 			<Col sm={12} className="mb-3">
-				<Card>
-					<Card.Header className="">
-						<div className="mb-3">
-							<h4>{this.props.label}</h4>
+				<div>
+					<div className="mb-3">
+						<h4>{this.props.label}</h4>
+					</div>
+					<div className="input-block-level">
+						<FileUploader handleChange={this.handleUpload} name="file" types={this.fileTypes} />
+					</div>
+				</div>
+				<div>
+					{this.state.value && this.state.value.length > 0 ? (
+						<div id="table" className="table-editable">
+							<table className="table files-lists table table-striped ">
+								<thead>
+									<tr>
+										<th scope="col" className="d-none d-sm-block" style={{ width: "60px" }}></th>
+										<th scope="col">Title</th>
+										<th scope="col">Total Invoice Sum</th>
+										<th scope="col" style={{ width: "120px" }}></th>
+									</tr>
+								</thead>
+								<tbody>
+									{this.value.map((rowData, index) => (
+										<TableRow
+											data={rowData}
+											index={index}
+											key={index}
+											onDelete={() => this.handleDelete(index)}
+											handleOnChange={(type: string, value: string) => this.handleOnChange(type, rowData, value)}
+										/>
+									))}
+								</tbody>
+							</table>
 						</div>
-						<div className="input-block-level">
-							<FileUploader handleChange={this.handleUpload} name="file" types={this.fileTypes} />
-						</div>
-					</Card.Header>
-					<Card.Body>
-						{this.state.value && this.state.value.length > 0 ? (
-							<div id="table" className="table-editable">
-								<table className="table files-lists table table-striped ">
-									<thead>
-										<tr>
-											<th scope="col">
-												<div className=" text-center">
-													<input type="checkbox" className="form-check-input" />
-												</div>
-											</th>
-											<th scope="col">File Name</th>
-											<th scope="col">Title</th>
-											<th scope="col">Sum</th>
-										</tr>
-									</thead>
-									<tbody>
-										{this.value.map((rowData, index) => (
-											<TableRow
-												data={rowData}
-												index={index}
-												key={index}
-												onDelete={() => this.handleDelete(index)}
-												handleOnChange={(type: string, value: string) => this.handleOnChange(type, rowData, value)}
-											/>
-										))}
-									</tbody>
-								</table>
-							</div>
-						) : (
-							<></>
-						)}
-					</Card.Body>
-				</Card>
+					) : (
+						<></>
+					)}
+				</div>
 			</Col>
 		);
 	}
@@ -160,13 +154,10 @@ export const TableRow = ({
 	const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 	return (
 		<tr>
-			<td>
-				<div className=" text-center">
-					<input type="checkbox" className="form-check-input" />
-				</div>
-			</td>
-			<td>
-				<RowImage fileType={data.UploadedFile ? getFileType(data.UploadedFile.postfix) : FileTypes.Undefined} />
+			<td className="d-none d-sm-block d-lg-block">
+				<Form.Group className="form-group pt-3" key={2 * index + 1}>
+					<RowImage fileType={data.UploadedFile ? getFileType(data.UploadedFile.postfix) : FileTypes.Undefined} />
+				</Form.Group>
 			</td>
 			<td>
 				<Form.Group className="form-group pt-3" key={2 * index + 1}>

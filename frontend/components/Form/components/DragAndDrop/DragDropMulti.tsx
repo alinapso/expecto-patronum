@@ -87,29 +87,26 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 	render() {
 		return (
 			<Col sm={12} className="mb-3">
-				<Card>
-					<Card.Header className="">
+				<div>
+					<div>
 						<div className="mb-3">
 							<h4>{this.props.label}</h4>
 						</div>
 						<div className="input-block-level">
 							<FileUploader handleChange={this.handleUpload} name="file" types={this.fileTypes} />
 						</div>
-					</Card.Header>
-					<Card.Body>
+					</div>
+					<div>
 						{this.state.value && this.state.value.length > 0 ? (
 							<div>
-								<table className="files-lists table table-striped ">
+								<table className="files-lists table table-striped">
 									<thead>
 										<tr>
-											<th scope="col">
-												<div className=" text-center">
-													<input type="checkbox" className="form-check-input" />
-												</div>
-											</th>
 											<th scope="col">File Name</th>
 											{/* <th scope="col">Size</th> */}
-											<th scope="col">Action</th>
+											<th scope="col" style={{ width: "120px" }}>
+												Action
+											</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -122,8 +119,8 @@ export class DragDropMulti extends Component<DragDropMultiProps> {
 						) : (
 							<></>
 						)}
-					</Card.Body>
-				</Card>
+					</div>
+				</div>
 			</Col>
 		);
 	}

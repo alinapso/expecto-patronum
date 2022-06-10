@@ -6,7 +6,8 @@ import Router from "next/router";
 import { UserStatus, useUserState } from "context/user";
 import { SponsoredEvents } from "expecto-patronum-common";
 import { SponsoredEventView } from "components/SponseredView";
-import { Col, Row } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import Link from "next/link";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 
 export default function Dashboared() {
@@ -61,5 +62,26 @@ export default function Dashboared() {
 			</Row>
 		);
 	};
-	return <Layout securityLevel={SecurityLevel.USER}>{createTwoCoulumns()}</Layout>;
+
+	const showSponsored = () => {
+		if (sponsoredEvents.length > 0) return createTwoCoulumns();
+		return (
+			<Col sm="6">
+				<Card className="mb-3 ">
+					<Card.Body>
+						<Card.Title as="h4">Nothing to see yet</Card.Title>
+						<Card.Text>it's seems you dont any events to see yet</Card.Text>
+						<Link href="/dashboard/add">
+							<a>
+								<Button variant="primary" className="btn btn-primary btn-block">
+									Sponsor a Child!
+								</Button>
+							</a>
+						</Link>
+					</Card.Body>
+				</Card>
+			</Col>
+		);
+	};
+	return <Layout securityLevel={SecurityLevel.USER}>{showSponsored()}</Layout>;
 }

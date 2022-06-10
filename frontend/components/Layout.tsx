@@ -12,7 +12,15 @@ export enum SecurityLevel {
 	USER,
 	ADMIN,
 }
-
+export const pageIsLoading = (
+	<Container>
+		<Row className="justify-content-center">
+			<Col md="auto">
+				<ClipLoader color={"#000000"} size={150} />
+			</Col>
+		</Row>
+	</Container>
+);
 export default function LayoutUser({
 	children,
 	securityLevel,
@@ -26,28 +34,20 @@ export default function LayoutUser({
 	const isAdmin = user && user.status == UserStatus.loggedIn && user.data.role === "ADMIN";
 	const items = isAdmin ? [...PatronNav, ...AdminNav] : PatronNav;
 	const router = useRouter();
-	const loader = (
-		<Container>
-			<Row className="justify-content-center">
-				<Col md="auto">
-					<ClipLoader color={"#000000"} size={150} />
-				</Col>
-			</Row>
-		</Container>
-	);
-	if (user.status == UserStatus.Loading) return loader;
+
+	if (user.status == UserStatus.Loading) return pageIsLoading;
 	if (securityLevel != SecurityLevel.ANONYMOUS) {
 		if (user.status == UserStatus.LoggedOut) {
 			Router.push("/signin");
-			return loader;
+			return pageIsLoading;
 		}
 		if (user.data.firstName == "" || (user.data.firstName == undefined && router.asPath != "/profile/edit")) {
 			Router.push("/profile/edit");
-			return loader;
+			return pageIsLoading;
 		}
 		if (securityLevel == SecurityLevel.ADMIN && user.data.role != "ADMIN") {
 			Router.push("/dashboard");
-			return loader;
+			return pageIsLoading;
 		}
 	}
 
