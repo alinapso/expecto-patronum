@@ -43,19 +43,19 @@ export default function Patrons() {
 				<Row>
 					<Col sm="12">
 						<Card>
-							<Card.Body className="d-flex justify-content-between">
+							<Card.Body>
 								<h4>Patrons</h4>
-								{/* <div>
-									<Link href="/admin/sponsored/add">
-										<Button className="btn btn-primary btn-rounded btn-sm ms-1">Add</Button>
-									</Link>
-								</div> */}
+								<TableDatasource
+									headers={headers}
+									dataSourceUrl="/users/"
+									keyValue="id"
+									filterValue={{ role: "PATRON" }}
+								/>
 							</Card.Body>
 						</Card>
 					</Col>
 				</Row>
 				{/* <img src={img} alt="profile-img" className="profile-img img-fluid flex-fill  bd-highlight" /> */}
-				<TableDatasource headers={headers} dataSourceUrl="/users/" keyValue="id" filterValue={{ role: "PATRON" }} />
 			</Container>
 		</Layout>
 	);

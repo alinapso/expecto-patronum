@@ -50,6 +50,7 @@ export default function LayoutUser({
 			return pageIsLoading;
 		}
 	}
+	const showNav = securityLevel != SecurityLevel.ANONYMOUS && !noNav && items && items.length > 0;
 
 	return (
 		<>
@@ -57,8 +58,8 @@ export default function LayoutUser({
 				<title>Expecto Patronom</title>
 			</Head>
 			<div className="wrapper">
-				{!noNav && items && items.length > 0 ? <Sidebar items={items} /> : <></>}
-				<Header navbarEnabled={!noNav && items && items.length > 0} />
+				{showNav ? <Sidebar items={items} /> : <></>}
+				<Header navbarEnabled={showNav} />
 
 				<div id="content-page" className="content-page">
 					<div className="container">{children}</div>

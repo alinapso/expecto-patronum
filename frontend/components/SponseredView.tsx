@@ -21,6 +21,72 @@ import Expenses from "expecto-patronum-common/entities/expenses";
 import { useUserState, UserStatus } from "context/user";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+const SponseredView = () => {
+	const [showAdd, setShowAdd] = useState(false);
+	const router = useRouter();
+	const { id } = router.query;
+	const [refresh, setRefresh] = useState(false);
+	const { user } = useUserState();
+	const {
+		data: result,
+		error,
+		mutate,
+	} = useSWR(
+		{
+			method: "GET",
+			url: `/sponsored/${id}`,
+		},
+
+		RemoteApiCall
+	);
+	const refreshView = () => {
+		setRefresh(!refresh);
+	};
+	const sponsored: Sponsored = result?.data[0];
+	useEffect(() => {
+		if (showAdd == false) mutate();
+	}, [showAdd]);
+	useEffect(() => {
+		mutate();
+	}, [refresh]);
+
+	const isAdmin = user && user.status == UserStatus.loggedIn && user.data.role === "ADMIN";
+
+	if (sponsored)
+		return (
+			<Container>
+				<Row>
+					<CreateEventMenuAndHeader sponsored={sponsored} show={showAdd} setShow={setShowAdd} isAdmin={isAdmin} />
+					{sponsored.SponsoredEvents && sponsored.SponsoredEvents.length > 0 ? (
+						sponsored.SponsoredEvents.map((se) => (
+							<SponsoredEventView
+								sponsored={sponsored}
+								sponsoredEvent={se}
+								refresh={refreshView}
+								key={se.id}
+								isAdmin={isAdmin}
+							/>
+						))
+					) : (
+						<Container className="text-center ">
+							<Card className="py-5">
+								<h3>No posts exist yet</h3>
+							</Card>
+						</Container>
+					)}
+				</Row>
+			</Container>
+		);
+	return (
+		<Col>
+			<div className="col-sm-12 text-center">
+				<img src={loader.src} alt="loader" style={{ height: "100px" }} />
+			</div>
+		</Col>
+	);
+};
+
 export const TableRow = ({ data }: { data: Expenses }) => {
 	const fileNameSnip = (name: string | undefined) => {
 		if (!name) return "";
@@ -300,9 +366,10 @@ const CreateEventMenuAndHeader = ({
 											: "Not Sponsored"}
 									</span>
 								</div>
-								<div className="profile-detail">
+								<Container className="profile-detail text-start mt-3 px-5">
+									<h5>Description : </h5>
 									<p>{sponsored.description}</p>
-								</div>
+								</Container>
 							</div>
 						</div>
 					</div>
@@ -411,64 +478,5 @@ const AddOrEditEvent = ({
 		</Modal>
 	);
 };
-const SponseredView = () => {
-	const [showAdd, setShowAdd] = useState(false);
-	const router = useRouter();
-	const { id } = router.query;
-	const [refresh, setRefresh] = useState(false);
-	const { user } = useUserState();
-	const {
-		data: result,
-		error,
-		mutate,
-	} = useSWR(
-		{
-			method: "GET",
-			url: `/sponsored/${id}`,
-		},
 
-		RemoteApiCall
-	);
-	const refreshView = () => {
-		setRefresh(!refresh);
-	};
-	const sponsored: Sponsored = result?.data[0];
-	useEffect(() => {
-		if (showAdd == false) mutate();
-	}, [showAdd]);
-	useEffect(() => {
-		mutate();
-	}, [refresh]);
-
-	const isAdmin = user && user.status == UserStatus.loggedIn && user.data.role === "ADMIN";
-
-	if (sponsored)
-		return (
-			<Container>
-				<Row>
-					<CreateEventMenuAndHeader sponsored={sponsored} show={showAdd} setShow={setShowAdd} isAdmin={isAdmin} />
-					{sponsored.SponsoredEvents && sponsored.SponsoredEvents.length > 0 ? (
-						sponsored.SponsoredEvents.map((se) => (
-							<SponsoredEventView
-								sponsored={sponsored}
-								sponsoredEvent={se}
-								refresh={refreshView}
-								key={se.id}
-								isAdmin={isAdmin}
-							/>
-						))
-					) : (
-						<h3>No post exist yet</h3>
-					)}
-				</Row>
-			</Container>
-		);
-	return (
-		<Col>
-			<div className="col-sm-12 text-center">
-				<img src={loader.src} alt="loader" style={{ height: "100px" }} />
-			</div>
-		</Col>
-	);
-};
 export default SponseredView;
