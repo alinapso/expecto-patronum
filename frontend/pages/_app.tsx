@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "swiper/css/bundle";
 import "swiper/css/navigation";
-import "../assets/scss/socialv.scss";
+import "../assets/scss/expectoPatrunom.scss";
 import React from "react";
 import { UserProvider } from "../context/user";
 function MyApp({ Component, pageProps }: AppProps) {
