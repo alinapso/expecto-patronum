@@ -106,18 +106,21 @@ export default function Sponsored() {
 				<Row>
 					<Col sm="12">
 						<Card>
-							<Card.Body className="d-flex justify-content-between">
-								<h4>Sponsered</h4>
-								<div>
-									<Link href="/admin/sponsored/add">
-										<Button className="btn btn-primary btn-rounded btn-sm ms-1">Add</Button>
-									</Link>
+							<Card.Body>
+								<div className="d-flex justify-content-between pb-3">
+									<h4>Sponsered</h4>
+									<div>
+										<Link href="/admin/sponsored/add">
+											<Button className="btn btn-primary btn-rounded btn-sm ms-1">Add</Button>
+										</Link>
+									</div>
 								</div>
+
+								<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/" />
 							</Card.Body>
 						</Card>
 					</Col>
 				</Row>
-				<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/" />
 			</Container>
 		</Layout>
 	);

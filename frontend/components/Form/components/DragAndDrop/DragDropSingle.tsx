@@ -68,9 +68,10 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 	render() {
 		return (
 			<Col sm={12} className="mb-3">
-				<Card>
-					<Card.Header className="">
+				<div>
+					<div className="">
 						<div className="input-block-level">
+							<span> Profile image : </span>
 							<FileUploader
 								handleChange={this.handleUpload}
 								name="file"
@@ -79,8 +80,8 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 								disabled={this.value != ""}
 							/>
 						</div>
-					</Card.Header>
-					<Card.Body>
+					</div>
+					<div>
 						{this.state.tableItems ? (
 							<div>
 								<table className="files-lists table table-striped ">
@@ -104,8 +105,8 @@ export class DragDropSingle extends Component<DragDropSingleProps> {
 						) : (
 							<></>
 						)}
-					</Card.Body>
-				</Card>
+					</div>
+				</div>
 			</Col>
 		);
 	}

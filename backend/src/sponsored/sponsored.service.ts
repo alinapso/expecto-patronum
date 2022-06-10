@@ -279,7 +279,7 @@ export class SponsoredService {
         date.getMonth() == 2 &&
         date.getDay() == 29
           ? 1
-          : date.getDay();
+          : date.getDate();
       const sponsored =
         await this.prisma.sponsored.update({
           where: {
@@ -288,7 +288,7 @@ export class SponsoredService {
           data: {
             patronId: user.id,
             dayOfTransaction: transactionDate,
-            monthlyDum: 50,
+            monthlyDum: sum,
             startDate: startDate,
             endDate: endDate,
           },

@@ -375,27 +375,26 @@ const CreateEventMenuAndHeader = ({
 					</div>
 				</Card.Body>
 			</Card>
-			{isAdmin && (
-				<Card>
-					<Card.Body className="profile-page p-0">
-						<div className="profile-header">
-							<div className="profile-info p-3 d-flex align-items-center justify-content-start position-relative">
-								<div className="social-info">
+
+			<Card>
+				<Card.Body className="profile-page p-0">
+					<div className="profile-header">
+						<div className="profile-info p-3 d-flex align-items-center justify-content-start position-relative">
+							<div className="social-info">
+								{isAdmin && (
 									<button className="btn btn-secondary m-1" onClick={() => setShow(true)}>
 										Create a new Post
 									</button>
-									<Link href={`/dashboard/sponsored/expenses/${sponsored.id}`}>
-										<button className="btn btn-secondary m-1" onClick={() => setShow(true)}>
-											Expenses
-										</button>
-									</Link>
-								</div>
+								)}
+								<Link href={`/dashboard/sponsored/expenses/${sponsored.id}`}>
+									<button className="btn btn-secondary m-1">Expenses</button>
+								</Link>
 							</div>
 						</div>
-					</Card.Body>
-					<AddOrEditEvent show={show} setShow={setShow} handleSubmit={handleSubmit}></AddOrEditEvent>
-				</Card>
-			)}
+					</div>
+				</Card.Body>
+				<AddOrEditEvent show={show} setShow={setShow} handleSubmit={handleSubmit}></AddOrEditEvent>
+			</Card>
 		</Col>
 	);
 };
