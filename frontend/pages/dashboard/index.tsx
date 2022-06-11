@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function Dashboared() {
 	const { user } = useUserState();
-	const [sponsoredEvents, setSponsoredEvents] = useState([]);
+	const [sponsoredEvents, setSponsoredEvents] = useState<SponsoredEvents[] | undefined>(undefined);
 	const [refresh, setRefresh] = useState(false);
 
 	useEffect(() => {
@@ -47,7 +47,7 @@ export default function Dashboared() {
 	const createTwoCoulumns = () => {
 		let col1: any = [];
 		let col2: any = [];
-		sponsoredEvents.forEach((sponsoredEvent: SponsoredEvents, index) => {
+		sponsoredEvents?.forEach((sponsoredEvent: SponsoredEvents, index) => {
 			if (index % 2 == 0) col1.push(createSponsoredEventView(sponsoredEvent));
 			else col2.push(createSponsoredEventView(sponsoredEvent));
 		});
@@ -64,6 +64,7 @@ export default function Dashboared() {
 	};
 
 	const showSponsored = () => {
+		if (!sponsoredEvents) return pageIsLoading;
 		if (sponsoredEvents.length > 0) return createTwoCoulumns();
 		return (
 			<Col sm="6">

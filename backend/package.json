@@ -1,8 +1,8 @@
 {
-  "name": "nestjs-api-tutorial",
-  "version": "0.0.1",
+  "name": "expecto-patronum-api",
+  "version": "1.0.0",
   "description": "",
-  "author": "",
+  "author": "Ali Napso",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

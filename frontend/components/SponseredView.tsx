@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
+import Router from "next/router";
 
 import { Row, Col, Container, Dropdown, Nav, Tab, OverlayTrigger, Tooltip, Button, Modal, Card } from "react-bootstrap";
 import { useRouter } from "next/router";
@@ -19,6 +20,7 @@ import { RowImage, getFileType } from "./Form/components/DragAndDrop/common";
 import moment from "moment";
 import Expenses from "expecto-patronum-common/entities/expenses";
 import { useUserState, UserStatus } from "context/user";
+import { pageIsLoading } from "./Layout";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -53,6 +55,12 @@ const SponseredView = () => {
 
 	const isAdmin = user && user.status == UserStatus.loggedIn && user.data.role === "ADMIN";
 
+	if (!sponsored) return pageIsLoading;
+	if (!(isAdmin || sponsored.patronId == user.data.id)) {
+		Router.push("/dashboard/add");
+		return pageIsLoading;
+	}
+
 	if (sponsored)
 		return (
 			<Container>
@@ -78,13 +86,6 @@ const SponseredView = () => {
 				</Row>
 			</Container>
 		);
-	return (
-		<Col>
-			<div className="col-sm-12 text-center">
-				<img src={loader.src} alt="loader" style={{ height: "100px" }} />
-			</div>
-		</Col>
-	);
 };
 
 export const TableRow = ({ data }: { data: Expenses }) => {
@@ -309,7 +310,7 @@ const CreateEventMenuAndHeader = ({
 				<Card.Body className="profile-page p-0">
 					{isAdmin && (
 						<div className="card-post-toolbar d-flex justify-content-end">
-							<Dropdown>
+							{/* <Dropdown>
 								<Dropdown.Toggle className="bg-transparent border-white">
 									<i className="ri-more-fill"></i>
 								</Dropdown.Toggle>
@@ -334,7 +335,7 @@ const CreateEventMenuAndHeader = ({
 										</div>
 									</Dropdown.Item>
 								</Dropdown.Menu>
-							</Dropdown>
+							</Dropdown> */}
 						</div>
 					)}
 					<div className="profile-header">
@@ -358,13 +359,19 @@ const CreateEventMenuAndHeader = ({
 									<span>Father name : {sponsored.fatherName}</span>
 									<span>Birthdate : {new Date(sponsored.birthDate).toLocaleDateString()}</span>
 									<span>Place of birth : {sponsored.placeOfBirth}</span>
-									<span>Active : {sponsored.isActive ? "Yes" : "No"}</span>
-									<span>
-										patron :{" "}
-										{sponsored.patronId
-											? `${sponsored.patron?.firstName} ${sponsored.patron?.lastName}`
-											: "Not Sponsored"}
-									</span>
+									{/* <span>Active : {sponsored.isActive ? "Yes" : "No"}</span> */}
+									{isAdmin && (
+										<span>
+											patron :{" "}
+											{sponsored.patronId ? (
+												<Link href={`/admin/patrons/${sponsored.patronId}`}>
+													<a>{`${sponsored.patron?.firstName} ${sponsored.patron?.lastName}`}</a>
+												</Link>
+											) : (
+												"Not Sponsored"
+											)}
+										</span>
+									)}
 								</div>
 								<Container className="profile-detail text-start mt-3 px-5">
 									<h5>Description : </h5>
