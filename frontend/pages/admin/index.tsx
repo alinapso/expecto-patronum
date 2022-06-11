@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 import Router from "next/router";
 import LineChart from "components/indexCharts/totalDonationsByMonth";
 import { Col, Card, Row } from "react-bootstrap";

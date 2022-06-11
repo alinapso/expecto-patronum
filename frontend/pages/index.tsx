@@ -1,4 +1,4 @@
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 import Image from "next/image";
 import { Card } from "react-bootstrap";
 

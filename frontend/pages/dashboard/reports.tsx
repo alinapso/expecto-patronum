@@ -1,5 +1,5 @@
 import React from "react";
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 
 import { Row, Col, Card, Button, Tab, Nav } from "react-bootstrap";
 import TableDatasource from "components/TableDatasource";

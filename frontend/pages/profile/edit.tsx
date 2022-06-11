@@ -1,17 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import Layout, { pageIsLoading, SecurityLevel } from "components/Layout";
+import Layout, { pageIsLoading, SecurityLevel } from "components/layout/Layout";
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";
-import Link from "next/link";
-import { Container, Col, Row, Card, Form, Nav, TabContent, TabPane, Button, Image } from "react-bootstrap";
+import { Container, Col, Row, Card } from "react-bootstrap";
 import DynamicForm from "components/Form";
 import { FormElementTypes } from "components/Form/types/FormElementDto";
 import { UserStatus, useUserState } from "context/user";
-import { faLeftRight } from "@fortawesome/free-solid-svg-icons";
 
-// Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function UserProfileEdit() {
-	const { user } = useUserState();
+	const { user, mutate } = useUserState();
 	const [errorMessage, setErrorMessage] = useState("");
 	const formTabs = [
 		{
@@ -61,6 +58,7 @@ export default function UserProfileEdit() {
 			body: { ...values },
 		});
 		console.log(res);
+		mutate();
 		if (res.status == 200) Router.push("/dashboard");
 		else setErrorMessage("somthing is wrong, please contact admin");
 	};

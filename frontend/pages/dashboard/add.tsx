@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 
 import { RemoteApiCall } from "lib/remoteAPI";
 import useSWR from "swr";
 import Router from "next/router";
 import Form from "components/Form";
-import Sidebar from "components/sidebar";
+import Sidebar from "components/layout/sidebar";
 import { AdminNav, PatronNav } from "components/consts";
 import { UserStatus, useUserState } from "context/user";
 import { Card, Col, Row, Image, Button, Container } from "react-bootstrap";

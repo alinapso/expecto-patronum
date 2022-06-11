@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Layout, { pageIsLoading, SecurityLevel } from "components/Layout";
+import Layout, { pageIsLoading, SecurityLevel } from "components/layout/Layout";
 
 import { RemoteApiCall } from "lib/remoteAPI";
 import Router from "next/router";
 import { UserStatus, useUserState } from "context/user";
 import { SponsoredEvents } from "expecto-patronum-common";
-import { SponsoredEventView } from "components/SponseredView";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import Link from "next/link";
+import SponsoredEventView from "components/SponseredView/SponsoredEventView";
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 
 export default function Dashboared() {

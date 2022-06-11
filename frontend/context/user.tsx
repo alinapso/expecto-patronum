@@ -5,6 +5,7 @@ interface AppContextInterface {
 	user: any;
 	loginUser: any;
 	logoutUser: any;
+	mutate: () => void;
 }
 const UserStateContext = React.createContext<AppContextInterface | undefined>(undefined);
 export enum UserStatus {
@@ -70,6 +71,7 @@ export const UserProvider = ({ children }: any) => {
 		user,
 		loginUser,
 		logoutUser,
+		mutate: () => getUser(),
 	};
 	return <UserStateContext.Provider value={state}>{children}</UserStateContext.Provider>;
 };

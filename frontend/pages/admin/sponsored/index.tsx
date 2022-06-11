@@ -2,7 +2,7 @@ import { RemoteApiCall } from "lib/remoteAPI";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 import { useState } from "react";
@@ -115,7 +115,6 @@ export default function Sponsored() {
 										</Link>
 									</div>
 								</div>
-
 								<TableDatasource headers={headers} keyValue="id" dataSourceUrl="/sponsored/" />
 							</Card.Body>
 						</Card>

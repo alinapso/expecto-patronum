@@ -1,5 +1,5 @@
 import React from "react";
-import Layout, { pageIsLoading, SecurityLevel } from "components/Layout";
+import Layout, { pageIsLoading, SecurityLevel } from "components/layout/Layout";
 import Router, { useRouter } from "next/router";
 
 import { Row, Col, Card, Button } from "react-bootstrap";

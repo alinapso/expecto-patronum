@@ -1,7 +1,7 @@
 import Head from "next/head";
-import Header from "components/Header";
+import Header from "components/layout/Header";
 import Sidebar from "./sidebar";
-import { AdminNav, PatronNav } from "../components/consts";
+import { AdminNav, PatronNav } from "../consts";
 import { UserStatus, useUserState } from "context/user";
 import Router, { useRouter } from "next/router";
 import { Col, Container, Row } from "react-bootstrap";

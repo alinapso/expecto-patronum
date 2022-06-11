@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 import { Col, Row, Card, Form, Button, Tab, Nav } from "react-bootstrap";
 import TableDatasource from "components/TableDatasource";
 import { useRouter } from "next/router";

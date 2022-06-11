@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
-import Layout, { SecurityLevel } from "components/Layout";
+import Layout, { SecurityLevel } from "components/layout/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
 import SecureFile from "components/SecureImage";
