@@ -3,7 +3,6 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Layout, { SecurityLevel } from "components/layout/Layout";
 import TableDatasource from "components/TableDatasource";
 import Link from "next/link";
-import SecureFile from "components/SecureImage";
 
 // Make sure to check https://nextjs.org/docs/basic-features/layouts for more info on how to use layouts
 export default function Patrons() {
