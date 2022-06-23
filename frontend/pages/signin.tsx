@@ -12,6 +12,9 @@ export default function SignUp() {
 	const [errorMsg, setErrorMsg] = useState("");
 	const [showErrorBox, setShowErrorBox] = useState(false);
 	const { user, loginUser } = useUserState();
+	const ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
+	console.log(ENDPOINT)
 	useEffect(() => {
 		if (user.status == UserStatus.loggedIn) Router.push("/dashboard");
 	}, [user]);

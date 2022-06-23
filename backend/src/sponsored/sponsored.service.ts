@@ -288,7 +288,7 @@ export class SponsoredService {
           data: {
             patronId: user.id,
             dayOfTransaction: transactionDate,
-            monthlyDum: sum,
+            monthlyDum: +sum,
             startDate: startDate,
             endDate: endDate,
           },
